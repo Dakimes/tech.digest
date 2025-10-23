@@ -7,27 +7,34 @@
   <meta name="description" content="Enterprise Knowledge Graph Platforms — тех‑дайджест: стандарты, рынок, вендоры, ценность для бизнеса и гипотезы пилотов." />
   <style>
     :root{
-      /* Белая тема + синие оттенки */
-      --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12; 
-      --blue-1:#0ea5e9; --blue-2:#0284c7; --blue-3:#0369a1; --blue-4:#1d4ed8; --blue-5:#93c5fd; 
-      --line:#e6eef8; --shadow: 0 10px 30px rgba(2, 60, 120, .08); --radius:18px;
+      /* Белая тема + более яркие синие */
+      --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
+      --blue-1:#00A7FF; /* яркий */
+      --blue-2:#007BFF; /* фирменный акцент */
+      --blue-3:#0062D1; /* насыщенный */
+      --blue-4:#0047B3; /* тёмный акцент */
+      --blue-5:#CFE6FF; /* светлый для обводок */
+      --line:#e6eef8; --shadow: 0 10px 30px rgba(0, 80, 170, .10); --radius:18px;
     }
     html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
     .wrap{ max-width: 1120px; margin: 28px auto 64px; padding: 0 20px; }
 
-    header.hero{ background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
-    header.hero h1{ margin:0 0 8px; letter-spacing:.2px; font-size: clamp(28px, 3.2vw, 44px); }
+    /* HERO */
+    header.hero{ background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .hero img.logo{ height:64px; width:auto; display:block; }
+    .hero .text{ flex:1; min-width: 260px; }
+    header.hero h1{ margin:0 0 6px; letter-spacing:.2px; font-size: clamp(28px, 3.2vw, 44px); color:var(--blue-4); }
     header.hero p.sub{ margin:0; color:var(--muted); font-size:15px; }
 
-    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-    .tag{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1px solid var(--blue-5); font-size:13px; color:var(--blue-3); }
+    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .tag{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1.6px solid var(--blue-5); font-size:13px; color:var(--blue-3); }
 
-    .stats{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:18px; }
+    .stats{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:12px; width:100%; }
     .kpi{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
     .kpi .v{ font-size: clamp(18px,2.4vw,28px); font-weight:800; color:var(--blue-3); }
     .kpi .l{ font-size:12px; color:var(--muted); margin-top:4px; }
 
-    h2{ margin: 34px 0 12px; font-size: clamp(20px,2.4vw,28px); }
+    h2{ margin: 34px 0 12px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
     section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
     .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
     .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
@@ -35,14 +42,14 @@
     .bullet{ margin:0; padding-left:18px; }
     .bullet li{ margin:6px 0; }
 
-    /* Технологические чипсы — с обводкой */
+    /* Чипсы технологий — обводка */
     .chips{ display:flex; flex-wrap:wrap; gap:10px; }
-    .chip{ background:#fff; border:1.6px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
+    .chip{ background:#fff; border:1.8px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
 
     .timeline{ position:relative; padding-left:22px; }
     .timeline:before{ content:""; position:absolute; left:8px; top:6px; bottom:6px; width:2px; background: linear-gradient(180deg, var(--blue-2), var(--blue-5)); }
     .tl-item{ position:relative; padding:10px 12px; margin: 6px 0 10px; border-radius: 12px; background:#fff; border:1px solid var(--line); }
-    .tl-item:before{ content:""; position:absolute; left:-15px; top:14px; width:10px; height:10px; border-radius:50%; background:var(--blue-2); box-shadow:0 0 0 3px rgba(2,132,199,.18); }
+    .tl-item:before{ content:""; position:absolute; left:-15px; top:14px; width:10px; height:10px; border-radius:50%; background:var(--blue-2); box-shadow:0 0 0 3px rgba(0,123,255,.18); }
     .muted{ color:var(--muted); }
 
     .cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
@@ -60,14 +67,20 @@
     .source-list a{ color: var(--blue-2); text-decoration: none; }
     .source-list a:hover{ text-decoration: underline; }
 
-    /* Диаграмма TAM/SAM/SOM (SVG контейнер) */
+    /* Диаграмма TAM/SAM/SOM (исправленная) */
     .market-chart{ display:block; width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; }
     .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
     .lg{ display:inline-flex; align-items:center; gap:8px; }
     .c1,.c2,.c3{ width:14px; height:14px; display:inline-block; border-radius:4px; }
     .c1{ background:var(--blue-1); }
-    .c2{ background:var(--blue-3); }
+    .c2{ background:var(--blue-2); }
     .c3{ background:var(--blue-4); }
+
+    /* Региональная аналитика */
+    .regional{ display:grid; grid-template-columns:1fr; gap:12px; }
+    .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
+    .regional figcaption{ padding:8px 12px; font-size:12px; color:var(--muted); }
 
     footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
 
@@ -83,12 +96,15 @@
 <body>
   <div class="wrap">
     <header class="hero">
-      <h1>Платформы корпоративных графов знаний</h1>
-      <p class="sub">Enterprise Knowledge Graph Platforms • обновлено: <strong>23&nbsp;октября&nbsp;2025</strong></p>
-      <div class="tagrow">
-        <span class="tag">RDF/OWL • SKOS • SHACL/SHEx • SPARQL&nbsp;1.2 • JSON‑LD • PROV‑O</span>
-        <span class="tag">GraphRAG • Hybrid&nbsp;Search • Embeddings</span>
-        <span class="tag">Managed Services • Orchestration • FAIR</span>
+      <img src="./Менеджер.png" alt="SCI logo" class="logo" />
+      <div class="text">
+        <h1>Платформы корпоративных графов знаний</h1>
+        <p class="sub">Enterprise Knowledge Graph Platforms • обновлено: <strong>23&nbsp;октября&nbsp;2025</strong></p>
+        <div class="tagrow">
+          <span class="tag">RDF/OWL • SKOS • SHACL/SHEx • SPARQL&nbsp;1.2 • JSON‑LD • PROV‑O</span>
+          <span class="tag">GraphRAG • Hybrid&nbsp;Search • Embeddings</span>
+          <span class="tag">Managed Services • Orchestration • FAIR</span>
+        </div>
       </div>
       <div class="stats">
         <div class="kpi"><div class="v"><strong>22–30%</strong> CAGR</div><div class="l">Рост рынка (база <strong>2025</strong>)</div></div>
@@ -167,12 +183,12 @@
     <h2>Ценность для бизнеса (ориентиры эффектов)</h2>
     <section>
       <div class="cards">
-        <div class="card"><h4>Выручка и удержание</h4><p>Персонализация на граф‑аналитике и GraphRAG: uplift CTR <strong>+3–7%</strong>, конверсия <strong>+1–3 п.п.</strong>, LTV <strong>+5–10%</strong> при зрелых каталогах и SKOS‑таксономиях.</p></div>
-        <div class="card"><h4>OPEX интеграции</h4><p>Семантическая федерация и единые схемы: снижение затрат на подключение источника на <strong>20–35%</strong>, ускорение онбординга данных в <strong>1.3–2.0×</strong>.</p></div>
+        <div class="card"><h4>Выручка и удержание</h4><p>Персонализация на граф‑аналитике и GraphRAG: uplift CTR <strong>+3–7%</strong>, конверсия <strong>+1–3 п.п.</strong>, LTV <strong>+5–10%</strong>.</p></div>
+        <div class="card"><h4>OPEX интеграции</h4><p>Семантическая федерация и единые схемы: снижение затрат на подключение источника на <strong>20–35%</strong>, ускорение онбординга в <strong>1.3–2.0×</strong>.</p></div>
         <div class="card"><h4>Time‑to‑Insight</h4><p>SPARQL&nbsp;1.2 и оркестрации: цикл аналитики короче на <strong>30–60%</strong>, повторное использование наборов <strong>+25–40%</strong>.</p></div>
-        <div class="card"><h4>Качество ответов AI</h4><p>Grounding LLM на KG/GraphRAG: снижение галлюцинаций на <strong>5–15 п.п.</strong> faithfulness, рост доли ответов с обоснованием до <strong>≥80%</strong>.</p></div>
-        <div class="card"><h4>Compliance и риски</h4><p>Lineage по PROV‑O и DCAT: подготовка к аудитам быстрее на <strong>25–40%</strong>, среднее время расследований инцидентов −<strong>30–50%</strong>.</p></div>
-        <div class="card"><h4>MDM и качество данных</h4><p>SHACL/SHEx + fusion: дубликаты клиентов ↓ на <strong>30–70%</strong>, критические нарушения схем ↓ на <strong>60–90%</strong>.</p></div>
+        <div class="card"><h4>Качество ответов AI</h4><p>Grounding LLM на KG/GraphRAG: снижение галлюцинаций на <strong>5–15 п.п.</strong>, обоснованные ответы <strong>≥80%</strong>.</p></div>
+        <div class="card"><h4>Compliance и риски</h4><p>Lineage по PROV‑O и DCAT: подготовка к аудитам быстрее на <strong>25–40%</strong>, расследования −<strong>30–50%</strong>.</p></div>
+        <div class="card"><h4>MDM и качество данных</h4><p>SHACL/SHEx + fusion: дубликаты ↓ на <strong>30–70%</strong>, критические нарушения схем ↓ на <strong>60–90%</strong>.</p></div>
       </div>
     </section>
 
@@ -187,7 +203,6 @@
 
     <h2>Размер рынка</h2>
     <section>
-      <!-- Таблица -->
       <table class="tbl">
         <thead><tr><th>Метрика</th><th>Оценка (2025)</th><th>Методика</th></tr></thead>
         <tbody>
@@ -197,35 +212,29 @@
           <tr><td>CAGR 2025–2029</td><td><strong>≈22–30%</strong></td><td>Драйверы: RAG/агенты; data fabric; governance/FAIR; облако.</td></tr>
         </tbody>
       </table>
-      <!-- Диаграмма (SVG, относительные ширины по медианам) -->
       <div class="market-chart">
-        <svg viewBox="0 0 680 180" width="100%" height="180" role="img" aria-label="Диаграмма TAM SAM SOM">
+        <svg viewBox="0 0 1000 220" width="100%" height="220" role="img" aria-label="Диаграмма TAM SAM SOM">
           <defs>
-            <linearGradient id="g1" x1="0" x2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient>
-            <linearGradient id="g2" x1="0" x2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#0369a1"/></linearGradient>
-            <linearGradient id="g3" x1="0" x2="1"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient>
+            <linearGradient id="g1" x1="0" x2="1"><stop offset="0%" stop-color="#CFE6FF"/><stop offset="100%" stop-color="#00A7FF"/></linearGradient>
+            <linearGradient id="g2" x1="0" x2="1"><stop offset="0%" stop-color="#9BC8FF"/><stop offset="100%" stop-color="#007BFF"/></linearGradient>
+            <linearGradient id="g3" x1="0" x2="1"><stop offset="0%" stop-color="#7EB2FF"/><stop offset="100%" stop-color="#0047B3"/></linearGradient>
           </defs>
-          <!-- Оси -->
-          <g fill="none" stroke="#e5effa" stroke-width="1">
-            <line x1="120" y1="40" x2="640" y2="40"/>
-            <line x1="120" y1="90" x2="640" y2="90"/>
-            <line x1="120" y1="140" x2="640" y2="140"/>
+          <!-- Полосы -->
+          <g font-size="13" font-weight="700" fill="#0b0d12">
+            <text x="20" y="60">TAM</text>
+            <text x="20" y="130">SAM</text>
+            <text x="20" y="200">SOM</text>
           </g>
-          <!-- Подписи оси Y -->
-          <g font-size="12" fill="#0b0d12" font-weight="700">
-            <text x="10" y="45">TAM</text>
-            <text x="10" y="95">SAM</text>
-            <text x="10" y="145">SOM</text>
-          </g>
-          <!-- Полосы (медианы: TAM 1.55B, SAM 0.64B, SOM 0.195B; масштаб: 400px = 1.6B) -->
-          <rect x="120" y="28" width="387.5" height="24" fill="url(#g1)" rx="6"/>
-          <rect x="120" y="78" width="160" height="24" fill="url(#g2)" rx="6"/>
-          <rect x="120" y="128" width="48.75" height="24" fill="url(#g3)" rx="6"/>
-          <!-- Значения -->
-          <g font-size="12" fill="#0369a1" font-weight="800">
-            <text x="520" y="45">~$1.55B</text>
-            <text x="290" y="95">~$0.64B</text>
-            <text x="180" y="145">~$0.195B</text>
+          <!-- Шкала справа для аккуратной компоновки -->
+          <rect x="120" y="45" width="780" height="30" rx="8" fill="url(#g1)"/>
+          <rect x="120" y="115" width="320" height="30" rx="8" fill="url(#g2)"/>
+          <rect x="120" y="185" width="97" height="30" rx="8" fill="url(#g3)"/>
+
+          <!-- Подписи значений на концах полос -->
+          <g font-size="12" font-weight="800" fill="#003F6B">
+            <text x="920" y="65" text-anchor="end">~$1.55B</text>
+            <text x="460" y="135" text-anchor="end">~$0.64B</text>
+            <text x="230" y="205" text-anchor="end">~$0.195B</text>
           </g>
         </svg>
         <div class="legend">
@@ -234,18 +243,6 @@
           <span class="lg"><span class="c3"></span> SOM (достижимый фокус 2025)</span>
         </div>
       </div>
-    </section>
-
-    <h2>Инвестиции и M&A (2023–2025)</h2>
-    <section>
-      <ul class="bullet">
-        <li><strong>≥8</strong> сделок VC/M&A; раскрытый VC‑объём <strong>≥$304M</strong> (пик активности: <strong>2024–2025</strong>).</li>
-        <li>Quantexa: <strong>$175M</strong> Series F (~<strong>$2.6B</strong> valuation, <strong>2025‑03</strong>); ранее <strong>$129M</strong> Series E (<strong>2023‑04</strong>).</li>
-        <li>Siren: <strong>€12M</strong> от EIB (<strong>2023‑02</strong>).</li>
-        <li>M&A: Altair → Cambridge Semantics (<strong>2024‑04</strong>); Samsung → Oxford Semantic Technologies (<strong>2024‑07</strong>); ServiceNow → data.world (анонс <strong>2025‑05</strong>; закрытие <strong>Q3‑2025</strong>).</li>
-        <li>OMG приобрела Enterprise Knowledge Graph Foundation (<strong>2024‑02</strong>).</li>
-        <li>Neo4j готовится к листингу на Nasdaq (<strong>2024‑02</strong>).</li>
-      </ul>
     </section>
 
     <h2>Ключевые вендоры и игроки</h2>
@@ -288,6 +285,14 @@
       </div>
     </section>
 
+    <h2>Региональное развитие решений</h2>
+    <section class="regional">
+      <figure class="regional-figure">
+        <img src="./regional-analytics.png" alt="Региональная аналитика внедрений платформ корпоративных графов знаний" loading="lazy" />
+        <figcaption>Региональная аналитика (источник: внутренний анализ, 2025)</figcaption>
+      </figure>
+    </section>
+
     <h2>Гипотезы для пилотов</h2>
     <section>
       <div class="grid-2">
@@ -297,11 +302,11 @@
         </details>
         <details>
           <summary>Автозагрузка и нормализация в граф</summary>
-          <p>SHACL‑валид: доля записей без критики <strong>≥ 98%</strong>; время инкрементальной загрузки в окно <strong>< 15&nbsp;мин</strong> на таблицу.</p>
+          <p>SHACL‑валид: доля записей без критики <strong>≥ 98%</strong>; время инкрементальной загрузки <strong>< 15&nbsp;мин</strong> на таблицу.</p>
         </details>
         <details>
           <summary>Entity resolution контрагентов/клиентов</summary>
-          <p>F1 против baseline <strong>+5–15 п.п.</strong>; стабильность кластеров между прогонами <strong>≥ 95%</strong>.</p>
+          <p>F1 против baseline <strong>+5–15 п.п.</strong>; стабильность кластеров <strong>≥ 95%</strong>.</p>
         </details>
         <details>
           <summary>Сквозной провенанс и аудит</summary>
