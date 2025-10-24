@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Вход в систему</title>
   <meta name="description" content="Страница входа в каталог SCI." />
+  <script>
+    (function(){
+      try{
+        if(localStorage.getItem('sci-auth') === 'true'){
+          window.location.replace('/');
+        }
+      } catch(err){
+        /* ignore */
+      }
+    })();
+  </script>
   <link rel="icon" type="image/png" href="../assets/logo.png" />
   <style>
     :root{
@@ -68,16 +79,26 @@
       event.preventDefault();
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
+      messageEl.textContent = '';
+      messageEl.className = 'message';
 
       if(username === 'Admin' && password === 'Admin'){
         messageEl.textContent = 'Вход выполнен, перенаправляем…';
         messageEl.className = 'message success';
-        localStorage.setItem('sci-auth', 'true');
-        setTimeout(()=>{ window.location.href = '../'; }, 1200);
+        try{
+          localStorage.setItem('sci-auth', 'true');
+        } catch(err){
+          /* ignore */
+        }
+        setTimeout(()=>{ window.location.replace('/'); }, 1000);
       } else {
-        messageEl.textContent = 'Неверные данные. Попробуйте Admin/Admin.';
+        messageEl.textContent = 'Неверный логин или пароль.';
         messageEl.className = 'message error';
-        localStorage.removeItem('sci-auth');
+        try{
+          localStorage.removeItem('sci-auth');
+        } catch(err){
+          /* ignore */
+        }
       }
     }
 
