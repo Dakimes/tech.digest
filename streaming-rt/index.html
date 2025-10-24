@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Технологический дайджест — Платформы распределённой потоковой передачи событий и обработки потоков в реальном времени</title>
+  <meta name="description" content="Distributed event streaming & real-time stream processing platforms: определение тренда, рынок, игроки, ценность для бизнеса и пилоты." />
+  <style>
+    :root{
+      --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
+      --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-5:#CFE6FF;
+      --line:#e6eef8; --shadow: 0 10px 30px rgba(0, 80, 170, .10); --radius:18px;
+    }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap{ max-width: 1120px; margin: 28px auto 64px; padding: 0 20px; }
+
+    header.hero{ background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .hero img.logo{ height:64px; width:auto; display:block; }
+    .hero .text{ flex:1; min-width: 260px; }
+    header.hero h1{ margin:0 0 6px; letter-spacing:.2px; font-size: clamp(28px, 3.2vw, 44px); color:var(--blue-4); }
+    header.hero p.sub{ margin:0; color:var(--muted); font-size:15px; }
+
+    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .tag{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1.6px solid var(--blue-5); font-size:13px; color:var(--blue-3); }
+
+    .stats{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:12px; width:100%; }
+    .kpi{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .kpi .v{ font-size: clamp(18px,2.4vw,28px); font-weight:800; color:var(--blue-3); }
+    .kpi .l{ font-size:12px; color:var(--muted); margin-top:4px; }
+
+    .itc-note{ margin:10px 0 0; font-size:14px; color:var(--muted); }
+
+    h2{ margin: 34px 0 12px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
+    section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+    .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+
+    .bullet{ margin:0; padding-left:18px; }
+    .bullet li{ margin:6px 0; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chip{ background:#fff; border:1.8px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
+    .chip:hover{ border-color: var(--blue-1); box-shadow: 0 2px 8px rgba(0, 123, 255, .12); }
+
+    .cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
+    .card{ padding:14px; border-radius:14px; background:#fff; border:1px solid var(--line); box-shadow: var(--shadow); }
+    .card h4{ margin:0 0 6px; font-size:16px; color:var(--blue-3); }
+
+    .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+    .roadmap-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+    .phase{ position:relative; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .phase h3{ margin:0 0 10px; font-size:16px; color:var(--blue-3); display:flex; align-items:center; gap:8px; }
+    .phase h3 .pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); color:#fff; font-size:12px; font-weight:700; }
+    .phase ul{ margin:0; padding-left:18px; }
+    .phase li{ margin:6px 0; }
+
+    .tbl{ width:100%; border-collapse: collapse; font-size:14px; }
+    .tbl th, .tbl td{ padding:10px 12px; border-bottom:1px solid var(--line); text-align:left; }
+    .tbl th{ color:var(--muted); font-weight:600; }
+
+    .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
+    .lg{ display:inline-flex; align-items:center; gap:8px; }
+    .c1,.c2,.c3{ width:14px; height:14px; display:inline-block; border-radius:4px; }
+    .c1{ background:var(--blue-1); }
+    .c2{ background:var(--blue-2); }
+    .c3{ background:var(--blue-4); }
+
+    details{ background:#fff; border:1px dashed var(--blue-5); padding:10px 12px; border-radius:12px; }
+    summary{ cursor:pointer; font-weight:700; color:var(--blue-3); }
+
+    .source-list{ columns: 2; gap: 18px; }
+    .source-list a{ color: var(--blue-2); text-decoration: none; }
+    .source-list a:hover{ text-decoration: underline; }
+
+    .regional{ display:grid; grid-template-columns:1fr; gap:12px; }
+    .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
+    .regional figcaption{ padding:8px 12px; font-size:12px; color:var(--muted); }
+
+    footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
+
+    @media (max-width: 880px){
+      .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-2{ grid-template-columns:1fr; }
+      .grid-3{ grid-template-columns:1fr; }
+      .cards{ grid-template-columns:1fr; }
+      .source-list{ columns: 1; }
+      .roadmap-grid{ grid-template-columns:1fr; }
+    }
+    h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
+      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow: var(--shadow); background:#fff;">
+        <span style="font-size:18px; line-height:1">←</span>
+        <span>На главную</span>
+      </a>
+    </nav>
+
+    <header class="hero">
+      <img src="../assets/logo.png" alt="SCI logo" class="logo" />
+      <div class="text">
+        <h1>Платформы распределённой потоковой передачи событий и обработки потоков в реальном времени</h1>
+        <p class="sub">Distributed Event Streaming & Real-Time Stream Processing • обновлено: <strong>23&nbsp;октября&nbsp;2025</strong></p>
+        <div class="tagrow">
+          <span class="tag">Event Time • Watermarks • Stateful Streams</span>
+          <span class="tag">Kafka • Flink • CloudEvents</span>
+          <span class="tag">Schema Registry • Exactly-once</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="kpi"><div class="v"><strong>3/10</strong></div><div class="l">Индекс технологичности (ITC)</div></div>
+        <div class="kpi"><div class="v"><strong>14–19%</strong></div><div class="l">CAGR 2025–2029</div></div>
+        <div class="kpi"><div class="v">TAM <strong>$5.6–6.1B</strong></div><div class="l">Суммарный рынок 2025</div></div>
+        <div class="kpi"><div class="v"><strong>2–5 лет</strong></div><div class="l">Горизонт массового внедрения</div></div>
+      </div>
+      <p class="itc-note">Итоговый балл: <strong>3/10</strong> (Эпизодическая активность. Первые работы, слабая новизна, TR почти нулевая. Рост — едва заметен.)</p>
+    </header>
+
+    <h2>Коротко</h2>
+    <section>
+      <p><strong>Платформы распределённой потоковой передачи событий и обработки потоков в реальном времени</strong> объединяют долговечные журналы событий, pub/sub, stateful stream processing и управление схемами, обеспечивая обработку по <em>event time</em>, поддержку водяных знаков, оконных моделей и CEP. Вендоры фокусируются на снижении OPEX через потоковый ETL/ELT, ускорении time-to-insight и соблюдении требований за счёт lineage, data contracts и Schema Registry.</p>
+      <div class="grid-2">
+        <div>
+          <h3>Драйверы</h3>
+          <ul class="bullet">
+            <li>Real-time персонализация и оперативная аналитика.</li>
+            <li>Заменяет batch-ETL потоковыми пайплайнами (CapEx/OPEX↓).</li>
+            <li>Управляемый lineage и контракты данных для compliance.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Статус и рынок</h3>
+          <ul class="bullet">
+            <li>Горизонт массового внедрения: <strong>2–5</strong> лет.</li>
+            <li>CloudEvents получил статус <strong>Graduated (2024)</strong> в CNCF.</li>
+            <li>Рынок растёт <strong>14–19%</strong> CAGR (база 2025).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Индекс технологичности (ITC)</h2>
+    <section>
+      <div class="cards">
+        <div class="card"><h4>SM — 42</h4><p>Научный моментум замедляется: рост публикаций стабилизировался, фокус смещается в инженерную оптимизацию.</p></div>
+        <div class="card"><h4>NV — 20</h4><p>Высокая зрелость и оптимизация стоимости: внедрение управляемых сервисов, BYOC и serverless‑форматов.</p></div>
+        <div class="card"><h4>IP — 2</h4><p>Импакт пока нишевый: требуется накопление референсов и отраслевых ссылок для масштабных решений.</p></div>
+        <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа и лабораторная стадия: компетенции по stateful streams и exactly-once дефицитны.</p></div>
+      </div>
+    </section>
+
+    <h2>Состав тренда: ключевые технологии</h2>
+    <section>
+      <div class="grid-3">
+        <div class="card">
+          <h4>Модели и семантика потоков</h4>
+          <div class="chips">
+            <span class="chip">Event Time</span><span class="chip">Watermarks</span><span class="chip">Session Windows</span><span class="chip">Sliding Windows</span><span class="chip">Stateful Processing</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Языки и API запросов</h4>
+          <div class="chips">
+            <span class="chip">Streaming SQL</span><span class="chip">CEP Patterns</span><span class="chip">Windowed Joins</span><span class="chip">Continuous Queries</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Интеграция и транспорт</h4>
+          <div class="chips">
+            <span class="chip">Pub/Sub</span><span class="chip">Event Logs</span><span class="chip">Schema Registry</span><span class="chip">Avro/Protobuf</span><span class="chip">Stream Delivery</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Обработка и пайплайны</h4>
+          <div class="chips">
+            <span class="chip">Stream ETL/ELT</span><span class="chip">Window Aggregates</span><span class="chip">Exactly-once</span><span class="chip">Out-of-order Handling</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Управление качеством</h4>
+          <div class="chips">
+            <span class="chip">Data Contracts</span><span class="chip">Schema Evolution</span><span class="chip">Lineage</span><span class="chip">Routing & Enrichment</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Аналитика и операции</h4>
+          <div class="chips">
+            <span class="chip">Real-time Metrics</span><span class="chip">Anomaly Detection</span><span class="chip">Operational Dashboards</span><span class="chip">Low-latency Apps</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Развертывание и операции</h4>
+          <div class="chips">
+            <span class="chip">Scale-out</span><span class="chip">Replication</span><span class="chip">Fault Tolerance</span><span class="chip">Exactly-once</span><span class="chip">Latency & Throughput</span><span class="chip">State Checkpoints</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <h2>Ценность для бизнеса</h2>
+    <section>
+      <div class="cards">
+        <div class="card"><h4>Персонализация в реальном времени</h4><p>Сессионные окна, CEP и windowed joins увеличивают выручку и retention, обеспечивая рекомендательные действия в миллисекундных SLA.</p></div>
+        <div class="card"><h4>OPEX/CapEx</h4><p>Потоковый ETL/ELT поверх долговечных журналов событий снижает издержки на инфраструктуру и поддержку batch‑процессов.</p></div>
+        <div class="card"><h4>Time-to-Insight</h4><p>Непрерывные агрегаты и автоматические алерты сокращают лаг аналитики, повышая оперативность принятия решений.</p></div>
+        <div class="card"><h4>Качество и compliance</h4><p>Schema Registry, политика совместимости и lineage обеспечивают контроль контрактов данных и соответствие требованиям.</p></div>
+        <div class="card"><h4>Аудит и трассируемость</h4><p>Lineage событий и управляемая маршрутизация/обогащение дают прозрачность изменений и поддерживают требования аудита.</p></div>
+        <div class="card"><h4>Data Loss Prevention</h4><p>Exactly-once семантика, чекпойнты и обработка внепорядковых событий сокращают потери данных и ручные reconciliations.</p></div>
+        <div class="card"><h4>Time-to-Market</h4><p>Декларативные операторы потоков и развязка продюсеров/консьюмеров ускоряют запуск новых пользовательских сценариев.</p></div>
+        <div class="card"><h4>Доступность и SLA</h4><p>Горизонтальное масштабирование, репликация, управление состоянием и чекпойнты поддерживают целевые SLA и высокую доступность.</p></div>
+      </div>
+    </section>
+
+    <h2>Горизонт внедрения</h2>
+    <section class="roadmap">
+      <div class="roadmap-grid">
+        <div class="phase">
+          <h3><span class="pill">0–2 года</span></h3>
+          <ul class="bullet">
+            <li>Stateful stream processing, windowed joins и watermarks по умолчанию.</li>
+            <li>CloudEvents закреплён в стандартах; управляемые облачные сервисы.</li>
+            <li>Schema Registry, lineage и real-time метрики входят в обязательный стек.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">2–5 лет</span></h3>
+          <ul class="bullet">
+            <li>Консолидация Streaming SQL/CEP и event-time семантики.</li>
+            <li>Кросс-облачная интероперабельность CloudEvents; managed governance.</li>
+            <li>Расширение потокового ELT в lakehouse и AI/LLM-пайплайны.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">5–10 лет</span></h3>
+          <ul class="bullet">
+            <li>Глобальная exactly-once семантика и кроссплатформенный lineage.</li>
+            <li>Edge-to-cloud синхронизация времени и стандарты для streaming SQL.</li>
+            <li>Пилоты по contract-driven потокам и доверенным дата-экосистемам.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Размер рынка и CAGR</h2>
+    <section>
+      <table class="tbl">
+        <thead><tr><th>Метрика</th><th>Оценка (2025)</th><th>Методика</th></tr></thead>
+        <tbody>
+          <tr><td>TAM</td><td><strong>$5.6–6.1B</strong></td><td>ESP платформы + streaming analytics, учтены пересечения определений.</td></tr>
+          <tr><td>SAM</td><td><strong>$1.43–1.72B</strong></td><td>Только распределённые платформы событий и stateful stream processing.</td></tr>
+          <tr><td>SOM</td><td><strong>$1.0–1.6B</strong></td><td>Концентрация топ-5 (Confluent, hyperscalers) и фактическая TTM выручка.</td></tr>
+          <tr><td>CAGR 2025–2029</td><td><strong>≈14–19%</strong></td><td>Драйверы: AI/LLM пайплайны, low-latency приложения, managed-сервисы.</td></tr>
+        </tbody>
+      </table>
+      <div class="market-chart">
+        <svg viewBox="0 0 1000 220" width="100%" height="220" role="img" aria-label="Диаграмма TAM SAM SOM">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1"><stop offset="0%" stop-color="#CFE6FF"/><stop offset="100%" stop-color="#00A7FF"/></linearGradient>
+            <linearGradient id="g2" x1="0" x2="1"><stop offset="0%" stop-color="#9BC8FF"/><stop offset="100%" stop-color="#007BFF"/></linearGradient>
+            <linearGradient id="g3" x1="0" x2="1"><stop offset="0%" stop-color="#7EB2FF"/><stop offset="100%" stop-color="#0047B3"/></linearGradient>
+          </defs>
+          <g font-size="13" font-weight="700" fill="#0b0d12">
+            <text x="20" y="60">TAM</text>
+            <text x="20" y="130">SAM</text>
+            <text x="20" y="200">SOM</text>
+          </g>
+          <g>
+            <rect x="160" y="46" width="760" height="28" rx="8" fill="url(#g1)"/>
+            <rect x="160" y="116" width="430" height="28" rx="8" fill="url(#g2)"/>
+            <rect x="160" y="186" width="360" height="28" rx="8" fill="url(#g3)"/>
+          </g>
+          <g font-size="12" font-weight="800" fill="#003F6B" text-anchor="start">
+            <text x="940" y="62">~$5.85B</text>
+            <text x="610" y="132">~$1.6B</text>
+            <text x="540" y="202">~$1.3B</text>
+          </g>
+        </svg>
+        <div class="legend">
+          <span class="lg"><span class="c1"></span> TAM (весь адресуемый рынок)</span>
+          <span class="lg"><span class="c2"></span> SAM (распределённые платформы событий)</span>
+          <span class="lg"><span class="c3"></span> SOM (достижимый объём 2025)</span>
+        </div>
+      </div>
+    </section>
+
+    <h2>Объём инвестиций</h2>
+    <section>
+      <div class="cards">
+        <div class="card"><h4>VC 2023–2025</h4><p>≥$265M по 5 раскрытым сделкам: Redpanda (Series C+D по $100M), WarpStream $20M, DeltaStream $15M, Tinybird $30M.</p></div>
+        <div class="card"><h4>M&A</h4><p>Confluent приобрела WarpStream (2024) и объявила о покупке Immerok (2023); Redpanda купила Benthos для запуска Redpanda Connect (2024).</p></div>
+        <div class="card"><h4>IPO</h4><p>Новых IPO не выявлено; Confluent (NASDAQ:CFLT) остаётся публичным ориентиром, остальные лидеры расширяются за счёт частных раундов.</p></div>
+        <div class="card"><h4>Фокус инвесторов</h4><p>Kafka‑совместимость, BYOC/serverless и расширение коннекторов для снижения сетевых затрат и усиления управления данными.</p></div>
+      </div>
+    </section>
+
+    <h2>Ключевые вендоры и игроки</h2>
+    <section>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Платформы и движки</h4>
+          <ul class="bullet">
+            <li><strong>Apache Kafka</strong> — OSS стандарт распределённого event streaming; managed-форматы (Amazon MSK).</li>
+            <li><strong>Apache Flink</strong> — stateful stream processing с exactly-once и event-time семантикой.</li>
+            <li><strong>StreamNative (Apache Pulsar)</strong> — отмечен в GigaOm Radar «Streaming Data Platforms» 2024.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Облака / managed-сервисы</h4>
+          <ul class="bullet">
+            <li><strong>AWS</strong> — Amazon MSK и Managed Service for Apache Flink, интеграция с AWS Glue Schema Registry.</li>
+            <li><strong>Azure</strong> — Event Hubs с Kafka endpoint, минимизирует переписывание клиентов.</li>
+            <li><strong>Google Cloud</strong> — Dataflow с exactly-once по умолчанию.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Кросс-облачные платформы</h4>
+          <ul class="bullet">
+            <li><strong>Confluent Cloud</strong> — полностью управляемый Kafka и GA serverless Apache Flink (AWS/Azure/GCP).</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Инструменты и схемы</h4>
+          <ul class="bullet">
+            <li><strong>AWS Glue Schema Registry</strong> — централизованное управление схемами (Avro/Protobuf/JSON Schema).</li>
+            <li><strong>CNCF CloudEvents</strong> — спецификация формата событий, статус Graduated (2024).</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Аналитика и отчёты</h4>
+          <ul class="bullet">
+            <li><strong>IDC MarketScape 2024</strong> — Confluent лидер в «Analytic Stream Processing» и «Event Brokering».</li>
+            <li><strong>GigaOm Radar 2024</strong> — StreamNative лидер в «Streaming Data Platforms».</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Гипотезы пилотов</h2>
+    <section>
+      <details open>
+        <summary>Персонализация в реальном времени</summary>
+        <p>Цель — рост конверсии и retention. Архитектура: pub/sub-вход, обработка по event time с водяными знаками, сессионные окна, CEP, stateful windowed joins, exactly-once запись. Метрики: uplift vs контроль, p95 задержка, доля поздних событий. Срок: 8–10 недель.</p>
+      </details>
+      <details open style="margin-top:12px;">
+        <summary>Онлайн-детектирование фрода</summary>
+        <p>Цель — сокращение потерь. Stateful streams со sliding windows и CEP, обогащение ML-предсказаниями, обработка внепорядковых событий. Метрики: precision/recall, p95 latency, доля ложных срабатываний. Срок: 8–10 недель.</p>
+      </details>
+      <details open style="margin-top:12px;">
+        <summary>Streaming ETL/ELT для витрин</summary>
+        <p>Цель — снижение затрат ETL и уменьшение лага данных. Event logs + stateful ETL, windowed агрегаты, exactly-once выгрузка в lakehouse. Метрики: стоимость на 1 млн событий, свежесть данных, стабильность чекпойнтов. Срок: 6–8 недель.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Качество данных и схемы «на входе»</summary>
+        <p>Schema Registry с правилами совместимости, inline валидация сериализаторами, DLQ и маршрутизация несоответствий. Метрики: доля валидных сообщений, скорость реакции на изменение схемы, отсутствие падений потребителей. Срок: 6–8 недель.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Устойчивость и exactly-once</summary>
+        <p>Транзакционные продюсеры, идемпотентные консьюмеры, чекпойнты и fault injection. Метрики: отсутствие потерь/дубликатов, выполнение SLA по RTO/RPO, задержка при чекпойнтах. Срок: 6–7 недель.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Оперативные дашборды</summary>
+        <p>Непрерывные агрегаты, потоковая загрузка в BI, контроль watermark lag и latency markers. Метрики: свежесть данных, p95 задержка, доступность пайплайна. Срок: 6–8 недель.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Линейдж событий и аудит</summary>
+        <p>OpenLineage/Marquez интеграция для Flink/Kafka/коннекторов, привязка к схемам и версиям. Метрики: покрытие lineage, время поиска корневой причины, полнота атрибутов. Срок: 5–7 недель.</p>
+      </details>
+    </section>
+
+    <h2>Региональная активность</h2>
+    <section class="regional">
+      <figure>
+        <img src="../assets/regional-analytics.png" alt="Карта публикаций по потоковой обработке событий" loading="lazy" />
+        <figcaption>Основные публикации и внедрения сосредоточены в США, странах ЕС, Великобритании и Азии; усиливается внимание к ЕС (Германия) и США.</figcaption>
+      </figure>
+    </section>
+
+    <h2>Публикации и отчёты</h2>
+    <section>
+      <ul class="bullet">
+        <li>The Forrester Wave: Streaming Data Platforms, Q4 2023.</li>
+        <li>The Streaming Data Platforms Landscape, Q3 2025 (Forrester).</li>
+        <li>Gartner Document 4347499 — Event Streaming Platforms.</li>
+        <li>Confluent, Redpanda и WarpStream — пресс-релизы 2023–2025.</li>
+        <li>CNCF CloudEvents Graduation Announcement (2024).</li>
+      </ul>
+    </section>
+
+    <h2>Источники</h2>
+    <section>
+      <div class="source-list">
+        <a href="https://www.forrester.com/report/the-forrester-wave-tm-streaming-data-platforms-q4-2023/RES178464" target="_blank" rel="noopener">Forrester (2023) — Streaming Data Platforms Wave</a>
+        <a href="https://www.forrester.com/report/the-streaming-data-platforms-landscape-q3-2025/RES184143" target="_blank" rel="noopener">Forrester (2025) — Landscape</a>
+        <a href="https://www.gartner.com/en/documents/4347499" target="_blank" rel="noopener">Gartner Document 4347499</a>
+        <a href="https://www.confluent.io/press-release/confluent-plans-immerok-acquisition-to-accelerate-cloud-native-apache-flink/" target="_blank" rel="noopener">Confluent plans Immerok acquisition (2023)</a>
+        <a href="https://investors.confluent.io/news-releases/news-release-details/confluent-announces-general-availability-confluent-cloud-apache" target="_blank" rel="noopener">Confluent Cloud for Apache Flink GA (2024)</a>
+        <a href="https://investors.confluent.io/news-releases/news-release-details/confluent-acquires-warpstream-advance-next-gen-byoc-data" target="_blank" rel="noopener">Confluent acquires WarpStream (2024)</a>
+        <a href="https://www.redpanda.com/press/redpanda-raises-100m-in-series-c-funding" target="_blank" rel="noopener">Redpanda raises $100M Series C (2023)</a>
+        <a href="https://www.redpanda.com/press/redpanda-acquires-benthos" target="_blank" rel="noopener">Redpanda acquires Benthos (2024)</a>
+        <a href="https://www.redpanda.com/press/redpanda-raises-100m-launches-enterprise-agentic-ai-platform" target="_blank" rel="noopener">Redpanda raises $100M Series D (2025)</a>
+        <a href="https://www.businesswire.com/news/home/20240313224497/en/WarpStream-Labs-Raises-20M-to-Modernize-Data-Streaming-with-a-Cloud-Native-Replacement-for-Apache-Kafka" target="_blank" rel="noopener">WarpStream Labs raises $20M (2024)</a>
+        <a href="https://www.cncf.io/announcements/2024/01/25/cloud-native-computing-foundation-announces-the-graduation-of-cloudevents/" target="_blank" rel="noopener">CNCF CloudEvents Graduation (2024)</a>
+      </div>
+    </section>
+
+    <footer>© 2025 • SCI • Главная по технологиям KG</footer>
+  </div>
+</body>
+</html>
