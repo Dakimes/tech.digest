@@ -102,15 +102,40 @@
     .radar-legend i{ width:12px; height:12px; display:inline-block; border-radius:50%; }
     .m1{ background:#86d6ff; } .m2{ background:#4eb2ff; } .m3{ background:#1c8fff; } .m4{ background:#0b5fd1; }
 
-    .dot{ cursor:pointer; transition: opacity .15s ease; }
-    .dot circle{ filter: drop-shadow(0 2px 6px rgba(0,0,0,.15)); }
-    .dot text{ font-size:12px; font-weight:700; fill:#0b0d12; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
-    .dot text[data-align="left"]{ text-anchor:end; }
-    .dot text[data-align="center"]{ text-anchor:middle; }
+    .dot{ cursor:pointer; transition: opacity .15s ease; outline:none; }
+    .dot circle{ filter: drop-shadow(0 2px 6px rgba(0,0,0,.15)); transition: transform .15s ease; }
+    .dot:hover circle{ transform:scale(1.08); }
+    .dot:focus-visible circle{ outline:3px solid rgba(0,123,255,.45); outline-offset:2px; }
+    .radar-tooltip{
+      position:absolute;
+      pointer-events:none;
+      background:rgba(12,22,44,.96);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:13px;
+      line-height:1.4;
+      box-shadow:0 10px 30px rgba(10,25,65,.28);
+      max-width:240px;
+      z-index:20;
+      transform:translate(-50%, -120%);
+      opacity:0;
+      transition:opacity .12s ease;
+    }
+    .radar-tooltip.is-visible{ opacity:1; }
+    .radar-tooltip strong{ display:block; font-size:13px; margin-bottom:4px; color:#8dd2ff; }
+    .radar-tooltip span{ display:block; font-size:12px; color:#dcecff; }
 
     /* Board */
-    h2{ margin: 26px 0 10px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
-    h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-3), var(--blue-1)); border-radius:2px; margin-top:8px; }
+    h2{
+      margin: 26px 0 16px;
+      font-size: clamp(20px,2.4vw,28px);
+      color:var(--blue-4);
+      padding-bottom:12px;
+      background:
+        linear-gradient(90deg, var(--blue-3), var(--blue-1))
+        no-repeat left bottom / 56px 4px;
+    }
 
     .board{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; }
     .board-empty{
@@ -140,6 +165,10 @@
       .search{ flex-direction:column; }
       .search input{ padding-left:38px; }
       .radar{ height:280px; }
+    }
+
+    @media print{
+      .radar-tooltip{ display:none !important; }
     }
 
     .tile{ position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:10px; }
@@ -255,6 +284,7 @@ const technologies = [
 // === РАДАР ===
 const radarEl = document.getElementById('radar');
 const radarEmptyEl = document.getElementById('radarEmpty');
+const radarWrapEl = radarEl ? radarEl.parentElement : null;
 const boardEl = document.getElementById('board');
 const boardEmptyEl = document.getElementById('boardEmpty');
 const rings = [
@@ -265,6 +295,19 @@ const rings = [
 ];
 const ringLabelsById = rings.reduce((acc, ring)=>{ acc[ring.id] = ring.label; return acc; }, {});
 let lastRadarData = technologies;
+let radarTooltipEl = null;
+let radarTooltipTimer = null;
+
+if(radarWrapEl){
+  radarTooltipEl = radarWrapEl.querySelector('.radar-tooltip');
+  if(!radarTooltipEl){
+    radarTooltipEl = document.createElement('div');
+    radarTooltipEl.className = 'radar-tooltip';
+    radarTooltipEl.setAttribute('role','tooltip');
+    radarTooltipEl.hidden = true;
+    radarWrapEl.appendChild(radarTooltipEl);
+  }
+}
 
 function polarToXY(cx, cy, r, angleDeg){
   const a = (angleDeg - 90) * Math.PI/180; // 0° вверх
@@ -277,6 +320,11 @@ function renderRadar(data){
   lastRadarData = items;
   const w = radarEl.clientWidth || radarEl.offsetWidth || 800;
   const h = radarEl.clientHeight || 360;
+  if(radarTooltipEl){
+    if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
+    radarTooltipEl.classList.remove('is-visible');
+    radarTooltipEl.hidden = true;
+  }
   const cx = w/2, cy = h/2;
   const maxR = Math.min(w,h)/2 - 24;
   const scale = maxR / rings[rings.length-1].r;
@@ -327,10 +375,13 @@ function renderRadar(data){
     radarEl.innerHTML = '';
     radarEl.appendChild(svg);
     if(radarEmptyEl){ radarEmptyEl.hidden = false; }
+    if(radarTooltipEl){
+      if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
+      radarTooltipEl.classList.remove('is-visible');
+      radarTooltipEl.hidden = true;
+    }
     return;
   }
-
-  const labelBoxes = [];
 
   items.forEach((item, idx)=>{
     const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
@@ -341,66 +392,59 @@ function renderRadar(data){
     circle.setAttribute('cx', pos.x); circle.setAttribute('cy', pos.y); circle.setAttribute('r', 10);
     circle.setAttribute('fill','url(#grad)'); circle.setAttribute('stroke','var(--blue-3)'); circle.setAttribute('stroke-width','1');
 
-    const label = document.createElementNS(svg.namespaceURI,'text');
-    label.textContent = item.name;
-
-    const align = pos.x < cx - 40 ? 'left' : (pos.x > cx + 40 ? 'right' : 'center');
-    let labelX = align === 'left' ? pos.x - 16 : align === 'right' ? pos.x + 16 : pos.x;
-    let labelY = pos.y - 12;
-    const approxWidth = Math.min(220, item.name.length * 6.8);
-    const labelHeight = 18;
-    const box = {
-      x: align === 'left' ? labelX - approxWidth : labelX,
-      y: labelY - labelHeight + 6,
-      width: approxWidth,
-      height: labelHeight
-    };
-
-    if(box.y < 12){
-      const diff = 12 - box.y;
-      box.y += diff; labelY += diff;
-    }
-
-    const collide = (a,b)=> !(a.x + a.width < b.x || b.x + b.width < a.x || a.y + a.height < b.y || b.y + b.height < a.y);
-    let guard = 0;
-    while(labelBoxes.some(b=>collide(b, box)) && guard < 12){
-      box.y += labelHeight;
-      labelY += labelHeight;
-      guard++;
-    }
-
-    if(align === 'right' && box.x + box.width > w - 8){
-      const shift = box.x + box.width - (w - 8);
-      labelX -= shift;
-      box.x -= shift;
-    }
-    if(align === 'left' && box.x < 8){
-      const shift = 8 - box.x;
-      labelX += shift;
-      box.x += shift;
-    }
-
-    label.setAttribute('x', labelX);
-    label.setAttribute('y', labelY);
-    if(align === 'left'){ label.setAttribute('text-anchor','end'); label.dataset.align='left'; }
-    else if(align === 'right'){ label.setAttribute('text-anchor','start'); label.dataset.align='right'; }
-    else { label.setAttribute('text-anchor','middle'); label.dataset.align='center'; }
-
     g.appendChild(circle);
-    g.appendChild(label);
-
     const go = ()=> window.location.href = item.link;
     g.addEventListener('click', go);
     g.setAttribute('role','link'); g.setAttribute('tabindex','0');
     g.addEventListener('keydown', (e)=>{ if(e.key==='Enter') go(); });
 
+    const summary = Array.isArray(item.keys) ? item.keys.join('; ') : '';
+    g.setAttribute('aria-label', summary ? `${item.name}. ${summary}` : item.name);
+    circle.setAttribute('aria-hidden','true');
+
+    const showTooltip = ()=>{
+      if(!radarTooltipEl || !radarWrapEl){ return; }
+      radarTooltipEl.innerHTML = `<strong>${item.name}</strong>${summary ? `<span>${summary}</span>` : ''}`;
+      const wrapRect = radarWrapEl.getBoundingClientRect();
+      const svgRect = svg.getBoundingClientRect();
+      const scaleX = svgRect.width / w;
+      const scaleY = svgRect.height / h;
+      const left = svgRect.left - wrapRect.left + pos.x * scaleX;
+      const top = svgRect.top - wrapRect.top + pos.y * scaleY;
+      radarTooltipEl.style.left = `${left}px`;
+      radarTooltipEl.style.top = `${top}px`;
+      radarTooltipEl.hidden = false;
+      if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); }
+      radarTooltipTimer = requestAnimationFrame(()=>{
+        radarTooltipEl.classList.add('is-visible');
+        radarTooltipTimer = null;
+      });
+    };
+    const hideTooltip = ()=>{
+      if(!radarTooltipEl){ return; }
+      if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
+      radarTooltipEl.classList.remove('is-visible');
+      radarTooltipEl.hidden = true;
+    };
+    g.addEventListener('mouseenter', showTooltip);
+    g.addEventListener('focus', showTooltip);
+    g.addEventListener('mouseleave', hideTooltip);
+    g.addEventListener('blur', hideTooltip);
+    g.addEventListener('touchstart', showTooltip, { passive: true });
+    g.addEventListener('touchend', hideTooltip);
+    g.addEventListener('touchcancel', hideTooltip);
+
     svg.appendChild(g);
-    labelBoxes.push(box);
   });
 
   radarEl.innerHTML = '';
   radarEl.appendChild(svg);
   if(radarEmptyEl){ radarEmptyEl.hidden = true; }
+  if(radarTooltipEl){
+    if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
+    radarTooltipEl.classList.remove('is-visible');
+    radarTooltipEl.hidden = true;
+  }
 }
 
 // === ДОСКА ===
