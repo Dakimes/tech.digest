@@ -55,6 +55,18 @@
     .card h3{ margin:0 0 8px; font-size:16px; color:var(--blue-3); }
     .card ul{ margin:0; padding-left:18px; }
 
+    .regional{ display:grid; grid-template-columns:1fr; gap:12px; }
+    .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
+    .regional figcaption{ padding:8px 12px 12px; font-size:12px; color:var(--muted); }
+    .regional-table{ width:100%; border-collapse:collapse; font-size:13px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    .regional-table thead th{ background:rgba(0,167,255,.08); color:var(--blue-3); font-weight:700; padding:10px 12px; text-align:left; }
+    .regional-table tbody td{ padding:10px 12px; border-top:1px solid var(--line); }
+    .regional-table .value{ font-weight:700; color:var(--blue-3); white-space:nowrap; }
+    .regional-table .bar-cell{ width:48%; }
+    .regional-bar{ height:8px; border-radius:999px; background:rgba(0,167,255,.18); position:relative; overflow:hidden; }
+    .regional-bar span{ position:absolute; inset:0; border-radius:999px; background:linear-gradient(90deg,var(--blue-2),var(--blue-1)); }
+
     .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
     .roadmap-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
     .phase{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow:var(--shadow); }
@@ -224,6 +236,60 @@
           <p><strong>4/5</strong> — устойчивые консорциумы (we.trade, Marco Polo, Contour), активные открытые стандарты (W3C DID, ISO&nbsp;23257).</p>
         </div>
       </div>
+    </section>
+
+    <h2>Региональная активность</h2>
+    <section class="regional">
+      <figure>
+        <img src="../assets/regional-analytics.png" alt="Глобальная карта пилотов и внедрений корпоративных блокчейн-платформ" loading="lazy" />
+        <figcaption>Основные пилоты и масштабные внедрения концентрируются в Северной Америке, Западной Европе и странах Персидского залива; в АТР растёт активность Сингапура и Южной Кореи.</figcaption>
+      </figure>
+      <table class="regional-table">
+        <thead>
+          <tr>
+            <th>Регион</th>
+            <th>Фокус</th>
+            <th class="bar-cell">Доля активных кейсов</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="value">Северная Америка</span></td>
+            <td>Токенизация капиталов, пост-трейд клиринг</td>
+            <td class="bar-cell">
+              <div class="regional-bar"><span style="width:82%;"></span></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="value">Западная Европа</span></td>
+            <td>Цепочки поставок, цифровые удостоверения</td>
+            <td class="bar-cell">
+              <div class="regional-bar"><span style="width:74%;"></span></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="value">Ближний Восток</span></td>
+            <td>CBDC, цифровые госуслуги</td>
+            <td class="bar-cell">
+              <div class="regional-bar"><span style="width:48%;"></span></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="value">Азия‑Тихоокеанский регион</span></td>
+            <td>Торговые финансы, логистика, IoT</td>
+            <td class="bar-cell">
+              <div class="regional-bar"><span style="width:56%;"></span></div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="value">Латинская Америка</span></td>
+            <td>Платёжные сети, traceability для агросектора</td>
+            <td class="bar-cell">
+              <div class="regional-bar"><span style="width:34%;"></span></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <h2>Источник и аналитика</h2>
