@@ -114,6 +114,15 @@ const technologies = [
     link: makeLink('ekg'),
     ring:'production',
     angle: 40
+  },
+  {
+    id:'streaming-platforms',
+    slug:'streaming',
+    name:'Распределённые платформы потоковой передачи событий',
+    keys:['Event Time','Stateful Streams','Kafka/Flink','Schema Registry','Exactly-once','CloudEvents'],
+    link: makeLink('streaming'),
+    ring:'pilot',
+    angle: 140
   }
 ];
 
@@ -153,25 +162,28 @@ function renderRadar(data){
     t.setAttribute('class','ring-label'); t.textContent = r.label; svg.appendChild(t);
   });
 
-  // Точка(и) — фиксированные, без анимаций; для масштабирования каталога можем добавлять auto‑offset
-  const item = data[0];
-  if(item){
-    const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
-    const pos = polarToXY(cx, cy, R, item.angle||40);
+  if(!data.length){
+    radarEl.innerHTML = '';
+    radarEl.appendChild(svg);
+    return;
+  }
 
-    const defs = document.createElementNS(svg.namespaceURI,'defs');
-    const lg = document.createElementNS(svg.namespaceURI,'linearGradient');
-    lg.setAttribute('id','grad'); lg.setAttribute('x1','0'); lg.setAttribute('x2','1');
-    const s1 = document.createElementNS(svg.namespaceURI,'stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','var(--blue-1)');
-    const s2 = document.createElementNS(svg.namespaceURI,'stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','var(--blue-2)');
-    lg.appendChild(s1); lg.appendChild(s2); defs.appendChild(lg); svg.appendChild(defs);
+  const defs = document.createElementNS(svg.namespaceURI,'defs');
+  const lg = document.createElementNS(svg.namespaceURI,'linearGradient');
+  lg.setAttribute('id','grad'); lg.setAttribute('x1','0'); lg.setAttribute('x2','1');
+  const s1 = document.createElementNS(svg.namespaceURI,'stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','var(--blue-1)');
+  const s2 = document.createElementNS(svg.namespaceURI,'stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','var(--blue-2)');
+  lg.appendChild(s1); lg.appendChild(s2); defs.appendChild(lg); svg.appendChild(defs);
+
+  data.forEach((item, idx)=>{
+    const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
+    const pos = polarToXY(cx, cy, R, item.angle || (40 + idx*30));
 
     const g = document.createElementNS(svg.namespaceURI,'g'); g.setAttribute('class','dot');
     const circle = document.createElementNS(svg.namespaceURI,'circle');
     circle.setAttribute('cx', pos.x); circle.setAttribute('cy', pos.y); circle.setAttribute('r', 10);
     circle.setAttribute('fill','url(#grad)'); circle.setAttribute('stroke','var(--blue-3)'); circle.setAttribute('stroke-width','1');
 
-    // Подпись рядом с точкой (без выноски)
     const label = document.createElementNS(svg.namespaceURI,'text');
     label.setAttribute('x', pos.x + 14); label.setAttribute('y', pos.y - 12);
     label.textContent = item.name;
@@ -179,12 +191,13 @@ function renderRadar(data){
     g.appendChild(circle);
     g.appendChild(label);
 
-    g.addEventListener('click', ()=> window.location.href = item.link );
+    const go = ()=> window.location.href = item.link;
+    g.addEventListener('click', go);
     g.setAttribute('role','link'); g.setAttribute('tabindex','0');
-    g.addEventListener('keydown', (e)=>{ if(e.key==='Enter') window.location.href=item.link; });
+    g.addEventListener('keydown', (e)=>{ if(e.key==='Enter') go(); });
 
     svg.appendChild(g);
-  }
+  });
 
   radarEl.innerHTML = '';
   radarEl.appendChild(svg);
