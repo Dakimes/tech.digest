@@ -176,6 +176,15 @@ const technologies = [
     link: makeLink('streaming-rt'),
     ring:'pilot',
     angle: 220
+  },
+  {
+    id:'blockchain-governance',
+    slug:'blockchain-governance',
+    name:'Корпоративные системы управления данными и целостностью на основе блокчейна',
+    keys:['RDF/RDFS','OWL 2','SPARQL 1.2','SHACL','PROV-O','OBDA/R2RML'],
+    link: makeLink('blockchain-governance'),
+    ring:'pilot',
+    angle: 310
   }
 ];
 
@@ -195,6 +204,7 @@ function polarToXY(cx, cy, r, angleDeg){
 }
 
 function renderRadar(data){
+  if(!radarEl){ return; }
   lastRadarData = data;
   const w = radarEl.clientWidth || radarEl.offsetWidth || 800;
   const h = radarEl.clientHeight || 360;
