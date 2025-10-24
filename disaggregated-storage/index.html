@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Дезагрегированные распределённые архитектуры хранения</title>
+  <meta name="description" content="Disaggregated, distributed storage architectures for enterprise data platforms — определение тренда, рынок, игроки, ценность и пилоты." />
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link rel="stylesheet" href="../assets/pdf-download.css" />
+  <style>
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
+    :root{
+      --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
+      --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-5:#CFE6FF;
+      --line:#e6eef8; --shadow: 0 10px 30px rgba(0, 80, 170, .10); --radius:18px;
+    }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap{ max-width: 1120px; margin: 28px auto 64px; padding: 0 20px; }
+
+    header.hero{ background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .hero img.logo{ height:64px; width:auto; display:block; }
+    .hero .text{ flex:1; min-width: 260px; }
+    header.hero h1{ margin:0 0 6px; letter-spacing:.2px; font-size: clamp(26px, 3.2vw, 42px); color:var(--blue-4); }
+    header.hero p.sub{ margin:0; color:var(--muted); font-size:15px; }
+
+    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .tag{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1.6px solid var(--blue-5); font-size:13px; color:var(--blue-3); }
+
+    .stats{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:12px; width:100%; }
+    .kpi{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .kpi .v{ font-size: clamp(18px,2.4vw,28px); font-weight:800; color:var(--blue-3); }
+    .kpi .l{ font-size:12px; color:var(--muted); margin-top:4px; }
+
+    h2{ margin: 34px 0 12px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
+    section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+    .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+
+    .bullet{ margin:0; padding-left:18px; }
+    .bullet li{ margin:6px 0; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chip{ background:#fff; border:1.8px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
+    .chip:hover{ border-color: var(--blue-1); box-shadow: 0 2px 8px rgba(0, 123, 255, .12); }
+
+    .cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
+    .card{ padding:14px; border-radius:14px; background:#fff; border:1px solid var(--line); box-shadow: var(--shadow); }
+    .card h4{ margin:0 0 6px; font-size:16px; color:var(--blue-3); }
+
+    .itc-layout{ display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:18px; align-items:center; }
+    .itc-spider{ margin:0; padding:16px; border-radius:14px; border:1px solid var(--line); background:#fff; box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .itc-spider svg{ width:100%; height:auto; max-width:320px; }
+    .itc-spider figcaption{ margin:0; font-size:12px; color:var(--muted); text-align:center; }
+    .itc-cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
+    .itc-spider .grid-ring{ stroke:rgba(0,71,179,.25); stroke-width:1; }
+    .itc-spider .axis{ stroke:rgba(0,71,179,.3); stroke-width:1; stroke-dasharray:4 4; }
+    .itc-spider .area{ fill:rgba(0,123,255,.28); stroke:var(--blue-2); stroke-width:2; }
+    .itc-spider .dot{ fill:#fff; stroke:var(--blue-3); stroke-width:1.4; }
+    .itc-spider .axis-label{ font-size:12px; fill:var(--blue-3); font-weight:600; }
+
+    .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+    .roadmap-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+    .phase{ position:relative; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .phase h3{ margin:0 0 10px; font-size:16px; color:var(--blue-3); display:flex; align-items:center; gap:8px; }
+    .phase h3 .pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); color:#fff; font-size:12px; font-weight:700; }
+    .phase ul{ margin:0; padding-left:18px; }
+    .phase li{ margin:6px 0; }
+
+    .market-chart{ display:block; width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; background:#fff; box-shadow:var(--shadow); }
+    .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
+    .lg{ display:inline-flex; align-items:center; gap:8px; }
+    .c1,.c2,.c3{ width:14px; height:14px; display:inline-block; border-radius:4px; }
+    .c1{ background:var(--blue-1); }
+    .c2{ background:var(--blue-2); }
+    .c3{ background:var(--blue-4); }
+
+    details{ background:#fff; border:1px dashed var(--blue-5); padding:10px 12px; border-radius:12px; }
+    summary{ cursor:pointer; font-weight:700; color:var(--blue-3); }
+
+    .source-list{ columns: 2; gap: 18px; }
+    .source-list p{ margin:0 0 10px; }
+    .source-list a{ color: var(--blue-2); text-decoration: none; }
+    .source-list a:hover{ text-decoration: underline; }
+
+    .regional{ display:grid; grid-template-columns:1fr; gap:12px; }
+    .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
+    .regional figcaption{ padding:8px 12px; font-size:12px; color:var(--muted); }
+
+    footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
+
+    @media (max-width: 960px){
+      .itc-layout{ grid-template-columns:1fr; }
+      .itc-spider{ max-width:420px; margin:0 auto; }
+    }
+    @media (max-width: 880px){
+      .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-2{ grid-template-columns:1fr; }
+      .grid-3{ grid-template-columns:1fr; }
+      .cards{ grid-template-columns:1fr; }
+      .source-list{ columns: 1; }
+      .roadmap-grid{ grid-template-columns:1fr; }
+      .itc-cards{ grid-template-columns:1fr; }
+    }
+    @media (max-width: 640px){
+      .stats{ grid-template-columns:1fr; }
+      header.hero{ padding:20px 18px; }
+      section{ padding:16px; }
+    }
+    @media (max-width: 520px){
+      .tag{ font-size:12px; }
+      .tagrow{ gap:6px; }
+    }
+    h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
+      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow: var(--shadow); background:#fff;">
+        <span style="font-size:18px; line-height:1">←</span>
+        <span>На главную</span>
+      </a>
+    </nav>
+
+    <header class="hero">
+      <img src="../assets/logo.png" alt="SCI logo" class="logo" />
+      <div class="text">
+        <h1>Дезагрегированные распределённые архитектуры хранения</h1>
+        <p class="sub">Disaggregated, Distributed Storage Architectures for Enterprise Data Platforms • обновлено: <strong>23&nbsp;октября&nbsp;2025</strong></p>
+        <div class="tagrow">
+          <span class="tag">HL7 FHIR R4/R5</span>
+          <span class="tag">OMOP CDM</span>
+          <span class="tag">FHIR Bulk Data $export</span>
+          <span class="tag">Terminology Services</span>
+          <span class="tag">SMART on FHIR / OAuth 2.0</span>
+          <span class="tag">Parquet & BigQuery</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="kpi"><div class="v"><strong>2/10</strong></div><div class="l">Индекс технологичности (ITC)</div></div>
+        <div class="kpi"><div class="v"><strong>12–15%</strong></div><div class="l">CAGR 2025–2029</div></div>
+        <div class="kpi"><div class="v">TAM <strong>$5.8–6.8B</strong></div><div class="l">Оценка 2025</div></div>
+        <div class="kpi"><div class="v"><strong>2–5 лет</strong></div><div class="l">Горизонт массового внедрения</div></div>
+      </div>
+    </header>
+
+    <h2>Коротко</h2>
+    <section>
+      <p><strong>Дезагрегированные распределённые архитектуры хранения для корпоративных платформ данных</strong> — это платформы и модели данных, объединяющие HL7 FHIR R4/R5 и OMOP CDM для загрузки, гармонизации, управления и предоставления продольных клинических и wellness‑данных через FHIR REST/Bulk Data, Terminology Services и SMART on FHIR (OAuth&nbsp;2.0). Подход поддерживает интероперабельный обмен, мультиинституциональную аналитику, прозрачный аудит и безопасную интеграцию API, снижая OPEX и ускоряя time-to-insight.</p>
+      <div class="grid-2">
+        <div>
+          <h3>Драйверы</h3>
+          <ul class="bullet">
+            <li>Снижение операционных затрат за счёт стандартизованных FHIR-интерфейсов и терминологического сопоставления.</li>
+            <li>Ускорение time-to-insight для когортостроения, фенотипирования и популяционной аналитики.</li>
+            <li>Регуляторные требования CMS/ONC и TEFCA к FHIR API, Bulk Data и прозрачному аудиту.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Статус и рынок</h3>
+          <ul class="bullet">
+            <li>Горизонт массового внедрения: <strong>2–5</strong> лет, рост инфраструктуры FHIR/OMOP и managed-сервисов.</li>
+            <li>Рынок растёт <strong>12–15%</strong> CAGR (база&nbsp;<strong>2025</strong>), инвесторы фокусируются на интероперабельности.</li>
+            <li>Вендоры: Google Cloud Healthcare API, Azure Health Data Services, AWS HealthLake, InterSystems IRIS for Health.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Индекс технологичности (ITC)</h2>
+    <section>
+      <div class="itc-layout">
+        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="32,20,8,18" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+        </figure>
+        <div class="itc-cards">
+          <div class="card"><h4>SM — 32</h4><p>Научный моментум замедляется: публикации смещаются в сторону операционного внедрения и интеграции стандартов.</p></div>
+          <div class="card"><h4>NV — 20</h4><p>Новизна умеренная: рынок переходит к оптимизации затрат и закреплению профилей US Core, Bulk Data IG и SMART on FHIR.</p></div>
+          <div class="card"><h4>IP — 8</h4><p>Импакт нишевый: требуется накопление отраслевых ссылок и кейсов мультиинституциональной аналитики.</p></div>
+          <div class="card"><h4>HR — 18</h4><p>Высокие барьеры входа: нехватка экспертизы по FHIR/OMOP, lineage и атрибутному контролю доступа тормозит масштабирование.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <h2>Состав тренда: ключевые технологии</h2>
+    <section>
+      <div class="grid-3">
+        <div class="card">
+          <h4>Модели и схемы данных</h4>
+          <div class="chips">
+            <span class="chip">HL7 FHIR R4</span><span class="chip">HL7 FHIR R5</span><span class="chip">OMOP CDM</span><span class="chip">Patient-centric Models</span><span class="chip">HHR подход</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Языки и интерфейсы доступа</h4>
+          <div class="chips">
+            <span class="chip">FHIR RESTful API</span><span class="chip">FHIR Bulk Data</span><span class="chip">Flat FHIR / NDJSON</span><span class="chip">FHIR Subscriptions</span><span class="chip">Terminology Services</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Интеграция и загрузка</h4>
+          <div class="chips">
+            <span class="chip">ETL/ELT EHR→FHIR</span><span class="chip">FHIR→OMOP Mapping</span><span class="chip">SNOMED CT</span><span class="chip">LOINC</span><span class="chip">RxNorm</span><span class="chip">MPI Dedup</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Управление и качество данных</h4>
+          <div class="chips">
+            <span class="chip">FHIR StructureDefinition</span><span class="chip">ValueSet / CodeSystem</span><span class="chip">Terminology Management</span><span class="chip">Audit & Lineage</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Хранилища и индексы</h4>
+          <div class="chips">
+            <span class="chip">FHIR JSON Stores</span><span class="chip">Relational OMOP</span><span class="chip">Columnar Parquet</span><span class="chip">BigQuery Exports</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Аналитика и вычисления</h4>
+          <div class="chips">
+            <span class="chip">SQL над OMOP</span><span class="chip">Cohort Building</span><span class="chip">Phenotyping</span><span class="chip">Population Analytics</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Развертывание и безопасность</h4>
+          <div class="chips">
+            <span class="chip">SMART on FHIR</span><span class="chip">OAuth 2.0 Scopes</span><span class="chip">ABAC</span><span class="chip">Encryption in Transit/At Rest</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <h2>Ценность для бизнеса</h2>
+    <section>
+      <div class="cards">
+        <div class="card"><h4>OPEX интеграций</h4><p>Стандартизованные FHIR REST/Bulk Data интерфейсы и терминологическое сопоставление сокращают кастомные ETL и сопровождение интеграций.</p></div>
+        <div class="card"><h4>Time-to-insight</h4><p>Гармонизация в OMOP CDM и колоночные витрины Parquet/BigQuery ускоряют популяционную аналитику и построение когорт в 10–100 раз.</p></div>
+        <div class="card"><h4>Выручка и retention</h4><p>Расширение цифровых сервисов и партнёрских интеграций через Patient/Provider/Payer FHIR API и SMART on FHIR повышает ARPU и удержание.</p></div>
+        <div class="card"><h4>Комплаенс и аудит</h4><p>FHIR API, Bulk Data и SMART соответствуют финальному правилу CMS, обеспечивая прозрачный аудит и снижение рисков штрафов.</p></div>
+        <div class="card"><h4>Качество данных</h4><p>Валидация профилями FHIR, централизованное управление терминологиями и MPI-маппинг повышают точность метрик и готовность данных к повторному использованию.</p></div>
+        <div class="card"><h4>Time-to-market</h4><p>Модульная архитектура с FHIR-хранилищами, OMOP-витринами и Bulk-потоками ускоряет запуск ePA, value-based care и бенчмаркинг-продуктов.</p></div>
+        <div class="card"><h4>Кибербезопасность</h4><p>OAuth 2.0/SMART on FHIR, атрибутный контроль доступа и сквозное шифрование сокращают поверхность атак и поддерживают zero trust.</p></div>
+      </div>
+    </section>
+
+    <h2>Горизонт внедрения</h2>
+    <section class="roadmap">
+      <div class="roadmap-grid">
+        <div class="phase">
+          <h3><span class="pill">0–2 года</span></h3>
+          <ul class="bullet">
+            <li>Продукционные FHIR R4/USCDI v3 сервисы и managed-хранилища JSON/Parquet.</li>
+            <li>ETL EHR→FHIR/OMOP, Bulk Data $export и SMART OAuth2 в пилотных продуктах.</li>
+            <li>Валидация профилями US Core и запуск Terminology Service для SNOMED/LOINC/RxNorm.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">2–5 лет</span></h3>
+          <ul class="bullet">
+            <li>Регуляторные мандаты CMS/TEFCA масштабируют API-пилоты и мультиинституциональные пайплайны.</li>
+            <li>Расширение Subscriptions, lineage, ABAC и операционных data fabric подходов.</li>
+            <li>Интеграция терминологических сервисов и автоматизированного аудитинга в продуктивные процессы.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">5–10 лет</span></h3>
+          <ul class="bullet">
+            <li>TEFCA Stage 4 обеспечивает межсетевой FHIR-обмен и стабилизацию FHIR R5.</li>
+            <li>Популяционный бенчмаркинг, фенотипирование и межинституциональные витрины становятся стандартом.</li>
+            <li>Сквозной аудит, ABAC и доверенные сети данных поддерживают value-based care.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Размер рынка и CAGR</h2>
+    <section>
+      <div class="market-chart" role="img" aria-label="Диаграмма TAM/SAM/SOM для дезагрегированных архитектур хранения">
+        <svg viewBox="0 0 960 260" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#00A7FF" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#00A7FF" stop-opacity="0.85"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="0" x2="1">
+              <stop offset="0%" stop-color="#007BFF" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#007BFF" stop-opacity="0.85"/>
+            </linearGradient>
+            <linearGradient id="g3" x1="0" x2="1">
+              <stop offset="0%" stop-color="#0047B3" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#0047B3" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+          <g fill="#0b2f80" font-size="18" font-weight="700">
+            <text x="20" y="60">TAM</text>
+            <text x="20" y="130">SAM</text>
+            <text x="20" y="200">SOM</text>
+          </g>
+          <g>
+            <rect x="160" y="34" width="760" height="36" rx="10" fill="url(#g1)"/>
+            <rect x="160" y="114" width="480" height="36" rx="10" fill="url(#g2)"/>
+            <rect x="160" y="194" width="180" height="36" rx="10" fill="url(#g3)"/>
+          </g>
+          <g font-size="12" font-weight="800" fill="#003F6B">
+            <text x="940" y="58">~$6.3B</text>
+            <text x="660" y="138">~$3.7B</text>
+            <text x="360" y="218">~$0.8B</text>
+          </g>
+        </svg>
+        <div class="legend">
+          <span class="lg"><span class="c1"></span> TAM (весь адресуемый рынок 2025)</span>
+          <span class="lg"><span class="c2"></span> SAM (сфокусированный рынок FHIR/OMOP платформ)</span>
+          <span class="lg"><span class="c3"></span> SOM (достижимый объём 2025)</span>
+        </div>
+        <p style="margin:12px 0 0; font-size:13px; color:var(--muted);">Рост рынка оценивается в <strong>12–15%</strong> CAGR (2025–2029) за счёт мандатов Cures/TEFCA, FHIR Bulk/API и облачных развертываний.</p>
+      </div>
+    </section>
+
+    <h2>Объём инвестиций</h2>
+    <section>
+      <div class="cards">
+        <div class="card"><h4>VC 2023–2025</h4><p>≥$110M по ≥3 раскрытым раундам: 1upHealth Series C $40M, Zus Health $40M, Smile Digital Health Series B $30M.</p></div>
+        <div class="card"><h4>Ключевые инвесторы</h4><p>Sixth Street Growth, a16z, F-Prime, Maverick Ventures и JAZZ Venture Partners усиливают капитализацию FHIR/OMOP-игроков.</p></div>
+        <div class="card"><h4>Консолидация</h4><p>Health Catalyst приобретает Lumeon, Intraprise Health и Upfront Healthcare (2024–2025), расширяя оркестрацию, безопасность и интеграцию.</p></div>
+        <div class="card"><h4>Регуляторные драйверы</h4><p>QHIN-дизигнация Health Gorilla (2023) и присоединение MatrixCare (2024) демонстрируют монетизацию через участие в сетях обмена данными.</p></div>
+        <div class="card"><h4>Партнёрства</h4><p>Redox–Snowflake (2024) и аналогичные сделки связывают FHIR API с облачными хранилищами OMOP как альтернативу крупным M&A.</p></div>
+      </div>
+    </section>
+
+    <h2>Ключевые вендоры и игроки</h2>
+    <section>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Платформы и движки</h4>
+          <ul class="bullet">
+            <li><strong>InterSystems IRIS for Health</strong> — FHIR сервер с Bulk-операциями и SMART on FHIR, поддержка FHIR SQL Builder.</li>
+            <li><strong>HL7 Bulk Data IG</strong> и <strong>SMART on FHIR</strong> закрепляют стандарты обмена и авторизации.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Облака / managed-сервисы</h4>
+          <ul class="bullet">
+            <li><strong>Google Cloud Healthcare API</strong> — FHIR Store с экспортом в BigQuery по ресурсам.</li>
+            <li><strong>Azure Health Data Services</strong> — управляемые FHIR/DICOM/MedTech сервисы для PHI.</li>
+            <li><strong>AWS HealthLake</strong> — FHIR R4 + Bulk Data $export в NDJSON на S3.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Аналитические платформы</h4>
+          <ul class="bullet">
+            <li><strong>Databricks</strong> — Solution Accelerator для OMOP CDM v5.3.1 и RWE-кейсов.</li>
+            <li><strong>Snowflake</strong> и <strong>BigQuery</strong> — аналитические витрины для SQL и бенчмаркинга качества.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Интеграция и маппинг</h4>
+          <ul class="bullet">
+            <li><strong>Microsoft FHIR Converter</strong> — конвертация HL7v2/C-CDA→FHIR (Liquid-шаблоны, контейнерный API).</li>
+            <li><strong>OMOP Mapping Communities</strong> — открытые словари и ETL для FHIR→OMOP.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Стандартизация</h4>
+          <ul class="bullet">
+            <li><strong>HL7</strong> — Bulk Data Access IG ($export, NDJSON) и Terminology Service спецификации.</li>
+            <li><strong>SMART on FHIR</strong> — OAuth 2.0 App Launch профили и granular scopes.</li>
+            <li><strong>W3C PROV-O / DCAT</strong> — модели для аудита и каталогизации наборов данных.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Гипотезы пилотов</h2>
+    <section>
+      <details open>
+        <summary>Bulk FHIR → аналитическое озеро</summary>
+        <p>Цель — снизить стоимость отчётности и ускорить запросы. Архитектура: FHIR REST/Bulk Data $export с выгрузкой в BigQuery/Parquet, партиционирование и инкрементальная синхронизация. Метрики: стабильность nightly/near real-time, SLA по 3 эталонным запросам, сокращение ручных ETL. Срок: 6–10 недель.</p>
+      </details>
+      <details open style="margin-top:12px;">
+        <summary>Валидация профилями и терминологиями</summary>
+        <p>Цель — повысить качество и пригодность данных. FHIR $validate (US Core/локальные профили) + Terminology Service (ValueSet/ConceptMap) для SNOMED CT, LOINC, RxNorm. Метрики: доля валидных ресурсов, покрытие терминологий, снижение ошибок OperationOutcome. Срок: 4–8 недель.</p>
+      </details>
+      <details open style="margin-top:12px;">
+        <summary>Событийная интеграция на Subscriptions</summary>
+        <p>Цель — повысить удержание и скорость реакции процессов. Используются FHIR Subscriptions (R5/backport), Pub/Sub доставка и идемпотентные потребители. Метрики: задержка, процент доставок без потерь, доля автоматизированных триггеров. Срок: 6–9 недель.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Когорты и бенчмаркинг на OMOP</summary>
+        <p>Цель — ускорить запуск аналитических продуктов и исследований. FHIR→OMOP CDM преобразования с открытыми маппингами и SQL/ATLAS-совместимой витриной. Метрики: время построения когорт, воспроизводимость показателей, готовность self-service. Срок: 8–12 недель.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Улучшение слияния пациентов (MPI)</summary>
+        <p>Цель — снизить риски ошибок из-за дубликатов. Вероятностное и референтное сопоставление с golden-dataset и аудируемым lineage. Метрики: рост F-score/recall, доля автоматического мерджа без ручной правки. Срок: 6–8 недель.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Доступ и аудит для комплаенса</summary>
+        <p>Цель — подготовка к требованиям CMS/ONC. SMART on FHIR (OAuth2, granular scopes, token introspection) + атрибутный контроль доступа и аудит по DCAT/PROV-O. Метрики: прохождение scope/интроспекции, полнота аудита, успешный dry-run против чек-листов CMS. Срок: 5–9 недель.</p>
+      </details>
+    </section>
+
+    <h2>Региональная активность</h2>
+    <section class="regional">
+      <figure>
+        <img src="../assets/regional-analytics.png" alt="Карта публикаций и пилотов по дезагрегированным архитектурам хранения FHIR/OMOP" loading="lazy" />
+        <figcaption>Максимальная концентрация публикаций и пилотов фиксируется в США, Канаде, странах ЕС и Южной Корее; активность ЕС (Германия, Нидерланды) и США продолжает расти.</figcaption>
+      </figure>
+    </section>
+
+    <h2>Публикации и отчёты</h2>
+    <section>
+      <ul class="bullet">
+        <li>Bose et al. (2022) — Toward a cloud-based common data model for translational research (JAMIA Open).</li>
+        <li>McKinsey Health Institute (2024) — Building interoperable healthcare systems.</li>
+        <li>Forrester (2023) — The intelligent healthcare organization is bound to exist.</li>
+        <li>Gartner (2022) — Market Guide for Interoperability in Healthcare.</li>
+        <li>Sequoia Project RCE (2023) — Three-year FHIR roadmap for TEFCA.</li>
+      </ul>
+    </section>
+
+    <h2>Источники</h2>
+    <section>
+      <div class="source-list">
+        <p><a href="https://pubmed.ncbi.nlm.nih.gov/35568993/" target="_blank" rel="noopener">Bose et al. (2022) — Cloud-based CDM for translational research</a></p>
+        <p><a href="https://www.ema.europa.eu/en/annual-report/2024/better-evidence-to-translate-innovation-into-medicines/index.html" target="_blank" rel="noopener">EMA (2024) — Better evidence to translate innovation</a></p>
+        <p><a href="https://www.ema.europa.eu/en/about-us/how-we-work/big-data/real-world-evidence/data-analysis-real-world-interrogation-network-darwin-eu" target="_blank" rel="noopener">EMA — DARWIN EU</a></p>
+        <p><a href="https://www.forrester.com/blogs/new-research-the-intelligent-healthcare-organization-is-bound-to-exist/" target="_blank" rel="noopener">Forrester (2023) — Intelligent healthcare organization</a></p>
+        <p><a href="https://www.gartner.com/en/documents/5041631" target="_blank" rel="noopener">Gartner (2020) — Healthcare Data Integration Tools</a></p>
+        <p><a href="https://www.gartner.com/en/documents/5687119" target="_blank" rel="noopener">Gartner (2022) — Interoperability in Healthcare</a></p>
+        <p><a href="https://hl7.org/fhir/R4/" target="_blank" rel="noopener">HL7 FHIR Release 4</a></p>
+        <p><a href="https://hl7.org/fhir/uv/bulkdata/export.html" target="_blank" rel="noopener">HL7 Bulk Data Access (STU2) — $export</a></p>
+        <p><a href="https://www.hl7.org/fhir/smart-app-launch/index.html" target="_blank" rel="noopener">SMART on FHIR — App Launch</a></p>
+        <p><a href="https://www.hl7.org/fhir/terminology-service.html" target="_blank" rel="noopener">HL7 FHIR Terminology Service</a></p>
+        <p><a href="https://www.mckinsey.com/mhi/our-insights/building-interoperable-healthcare-systems-one-size-doesnt-fit-all" target="_blank" rel="noopener">McKinsey Health Institute (2024)</a></p>
+        <p><a href="https://rce.sequoiaproject.org/three-year-fhir-roadmap-for-tefca/" target="_blank" rel="noopener">Sequoia Project RCE (2023)</a></p>
+        <p><a href="https://www.cms.gov/newsroom/fact-sheets/cms-interoperability-and-prior-authorization-final-rule-cms-0057-f" target="_blank" rel="noopener">CMS (2024) — Interoperability & Prior Authorization</a></p>
+        <p><a href="https://www.sec.gov/Archives/edgar/data/1636422/000163642225000028/hcat-20241231.htm" target="_blank" rel="noopener">SEC (2025) — Health Catalyst Form 10-K</a></p>
+        <p><a href="https://www.w3.org/TR/prov-o/" target="_blank" rel="noopener">W3C PROV-O</a></p>
+        <p><a href="https://www.w3.org/TR/vocab-dcat-3/" target="_blank" rel="noopener">W3C DCAT v3</a></p>
+      </div>
+    </section>
+
+    <footer>© 2025 • SCI • Главная по технологиям KG</footer>
+  </div>
+<script>
+  (function(){
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    function renderSpiders(){
+      document.querySelectorAll('.itc-spider').forEach(container=>{
+        const labels = (container.dataset.labels || '').split(',').map(s=>s.trim()).filter(Boolean);
+        const raw = (container.dataset.values || '').split(',').map(s=> Number(s.trim()));
+        if(!labels.length) return;
+        const max = Number(container.dataset.max || 100) || 100;
+        const levels = Number(container.dataset.levels || 5) || 5;
+        const existing = container.querySelector('svg');
+        if(existing){ existing.remove(); }
+
+        const svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('viewBox','0 0 320 320');
+        svg.setAttribute('width','100%');
+        svg.setAttribute('height','100%');
+        svg.setAttribute('focusable','false');
+
+        const center = 160;
+        const radius = 120;
+
+        const toPoint = (ratio, idx)=>{
+          const angle = -Math.PI/2 + idx * (Math.PI*2/labels.length);
+          const r = radius * ratio;
+          return {
+            x: center + Math.cos(angle) * r,
+            y: center + Math.sin(angle) * r
+          };
+        };
+
+        const gridGroup = document.createElementNS(SVG_NS,'g');
+        for(let level=1; level<=levels; level++){
+          const pts = labels.map((_, idx)=> toPoint(level/levels, idx));
+          const polygon = document.createElementNS(SVG_NS,'polygon');
+          polygon.setAttribute('points', pts.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+          polygon.setAttribute('class','grid-ring');
+          polygon.setAttribute('fill', level % 2 === 0 ? 'rgba(0,123,255,.05)' : 'rgba(0,123,255,.1)');
+          gridGroup.appendChild(polygon);
+        }
+        svg.appendChild(gridGroup);
+
+        const axisGroup = document.createElementNS(SVG_NS,'g');
+        labels.forEach((label, idx)=>{
+          const end = toPoint(1, idx);
+          const axis = document.createElementNS(SVG_NS,'line');
+          axis.setAttribute('x1', center); axis.setAttribute('y1', center);
+          axis.setAttribute('x2', end.x); axis.setAttribute('y2', end.y);
+          axis.setAttribute('class','axis');
+          axisGroup.appendChild(axis);
+
+          const labelPoint = toPoint(1.12, idx);
+          const text = document.createElementNS(SVG_NS,'text');
+          text.textContent = label;
+          text.setAttribute('x', labelPoint.x);
+          text.setAttribute('y', labelPoint.y);
+          text.setAttribute('class','axis-label');
+          const anchor = labelPoint.x < center - 5 ? 'end' : (labelPoint.x > center + 5 ? 'start' : 'middle');
+          text.setAttribute('text-anchor', anchor);
+          axisGroup.appendChild(text);
+        });
+        svg.appendChild(axisGroup);
+
+        const valuePoints = labels.map((_, idx)=>{
+          const value = Math.max(0, Math.min(raw[idx] ?? 0, max));
+          return toPoint(value / max, idx);
+        });
+
+        const areaGroup = document.createElementNS(SVG_NS,'g');
+        const area = document.createElementNS(SVG_NS,'polygon');
+        area.setAttribute('points', valuePoints.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+        area.setAttribute('class','area');
+        area.setAttribute('fill', 'rgba(0,123,255,.28)');
+        areaGroup.appendChild(area);
+
+        valuePoints.forEach(pt=>{
+          const dot = document.createElementNS(SVG_NS,'circle');
+          dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y); dot.setAttribute('r', 4);
+          dot.setAttribute('class','dot');
+          areaGroup.appendChild(dot);
+        });
+
+        svg.appendChild(areaGroup);
+        container.insertBefore(svg, container.firstChild);
+      });
+    }
+
+    renderSpiders();
+    let resizeTimer;
+    window.addEventListener('resize', ()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderSpiders, 160);
+    });
+  })();
+</script>
+  <script src="../assets/pdf-download.js" defer></script>
+</body>
+</html>
