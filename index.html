@@ -5,8 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Главная</title>
   <meta name="description" content="Главная страница каталога: цифровой радар и карточки технологий." />
+  <script>
+    (function(){
+      var doc = document.documentElement;
+      doc.classList.add('auth-check');
+      try{
+        if(localStorage.getItem('sci-auth') === 'true'){
+          doc.classList.add('auth-ok');
+        } else {
+          window.location.replace('/login/');
+        }
+      } catch(err){
+        window.location.replace('/login/');
+      }
+    })();
+  </script>
   <link rel="icon" type="image/png" href="./assets/logo.png" />
   <style>
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
     :root{
       --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
       --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-6:#0B2F80;
@@ -267,17 +284,29 @@ setupSearch();
 window.addEventListener('resize', ()=> renderRadar(technologies));
 
 const loginLink = document.querySelector('.login-link');
+function isAuthenticated(){
+  try{
+    return localStorage.getItem('sci-auth') === 'true';
+  } catch(err){
+    return false;
+  }
+}
 function configureLoginLink(){
   if(!loginLink) return;
-  const authed = localStorage.getItem('sci-auth') === 'true';
+  const authed = isAuthenticated();
   if(authed){
     loginLink.textContent = 'Выйти';
     loginLink.href = '#logout';
     loginLink.setAttribute('aria-label', 'Выйти из аккаунта');
     loginLink.onclick = (event)=>{
       event.preventDefault();
-      localStorage.removeItem('sci-auth');
+      try{
+        localStorage.removeItem('sci-auth');
+      } catch(err){
+        /* ignore */
+      }
       configureLoginLink();
+      window.location.replace('/login/');
     };
   } else {
     loginLink.textContent = 'Войти';

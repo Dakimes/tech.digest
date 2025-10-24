@@ -5,7 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Технологический дайджест — Платформы распределённой потоковой передачи событий</title>
   <meta name="description" content="Distributed event streaming & real-time stream processing platforms — определение тренда, рынок, игроки, ценность для бизнеса и пилоты." />
+  <script>
+    (function(){
+      var doc = document.documentElement;
+      doc.classList.add('auth-check');
+      try{
+        if(localStorage.getItem('sci-auth') === 'true'){
+          doc.classList.add('auth-ok');
+        } else {
+          window.location.replace('/login/');
+        }
+      } catch(err){
+        window.location.replace('/login/');
+      }
+    })();
+  </script>
   <style>
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
     :root{
       --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
       --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-5:#CFE6FF;
