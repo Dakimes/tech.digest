@@ -52,6 +52,13 @@
 
 .print-page-break{ display:none; }
 
+@page{
+  size:A4;
+  margin:18mm 16mm 20mm;
+}
+
+.print-page-break{ display:none; }
+
 @media (max-width: 640px){
   .pdf-download{
     top:14px;
