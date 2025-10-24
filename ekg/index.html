@@ -38,7 +38,13 @@
     .kpi .v{ font-size: clamp(18px,2.4vw,28px); font-weight:800; color:var(--blue-3); }
     .kpi .l{ font-size:12px; color:var(--muted); margin-top:4px; }
 
-    h2{ margin: 34px 0 12px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
+    h2{
+      margin: 34px 0 16px;
+      font-size: clamp(20px,2.4vw,28px);
+      color:var(--blue-4);
+      padding-bottom:12px;
+      background: linear-gradient(90deg, var(--blue-2), var(--blue-1)) no-repeat left bottom / 56px 4px;
+    }
     section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
     .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
     .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
@@ -124,7 +130,6 @@
       .itc-spider{ max-width:420px; margin:0 auto; }
       .itc-metrics{ grid-template-columns:1fr; }
     }
-    h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
     .chip:hover{ border-color: var(--blue-1); box-shadow: 0 2px 8px rgba(0, 123, 255, .12); }
   </style>
 </head>
@@ -460,7 +465,7 @@
       </div>
     </section>
 
-    <footer>© 2025 • Тех-дайджест: Корпоративные графы знаний • CC-BY Attribution requested</footer>
+    <footer>© 2025 SciArticle</footer>
   </div>
   <script>
     (function(){
