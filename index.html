@@ -32,15 +32,16 @@
     }
     html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
     .wrap{ max-width: 1200px; margin: 28px auto 64px; padding: 0 20px; }
+    .account-pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:600; background:#fff; color:var(--blue-4); border:1.4px solid rgba(0,71,179,.22); box-shadow:0 4px 14px rgba(0,71,179,.12); flex-shrink:0; }
 
     /* Header */
     header.hero{ display:flex; align-items:center; gap:16px; padding:16px 18px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg, #f7fbff 0%, #fff 100%); box-shadow:var(--shadow); flex-wrap:wrap; }
     .logo{ height:56px; width:auto; }
     .brand{ font-weight:800; font-size: clamp(18px,2.2vw,22px); letter-spacing:.2px; color:var(--blue-4); }
     .nav{ margin-left:auto; }
-    .login-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:12px; background:var(--blue-4); color:#fff; font-weight:700; text-decoration:none; box-shadow:0 6px 18px rgba(0,71,179,.18); transition:background .2s ease, transform .2s ease; }
-    .login-link:hover{ background:var(--blue-3); transform:translateY(-1px); }
-    .login-link:focus-visible{ outline:3px solid rgba(0,123,255,.35); outline-offset:3px; }
+    .login-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; background:#fff; color:var(--blue-4); font-weight:700; text-decoration:none; box-shadow:0 6px 22px rgba(0,71,179,.12); border:1.6px solid rgba(0,71,179,.22); transition:background .2s ease, transform .2s ease, box-shadow .2s ease; }
+    .login-link:hover{ background:rgba(0,71,179,.06); transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,71,179,.16); }
+    .login-link:focus-visible{ outline:3px solid rgba(0,123,255,.28); outline-offset:3px; }
 
     /* Blue top-level taxonomy band */
     .blueband{ margin-top:14px; background: linear-gradient(180deg, var(--blue-4), var(--blue-6)); color:#fff; border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid rgba(255,255,255,.15); }
@@ -74,9 +75,9 @@
     }
 
     /* Radar */
-    .radar-wrap{ position:relative; border:1px solid var(--line); border-radius:var(--radius); padding:16px; background: #fff; box-shadow: var(--shadow); }
-    .radar{ position:relative; width:100%; max-width:100%; height: 360px; margin:auto; background:
-      radial-gradient(circle at center, rgba(0,123,255,.04) 0 1px, transparent 1px) 0 0/24px 24px; border-radius:14px; overflow:hidden; }
+    .radar-wrap{ position:relative; border:1px solid var(--line); border-radius:var(--radius); padding:20px 20px 28px; background: #fff; box-shadow: var(--shadow); }
+    .radar{ position:relative; width:100%; max-width:100%; height: clamp(460px, 60vw, 640px); margin:auto; background:
+      radial-gradient(circle at center, rgba(0,123,255,.04) 0 1px, transparent 1px) 0 0/24px 24px; border-radius:18px; overflow:hidden; }
     .radar-empty{
       position:absolute;
       inset:16px;
@@ -97,34 +98,32 @@
     .axis-line{ stroke:rgba(0,71,179,.25); stroke-width:1; stroke-dasharray:4 4; }
     .ring-zone{ stroke:rgba(0,71,179,.35); stroke-width:1.2; }
 
-    .radar-legend{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:flex-start; padding-top:10px; font-size:12px; color:#2b3b6a; }
-    .radar-legend .lg{ display:inline-flex; align-items:center; gap:8px; }
-    .radar-legend i{ width:12px; height:12px; display:inline-block; border-radius:50%; }
-    .m1{ background:#86d6ff; } .m2{ background:#4eb2ff; } .m3{ background:#1c8fff; } .m4{ background:#0b5fd1; }
-
     .dot{ cursor:pointer; transition: opacity .15s ease; outline:none; }
-    .dot circle{ filter: drop-shadow(0 2px 6px rgba(0,0,0,.15)); transition: transform .15s ease; }
-    .dot:hover circle{ transform:scale(1.08); }
+    .dot circle{ filter: drop-shadow(0 6px 18px rgba(0,71,179,.22)); }
+    .dot-label{ font-size:12px; font-weight:700; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; paint-order:stroke; stroke:rgba(11,13,18,.18); stroke-width:3; }
     .dot:focus-visible circle{ outline:3px solid rgba(0,123,255,.45); outline-offset:2px; }
     .radar-tooltip{
       position:absolute;
       pointer-events:none;
-      background:rgba(12,22,44,.96);
-      color:#fff;
-      padding:10px 12px;
-      border-radius:10px;
+      background:#ffffff;
+      color:#0b0d12;
+      padding:12px 14px;
+      border-radius:12px;
       font-size:13px;
-      line-height:1.4;
-      box-shadow:0 10px 30px rgba(10,25,65,.28);
-      max-width:240px;
+      line-height:1.45;
+      box-shadow:0 18px 38px rgba(0, 71, 179, .18);
+      max-width:260px;
       z-index:20;
       transform:translate(-50%, -120%);
       opacity:0;
+      border:1px solid rgba(0,71,179,.12);
       transition:opacity .12s ease;
     }
     .radar-tooltip.is-visible{ opacity:1; }
-    .radar-tooltip strong{ display:block; font-size:13px; margin-bottom:4px; color:#8dd2ff; }
-    .radar-tooltip span{ display:block; font-size:12px; color:#dcecff; }
+    .radar-tooltip strong{ display:block; font-size:14px; margin-bottom:6px; color:var(--blue-4); }
+    .radar-tooltip span{ display:block; font-size:12px; color:var(--muted); }
+    .radar-tooltip ul{ margin:6px 0 0; padding-left:18px; color:var(--muted); }
+    .radar-tooltip li{ margin:2px 0; }
 
     /* Board */
     h2{
@@ -157,14 +156,14 @@
     }
     @media (max-width: 640px){
       .board{ grid-template-columns: 1fr; }
-      .radar{ height:320px; }
-      .radar-wrap{ padding:12px; }
+      .radar{ height: clamp(360px, 90vw, 520px); }
+      .radar-wrap{ padding:14px; }
     }
     @media (max-width: 480px){
       header.hero{ padding:14px; }
       .search{ flex-direction:column; }
       .search input{ padding-left:38px; }
-      .radar{ height:280px; }
+      .radar{ height: clamp(320px, 110vw, 440px); }
     }
 
     @media print{
@@ -173,7 +172,8 @@
 
     .tile{ position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:10px; }
     .tile:hover{ border-color: var(--blue-2); box-shadow: 0 8px 30px rgba(0,123,255,.12); }
-    .tile .title{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .tile .title{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .tile .num{ font-weight:800; font-size:14px; letter-spacing:.5px; color:#fff; margin-right:6px; width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg, var(--blue-2), var(--blue-4)); display:inline-flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,71,179,.22); flex-shrink:0; text-shadow:0 1px 1px rgba(0,0,0,.18); }
     .pill{ display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:700; color:var(--blue-3); background:#fff; border:1.6px solid var(--blue-2); }
     .chips{ display:flex; flex-wrap:wrap; gap:8px; }
     .chip{ background:#fff; border:1.6px solid var(--blue-2); color:var(--blue-3); padding:6px 8px; border-radius:8px; font-size:12px; font-weight:600; }
@@ -185,9 +185,10 @@
   <div class="wrap">
     <header class="hero">
       <img src="./assets/logo.png" alt="SCI logo" class="logo" />
-      <div class="brand">Технологический радар</div>
+      <div class="brand" id="projectBrand">Технологический радар</div>
+      <div id="accountBadge" class="account-pill" hidden></div>
       <nav class="nav" aria-label="Главная навигация">
-        <a class="login-link" href="./login/">Войти</a>
+        <a class="login-link" href="./login/">Выйти</a>
       </nav>
     </header>
 
@@ -202,19 +203,13 @@
     <section class="radar-wrap" aria-label="Цифровой радар технологий">
       <div id="radar" class="radar"></div>
       <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
-      <div class="radar-legend" aria-label="Легенда зрелости">
-        <span class="lg"><i class="m1"></i>Наблюдение</span>
-        <span class="lg"><i class="m2"></i>Пилоты</span>
-        <span class="lg"><i class="m3"></i>Продукция</span>
-        <span class="lg"><i class="m4"></i>Масштаб</span>
-      </div>
     </section>
 
     <h2>Доска технологий</h2>
     <section id="board" class="board" aria-live="polite"></section>
     <p id="boardEmpty" class="board-empty" hidden role="status" aria-live="polite">По текущему запросу технологий не найдено. Попробуйте изменить критерии поиска.</p>
 
-    <footer>© 2025 • SCI • Главная по технологиям KG</footer>
+    <footer>© 2025 SciArticle</footer>
   </div>
 
 <script>
@@ -222,64 +217,154 @@
 // Базовый субдомен для технологии (замените на ваш домен)
 // Путь на домене scisource.ru: https://scisource.ru/<slug>/
 const BASE_URL = '/';
-const makeLink = (slug) => `${BASE_URL}${slug}/`; 
+const cleanSlug = (slug = '') => slug.toString().replace(/^\/+|\/+$/g, '');
+const makeLink = (slug = '') => {
+  const clean = cleanSlug(slug);
+  return clean ? `${BASE_URL}${clean}/` : '#';
+};
 
-const technologies = [
-  {
-    id:'ekg-platform',
-    slug:'ekg',
-    name:'Платформы корпоративных графов знаний',
-    keys:['RDF/OWL','SPARQL 1.2','SHACL/SHEx','JSON‑LD','PROV‑O','SKOS'],
-    link: makeLink('ekg'),
-    ring:'production',
-    angle: 40
+const accountConfigs = {
+  'Admin': {
+    projectName: 'Главная по технологиям KG',
+    pageTitle: 'Технологический радар — Главная по технологиям KG',
+    accessLabel: 'Тестовый доступ',
+    technologies: [
+      {
+        id:'ekg-platform',
+        slug:'ekg',
+        name:'Платформы корпоративных графов знаний',
+        summary:'Построение и эксплуатация онтологий, фабрик данных и графовых витрин для корпоративных сценариев.',
+        metrics:['RDF/OWL','SPARQL 1.2','SHACL/SHEx','JSON‑LD','PROV‑O','SKOS'],
+        ring:'production',
+        angle: 40
+      },
+      {
+        id:'semantic-pipelines',
+        slug:'semantic-pipelines',
+        name:'Семантические конвейеры интеграции и обработки данных',
+        summary:'Автоматизация извлечения и обогащения данных для RAG и аналитики через семантические пайплайны.',
+        metrics:['Hybrid Vector-SQL • ANN/HNSW','ISO GQL • SPARQL 1.2 • PROV-O','Semantic Retrieval • RAG Pipelines'],
+        ring:'pilot',
+        angle: 110
+      },
+      {
+        id:'streaming-platforms',
+        slug:'streaming',
+        name:'Распределённые платформы потоковой передачи событий',
+        summary:'Надёжная доставка событий и аналитика в реальном времени для продуктовых и операционных сценариев.',
+        metrics:['Event Time','Stateful Streams','Kafka/Flink','Schema Registry','Exactly-once','CloudEvents'],
+        ring:'pilot',
+        angle: 180
+      },
+      {
+        id:'distributed-streaming-rt',
+        slug:'streaming-rt',
+        name:'Платформы распределённой потоковой обработки',
+        summary:'Потоковые вычисления, CEP и SQL-процессы для миссии критичных real-time сервисов.',
+        metrics:['Event Time','Watermarks','Streaming SQL','CEP','Schema Registry','Exactly-once'],
+        ring:'pilot',
+        angle: 250
+      },
+      {
+        id:'blockchain-governance',
+        slug:'blockchain-governance',
+        name:'Корпоративные системы управления данными и целостностью',
+        summary:'Трассируемость, аудит и совместимость данных через DLT и онтологические политики.',
+        metrics:['RDF/RDFS','OWL 2','SPARQL 1.2','SHACL','PROV-O','OBDA/R2RML'],
+        ring:'pilot',
+        angle: 320
+      },
+      {
+        id:'disaggregated-storage',
+        slug:'disaggregated-storage',
+        name:'Дезагрегированные распределённые архитектуры хранения',
+        summary:'Отделение вычислений и хранения для масштабируемых дата-платформ с интероперабельностью.',
+        metrics:['HL7 FHIR R4/R5','OMOP CDM','FHIR Bulk Data $export','Terminology Services','SMART on FHIR / OAuth 2.0','Parquet & BigQuery'],
+        ring:'observe',
+        angle: 10
+      }
+    ]
   },
-  {
-    id:'semantic-pipelines',
-    slug:'semantic-pipelines',
-    name:'Семантические конвейеры интеграции и обработки данных',
-    keys:['Hybrid Vector-SQL • ANN/HNSW','ISO GQL • SPARQL 1.2 • PROV-O','Semantic Retrieval • RAG Pipelines'],
-    link: makeLink('semantic-pipelines'),
-    ring:'pilot',
-    angle: 100
-  },
-  {
-    id:'streaming-platforms',
-    slug:'streaming',
-    name:'Распределённые платформы потоковой передачи событий',
-    keys:['Event Time','Stateful Streams','Kafka/Flink','Schema Registry','Exactly-once','CloudEvents'],
-    link: makeLink('streaming'),
-    ring:'pilot',
-    angle: 140
-  },
-  {
-    id:'distributed-streaming-rt',
-    slug:'streaming-rt',
-    name:'Платформы распределённой потоковой передачи и обработки потоков',
-    keys:['Event Time','Watermarks','Streaming SQL','CEP','Schema Registry','Exactly-once'],
-    link: makeLink('streaming-rt'),
-    ring:'pilot',
-    angle: 220
-  },
-  {
-    id:'blockchain-governance',
-    slug:'blockchain-governance',
-    name:'Корпоративные системы управления данными и целостностью на основе блокчейна',
-    keys:['RDF/RDFS','OWL 2','SPARQL 1.2','SHACL','PROV-O','OBDA/R2RML'],
-    link: makeLink('blockchain-governance'),
-    ring:'pilot',
-    angle: 310
-  },
-  {
-    id:'disaggregated-storage',
-    slug:'disaggregated-storage',
-    name:'Дезагрегированные распределённые архитектуры хранения',
-    keys:['HL7 FHIR R4/R5','OMOP CDM','FHIR Bulk Data $export','Terminology Services','SMART on FHIR / OAuth 2.0','Parquet & BigQuery'],
-    link: makeLink('disaggregated-storage'),
-    ring:'observe',
-    angle: 350
+  'Admin1': {
+    projectName: 'SaaS Portfolio',
+    pageTitle: 'Технологический радар — SaaS Portfolio',
+    accessLabel: 'Тестовый доступ',
+    technologies: [
+      {
+        id:'plg-activation',
+        slug:'saas/product-led-growth',
+        name:'Product-Led Growth Activation Platforms',
+        summary:'In-app онбординг, персонализация и телеметрия поведения для ускорения активации пользователей.',
+        metrics:['Activation cohorts','Usage telemetry','In-app guides','Progress nudges'],
+        ring:'production',
+        angle: 35
+      },
+      {
+        id:'revops-automation',
+        slug:'saas/revops-automation',
+        name:'Revenue Operations Automation',
+        summary:'Оркестрация лидов, биллинга и QBR через единый RevOps-плейбук и AI-подсказки.',
+        metrics:['Billing sync','AI playbooks','Lead scoring','Pipeline health'],
+        ring:'pilot',
+        angle: 120
+      },
+      {
+        id:'customer-success-ai',
+        slug:'saas/customer-intelligence',
+        name:'Customer Intelligence & Success AI',
+        summary:'Прогноз оттока и рекомендации по расширению контрактов для команд customer success.',
+        metrics:['Churn models','Expansion signals','Health scoring','Voice-of-customer AI'],
+        ring:'pilot',
+        angle: 210
+      },
+      {
+        id:'pricing-experiments',
+        slug:'saas/pricing-experiments',
+        name:'Pricing Experimentation & Packaging',
+        summary:'Динамическое тестирование тарифов и пакетов с анализом эластичности и willingness-to-pay.',
+        metrics:['Elasticity modeling','Offer A/B','Usage metering','Deal desk automation'],
+        ring:'observe',
+        angle: 300
+      }
+    ]
   }
-];
+};
+
+const defaultAccountId = 'Admin';
+
+function resolveAccount(){
+  let accountId = defaultAccountId;
+  try{
+    const stored = localStorage.getItem('sci-account');
+    if(stored && accountConfigs[stored]){
+      accountId = stored;
+    }
+  } catch(err){
+    /* ignore */
+  }
+  return { id: accountId, config: accountConfigs[accountId] };
+}
+
+const { id: activeAccountId, config: activeAccountConfig } = resolveAccount();
+const technologies = (activeAccountConfig?.technologies || []).map((item, index)=>{
+  const metrics = Array.isArray(item.metrics) ? item.metrics : Array.isArray(item.keys) ? item.keys : [];
+  const link = item.link || makeLink(item.slug || '');
+  return { ...item, metrics, link, order: index + 1 };
+});
+
+const brandEl = document.getElementById('projectBrand');
+const baseBrand = 'Технологический радар';
+if(brandEl){
+  const projectName = activeAccountConfig?.projectName;
+  brandEl.textContent = projectName ? `${baseBrand} — ${projectName}` : baseBrand;
+}
+const accountBadgeEl = document.getElementById('accountBadge');
+if(accountBadgeEl){
+  const badgeLabel = activeAccountConfig?.accessLabel || 'Тестовый доступ';
+  accountBadgeEl.textContent = badgeLabel;
+  accountBadgeEl.hidden = false;
+}
+if(activeAccountConfig?.pageTitle){ document.title = activeAccountConfig.pageTitle; }
 
 // === РАДАР ===
 const radarEl = document.getElementById('radar');
@@ -288,10 +373,10 @@ const radarWrapEl = radarEl ? radarEl.parentElement : null;
 const boardEl = document.getElementById('board');
 const boardEmptyEl = document.getElementById('boardEmpty');
 const rings = [
-  {id:'observe',   label:'Наблюдение', r:80,  color:'#86d6ff'},
-  {id:'pilot',     label:'Пилоты',     r:130, color:'#4eb2ff'},
-  {id:'production',label:'Продукция',  r:180, color:'#1c8fff'},
-  {id:'scale',     label:'Масштаб',    r:230, color:'#0b5fd1'}
+  {id:'observe',   label:'Наблюдение', r:140, color:'#86d6ff'},
+  {id:'pilot',     label:'Пилоты',     r:220, color:'#4eb2ff'},
+  {id:'production',label:'Продукция',  r:300, color:'#1c8fff'},
+  {id:'scale',     label:'Масштаб',    r:380, color:'#0b5fd1'}
 ];
 const ringLabelsById = rings.reduce((acc, ring)=>{ acc[ring.id] = ring.label; return acc; }, {});
 let lastRadarData = technologies;
@@ -319,14 +404,14 @@ function renderRadar(data){
   const items = Array.isArray(data) ? data : [];
   lastRadarData = items;
   const w = radarEl.clientWidth || radarEl.offsetWidth || 800;
-  const h = radarEl.clientHeight || 360;
+  const h = radarEl.clientHeight || radarEl.offsetHeight || 520;
   if(radarTooltipEl){
     if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
     radarTooltipEl.classList.remove('is-visible');
     radarTooltipEl.hidden = true;
   }
   const cx = w/2, cy = h/2;
-  const maxR = Math.min(w,h)/2 - 24;
+  const maxR = Math.min(w,h)/2 - 36;
   const scale = maxR / rings[rings.length-1].r;
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -386,25 +471,44 @@ function renderRadar(data){
   items.forEach((item, idx)=>{
     const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
     const pos = polarToXY(cx, cy, R, item.angle || (40 + idx*30));
+    const orderLabel = (item.order || idx + 1).toString().padStart(2,'0');
 
-    const g = document.createElementNS(svg.namespaceURI,'g'); g.setAttribute('class','dot');
+    const g = document.createElementNS(svg.namespaceURI,'g');
+    g.setAttribute('class','dot');
+    g.setAttribute('data-id', item.id);
+    g.setAttribute('data-order', orderLabel);
+
     const circle = document.createElementNS(svg.namespaceURI,'circle');
-    circle.setAttribute('cx', pos.x); circle.setAttribute('cy', pos.y); circle.setAttribute('r', 10);
-    circle.setAttribute('fill','url(#grad)'); circle.setAttribute('stroke','var(--blue-3)'); circle.setAttribute('stroke-width','1');
-
+    circle.setAttribute('cx', pos.x); circle.setAttribute('cy', pos.y); circle.setAttribute('r', 14);
+    circle.setAttribute('fill','url(#grad)');
+    circle.setAttribute('stroke','var(--blue-3)');
+    circle.setAttribute('stroke-width','1');
+    circle.setAttribute('aria-hidden','true');
     g.appendChild(circle);
+
+    const label = document.createElementNS(svg.namespaceURI,'text');
+    label.setAttribute('class','dot-label');
+    label.setAttribute('x', pos.x);
+    label.setAttribute('y', pos.y + 1);
+    label.setAttribute('pointer-events','none');
+    label.textContent = orderLabel;
+    g.appendChild(label);
+
     const go = ()=> window.location.href = item.link;
     g.addEventListener('click', go);
     g.setAttribute('role','link'); g.setAttribute('tabindex','0');
     g.addEventListener('keydown', (e)=>{ if(e.key==='Enter') go(); });
 
-    const summary = Array.isArray(item.keys) ? item.keys.join('; ') : '';
-    g.setAttribute('aria-label', summary ? `${item.name}. ${summary}` : item.name);
-    circle.setAttribute('aria-hidden','true');
+    const textParts = [item.summary, ...(item.metrics || [])];
+    const ariaSummary = textParts.filter(Boolean).join('. ');
+    g.setAttribute('aria-label', ariaSummary ? `${orderLabel}. ${item.name}. ${ariaSummary}` : `${orderLabel}. ${item.name}`);
 
     const showTooltip = ()=>{
       if(!radarTooltipEl || !radarWrapEl){ return; }
-      radarTooltipEl.innerHTML = `<strong>${item.name}</strong>${summary ? `<span>${summary}</span>` : ''}`;
+      const metricsList = (item.metrics || []).slice(0,5).map(m=>`<li>${m}</li>`).join('');
+      const summaryHtml = item.summary ? `<span>${item.summary}</span>` : '';
+      const metricsHtml = metricsList ? `<ul>${metricsList}</ul>` : '';
+      radarTooltipEl.innerHTML = `<strong>${orderLabel}. ${item.name}</strong>${summaryHtml}${metricsHtml}`;
       const wrapRect = radarWrapEl.getBoundingClientRect();
       const svgRect = svg.getBoundingClientRect();
       const scaleX = svgRect.width / w;
@@ -461,13 +565,29 @@ function renderBoard(list){
   if(!hasItems){
     return;
   }
-  items.forEach(item=>{
+  items.forEach((item, idx)=>{
     const a = document.createElement('a');
     a.href = item.link; a.className='tile'; a.setAttribute('data-id', item.id);
 
     const title = document.createElement('div'); title.className='title';
-    const h = document.createElement('div'); h.style.fontWeight='800'; h.textContent=item.name;
-    title.appendChild(h);
+    const head = document.createElement('div');
+    head.style.display = 'flex';
+    head.style.alignItems = 'flex-start';
+    head.style.gap = '8px';
+    head.style.flex = '1';
+
+    const number = document.createElement('span');
+    number.className = 'num';
+    number.textContent = (item.order || idx + 1).toString().padStart(2,'0');
+
+    const h = document.createElement('span');
+    h.style.fontWeight='800';
+    h.style.flex='1';
+    h.textContent=item.name;
+
+    head.appendChild(number);
+    head.appendChild(h);
+    title.appendChild(head);
 
     const ringLabel = ringLabelsById[item.ring];
     if(ringLabel){
@@ -479,7 +599,7 @@ function renderBoard(list){
     }
 
     const chips = document.createElement('div'); chips.className='chips';
-    (item.keys || []).slice(0,6).forEach(k=> chip(chips,k));
+    (item.metrics || item.keys || []).slice(0,6).forEach(k=> chip(chips,k));
 
     a.appendChild(title); a.appendChild(chips);
     boardEl.appendChild(a);
@@ -506,7 +626,7 @@ function setupSearch(){
       updateClearState();
       return;
     }
-    const makeBag = (t)=> [t.name, t.slug, t.ring, ringLabelsById[t.ring], ...(t.keys||[])]
+    const makeBag = (t)=> [t.name, t.slug, t.ring, t.summary, ringLabelsById[t.ring], ...(t.metrics || t.keys || [])]
       .filter(Boolean)
       .map(norm)
       .join(' ');
@@ -558,16 +678,16 @@ function configureLoginLink(){
   const authed = isAuthenticated();
   if(authed){
     loginLink.textContent = 'Выйти';
-    loginLink.href = '#logout';
-    loginLink.setAttribute('aria-label', 'Выйти из аккаунта');
+    loginLink.href = './login/';
+    loginLink.setAttribute('aria-label', 'Выйти из каталога');
     loginLink.onclick = (event)=>{
       event.preventDefault();
       try{
         localStorage.removeItem('sci-auth');
+        localStorage.removeItem('sci-account');
       } catch(err){
         /* ignore */
       }
-      configureLoginLink();
       window.location.replace('/login/');
     };
   } else {
