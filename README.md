@@ -1,22 +1,18 @@
-# KG Tech Digest (GitHub Pages)
+# scisource.ru — Технологический радар и дайджесты
 
-Статический сайт для публикации на GitHub Pages: главная (радар + доска) и страница дайджеста.
+## Как развернуть
+1) Создайте репозиторий и включите GitHub Pages (Source: GitHub Actions).
+2) Добавьте DNS CNAME: `scisource.ru -> <username>.github.io`.
+3) Закоммитьте содержимое этого архива в `main` — сайт опубликуется автоматически.
 
 ## Структура
-```
-.
-├─ index.html                 # главная (ведёт на digest.html)
-├─ digest.html                # текущий дайджест
-├─ assets/
-│  ├─ logo.png
-│  └─ regional-analytics.png
-└─ .github/workflows/pages.yml
-```
+- `index.html` — главная (радар + доска).
+- `ekg/index.html` — страница технологии «Платформы корпоративных графов знаний».
+- `assets/logo.png` — логотип.
+- `assets/regional-analytics.png` — региональная аналитика.
+- `CNAME` — домен `scisource.ru`.
+- `.github/workflows/pages.yml` — автодеплой на Pages.
 
-## Деплой на GitHub Pages
-1. Создайте репозиторий и включите **Pages** (Source: GitHub Actions).
-2. Закоммитьте содержимое этой папки в корень `main`.
-3. Workflow сам соберёт и опубликует сайт.
-
-> Для продакшна можно заменить ссылку `SUBDOMAIN_URL` в `index.html` на реальный субдомен технологии.
-
+## Добавление новой технологии
+1) Создайте папку `/<slug>/index.html`.
+2) На главной добавьте объект в `technologies[]` с `slug` и `link: \`/${slug}/\``.

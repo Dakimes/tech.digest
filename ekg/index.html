@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Технологический дайджест — Платформы корпоративных графов знаний</title>
+  <meta name="description" content="Enterprise Knowledge Graph Platforms — тех‑дайджест: стандарты, рынок, вендоры, ценность для бизнеса и гипотезы пилотов." />
+  <style>
+    :root{
+      /* Белая тема + более яркие синие */
+      --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
+      --blue-1:#00A7FF; /* яркий */
+      --blue-2:#007BFF; /* фирменный акцент */
+      --blue-3:#0062D1; /* насыщенный */
+      --blue-4:#0047B3; /* тёмный акцент */
+      --blue-5:#CFE6FF; /* светлый для обводок */
+      --line:#e6eef8; --shadow: 0 10px 30px rgba(0, 80, 170, .10); --radius:18px;
+    }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap{ max-width: 1120px; margin: 28px auto 64px; padding: 0 20px; }
+
+    /* HERO */
+    header.hero{ background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .hero img.logo{ height:64px; width:auto; display:block; }
+    .hero .text{ flex:1; min-width: 260px; }
+    header.hero h1{ margin:0 0 6px; letter-spacing:.2px; font-size: clamp(28px, 3.2vw, 44px); color:var(--blue-4); }
+    header.hero p.sub{ margin:0; color:var(--muted); font-size:15px; }
+
+    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .tag{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1.6px solid var(--blue-5); font-size:13px; color:var(--blue-3); }
+
+    .stats{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:12px; width:100%; }
+    .kpi{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .kpi .v{ font-size: clamp(18px,2.4vw,28px); font-weight:800; color:var(--blue-3); }
+    .kpi .l{ font-size:12px; color:var(--muted); margin-top:4px; }
+
+    h2{ margin: 34px 0 12px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
+    section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+    .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+
+    .bullet{ margin:0; padding-left:18px; }
+    .bullet li{ margin:6px 0; }
+
+    /* Чипсы технологий — обводка */
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chip{ background:#fff; border:1.8px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
+
+    /* ROADMAP вместо вертикальной таймлинии */
+    .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+    .roadmap-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+    .phase{ position:relative; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .phase h3{ margin:0 0 10px; font-size:16px; color:var(--blue-3); display:flex; align-items:center; gap:8px; }
+    .phase h3 .pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); color:#fff; font-size:12px; font-weight:700; }
+    .phase ul{ margin:0; padding-left:18px; }
+    .phase li{ margin:6px 0; }
+    .arrow{display:none;} .arrow:after{display:none;}
+
+    @media (max-width: 880px){
+      .roadmap-grid{ grid-template-columns:1fr; }
+      .arrow{ display:none; }
+    }
+
+    .timeline{ position:relative; padding-left:22px; }
+    .timeline:before{ content:""; position:absolute; left:8px; top:6px; bottom:6px; width:2px; background: linear-gradient(180deg, var(--blue-2), var(--blue-5)); }
+    .tl-item{ position:relative; padding:10px 12px; margin: 6px 0 10px; border-radius: 12px; background:#fff; border:1px solid var(--line); }
+    .tl-item:before{ content:""; position:absolute; left:-15px; top:50%; transform: translateY(-50%); width:10px; height:10px; border-radius:50%; background:var(--blue-2); box-shadow:0 0 0 3px rgba(0,123,255,.18); }
+    .muted{ color:var(--muted); }
+
+    .cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
+    .card{ padding:14px; border-radius:14px; background:#fff; border:1px solid var(--line); }
+    .card h4{ margin:0 0 6px; font-size:16px; color:var(--blue-3); }
+
+    .tbl{ width:100%; border-collapse: collapse; font-size:14px; }
+    .tbl th, .tbl td{ padding:10px 12px; border-bottom:1px solid var(--line); text-align:left; }
+    .tbl th{ color:var(--muted); font-weight:600; }
+
+    details{ background:#fff; border:1px dashed var(--blue-5); padding:10px 12px; border-radius:12px; }
+    summary{ cursor:pointer; font-weight:700; color:var(--blue-3); }
+
+    .source-list{ columns: 2; gap: 18px; }
+    .source-list a{ color: var(--blue-2); text-decoration: none; }
+    .source-list a:hover{ text-decoration: underline; }
+
+    /* Диаграмма TAM/SAM/SOM (исправленная) */
+    .market-chart{ display:block; width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; }
+    .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
+    .lg{ display:inline-flex; align-items:center; gap:8px; }
+    .c1,.c2,.c3{ width:14px; height:14px; display:inline-block; border-radius:4px; }
+    .c1{ background:var(--blue-1); }
+    .c2{ background:var(--blue-2); }
+    .c3{ background:var(--blue-4); }
+
+    /* Региональная аналитика */
+    .regional{ display:grid; grid-template-columns:1fr; gap:12px; }
+    .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
+    .regional figcaption{ padding:8px 12px; font-size:12px; color:var(--muted); }
+
+    footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
+
+    @media (max-width: 880px){
+      .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-2{ grid-template-columns:1fr; }
+      .grid-3{ grid-template-columns:1fr; }
+      .cards{ grid-template-columns:1fr; }
+      .source-list{ columns: 1; }
+    }
+    /* Акцент под заголовками секций */
+    h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
+
+    /* Небольшой hover для чипсов */
+    .chip:hover{ border-color: var(--blue-1); box-shadow: 0 2px 8px rgba(0, 123, 255, .12); }
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
+      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow: var(--shadow); background:#fff;">
+        <span style="font-size:18px; line-height:1">←</span>
+        <span>На главную · Технологический радар</span>
+      </a>
+    </nav>
+    <header class="hero">
+      <img src="../assets/logo.png" alt="SCI logo" class="logo" />
+      <div class="text">
+        <h1>Платформы корпоративных графов знаний</h1>
+        <p class="sub">Enterprise Knowledge Graph Platforms • обновлено: <strong>23&nbsp;октября&nbsp;2025</strong></p>
+        <div class="tagrow">
+          <span class="tag">RDF/OWL • SKOS • SHACL/SHEx • SPARQL&nbsp;1.2 • JSON‑LD • PROV‑O</span>
+          <span class="tag">GraphRAG • Hybrid&nbsp;Search • Embeddings</span>
+          <span class="tag">Managed Services • Orchestration • FAIR</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="kpi"><div class="v"><strong>22–30%</strong> CAGR</div><div class="l">Рост рынка (база <strong>2025</strong>)</div></div>
+        <div class="kpi"><div class="v">TAM <strong>$1.5–1.6B</strong></div><div class="l">Оценка <strong>2025</strong></div></div>
+        <div class="kpi"><div class="v">SAM <strong>$0.56–0.72B</strong></div><div class="l">Сегмент платформ</div></div>
+        <div class="kpi"><div class="v">SOM <strong>$140–250M</strong></div><div class="l">Фокус NA+EU</div></div>
+      </div>
+    </header>
+
+    <!-- Секция контента (укороченная здесь для сборки — вставьте ваш полный контент при необходимости) -->
+    <h2>Региональное развитие решений</h2>
+    <section class="regional">
+      <figure class="regional-figure">
+        <img src="../assets/regional-analytics.png" alt="Региональная аналитика внедрений платформ корпоративных графов знаний" loading="lazy" />
+        <figcaption>Региональная аналитика (источник: внутренний анализ, 2025)</figcaption>
+      </figure>
+    </section>
+
+    <footer>© 2025 • Тех‑дайджест: Корпоративные графы знаний • CC‑BY Attribution requested</footer>
+  </div>
+</body>
+</html>

@@ -19,10 +19,19 @@
     .logo{ height:56px; width:auto; }
     .brand{ font-weight:800; font-size: clamp(18px,2.2vw,22px); letter-spacing:.2px; color:var(--blue-4); }
 
+    /* Blue top-level taxonomy band */
+    .blueband{ margin-top:14px; background: linear-gradient(180deg, var(--blue-4), var(--blue-6)); color:#fff; border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid rgba(255,255,255,.15); }
+    .blueband .inner{ display:flex; flex-wrap:wrap; gap:14px 18px; padding:14px 18px; align-items:center; }
+    .tagb{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); font-size:13px; color:#fff; }
+    .legend{ display:flex; flex-wrap:wrap; gap:10px; margin-left:auto; }
+    .lg{ display:inline-flex; align-items:center; gap:8px; font-size:12px; opacity:.9; }
+    .lg i{ width:10px; height:10px; display:inline-block; border-radius:50%; }
+    .m1{ background:#86d6ff; } .m2{ background:#4eb2ff; } .m3{ background:#1c8fff; } .m4{ background:#0b5fd1; }
+
     /* Search */
-    .search{ display:flex; gap:10px; margin:16px 0 22px; }
-    .search input{ flex:1; border:1.6px solid var(--line); border-radius:12px; padding:12px 14px; font-size:15px; outline:none; }
-    .search input:focus{ border-color: var(--blue-2); box-shadow: 0 0 0 4px rgba(0,123,255,.08); }
+    .search{ position:relative; display:flex; gap:10px; margin:18px 0 26px; }
+    .search input{ width:100%; border:2px solid var(--blue-2); border-radius:14px; padding:14px 14px 14px 42px; font-size:16px; outline:none; box-shadow: 0 6px 22px rgba(0,123,255,.12); }
+    .search input:focus{ border-color: var(--blue-2); box-shadow: 0 0 0 4px rgba(0,123,255,.12); }
 
     /* Radar */
     .radar-wrap{ position:relative; border:1px solid var(--line); border-radius:var(--radius); padding:16px; background: #fff; box-shadow: var(--shadow); }
@@ -62,11 +71,15 @@
   <div class="wrap">
     <header class="hero">
       <img src="./assets/logo.png" alt="SCI logo" class="logo" />
-      <div class="brand">SCI — Каталог технологий</div>
+      <div class="brand">SCI — Технологический радар</div>
     </header>
 
-    <div class="search">
-      <input id="q" type="search" placeholder="Поиск…" aria-label="Поиск по каталогу" />
+    <div class="search" role="search">
+      <div class="box" style="position:relative; flex:1">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; opacity:.6"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle><line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2"></line></svg>
+        <input id="q" type="search" placeholder="Поиск по технологиям…" aria-label="Поиск по каталогу" autofocus />
+      </div>
+      <button class="clear" id="clearBtn" type="button" style="border:none; background:#f2f7ff; color:var(--blue-3); padding:12px 14px; border-radius:12px; font-weight:700; cursor:pointer;">Очистить</button>
     </div>
 
     <section class="radar-wrap" aria-label="Цифровой радар технологий">
@@ -87,17 +100,18 @@
 
 <script>
 // === ДАННЫЕ ===
-// На GitHub Pages для демо ведём на локальный digest.html.
-// Для продакшна поменяйте на субдомен (например, https://ekg.kg.yourbrand.com).
-const SUBDOMAIN_URL = 'digest.html';
+// Базовый субдомен для технологии (замените на ваш домен)
+// Путь на домене scisource.ru: https://scisource.ru/<slug>/
+const BASE_URL = '/';
+const makeLink = (slug) => `${BASE_URL}${slug}/`; 
 
 const technologies = [
   {
     id:'ekg-platform',
+    slug:'ekg',
     name:'Платформы корпоративных графов знаний',
-    type:'Дайджест',
     keys:['RDF/OWL','SPARQL 1.2','SHACL/SHEx','JSON‑LD','PROV‑O','SKOS'],
-    link: SUBDOMAIN_URL,
+    link: makeLink('ekg'),
     ring:'production',
     angle: 40
   }
@@ -127,16 +141,19 @@ function renderRadar(data){
   const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
 
-  // Кольца зрелости (без подписей внутри, легенда ниже)
+  // Кольца зрелости
   rings.forEach(r=>{
     const R = r.r * scale;
     const c = document.createElementNS(svg.namespaceURI,'circle');
     c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', R);
     c.setAttribute('fill','none'); c.setAttribute('stroke','var(--line)'); c.setAttribute('stroke-width','1.4');
     svg.appendChild(c);
+    const t = document.createElementNS(svg.namespaceURI,'text');
+    t.setAttribute('x', cx + R + 8); t.setAttribute('y', cy - 6);
+    t.setAttribute('class','ring-label'); t.textContent = r.label; svg.appendChild(t);
   });
 
-  // Единственная точка — фиксированная, подпись рядом
+  // Точка(и) — фиксированные, без анимаций; для масштабирования каталога можем добавлять auto‑offset
   const item = data[0];
   if(item){
     const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
@@ -154,6 +171,7 @@ function renderRadar(data){
     circle.setAttribute('cx', pos.x); circle.setAttribute('cy', pos.y); circle.setAttribute('r', 10);
     circle.setAttribute('fill','url(#grad)'); circle.setAttribute('stroke','var(--blue-3)'); circle.setAttribute('stroke-width','1');
 
+    // Подпись рядом с точкой (без выноски)
     const label = document.createElementNS(svg.namespaceURI,'text');
     label.setAttribute('x', pos.x + 14); label.setAttribute('y', pos.y - 12);
     label.textContent = item.name;
@@ -184,11 +202,10 @@ function renderBoard(list){
 
     const title = document.createElement('div'); title.className='title';
     const h = document.createElement('div'); h.style.fontWeight='800'; h.textContent=item.name;
-    const p = document.createElement('span'); p.className='pill'; p.textContent=item.type;
-    title.appendChild(h); title.appendChild(p);
+    title.appendChild(h);
 
     const chips = document.createElement('div'); chips.className='chips';
-    item.keys.slice(0,4).forEach(k=> chip(chips,k));
+    item.keys.slice(0,6).forEach(k=> chip(chips,k));
 
     a.appendChild(title); a.appendChild(chips);
     board.appendChild(a);
@@ -210,6 +227,7 @@ function setupSearch(){
     renderBoard(res); renderRadar(res);
   }
   input.addEventListener('input', filter);
+  document.getElementById('clearBtn').addEventListener('click', ()=>{ input.value=''; filter(); input.focus(); });
 }
 
 // init
