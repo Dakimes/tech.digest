@@ -54,20 +54,20 @@
 
     /* Search */
     .search{ position:relative; display:flex; gap:10px; margin:18px 0 26px; }
-    .search input{ width:100%; border:2px solid var(--blue-2); border-radius:14px; padding:14px 14px 14px 42px; font-size:16px; outline:none; box-shadow: 0 6px 22px rgba(0,123,255,.12); }
-    .search input:focus{ border-color: var(--blue-2); box-shadow: 0 0 0 4px rgba(0,123,255,.12); }
+    .search input{ width:100%; border:1.6px solid var(--line); border-radius:14px; padding:14px 14px 14px 42px; font-size:16px; outline:none; box-shadow:none; }
+    .search input:focus{ border-color: rgba(0,71,179,.28); box-shadow:none; }
     .search .clear{
       border:none;
-      background:#f2f7ff;
-      color:var(--blue-3);
+      background:#f6f8fb;
+      color:var(--muted);
       padding:12px 14px;
       border-radius:12px;
-      font-weight:700;
+      font-weight:600;
       cursor:pointer;
-      transition:background .2s ease, color .2s ease, box-shadow .2s ease;
+      transition:background .2s ease, color .2s ease;
     }
-    .search .clear:hover:not(:disabled){ background:#e6f0ff; }
-    .search .clear:focus-visible{ outline:3px solid rgba(0,123,255,.35); outline-offset:3px; }
+    .search .clear:hover:not(:disabled){ background:#edf1f7; color:var(--blue-3); }
+    .search .clear:focus-visible{ outline:2px solid rgba(0,71,179,.24); outline-offset:3px; }
     .search .clear:disabled{
       opacity:.65;
       cursor:not-allowed;
@@ -173,7 +173,7 @@
     .tile{ position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:10px; }
     .tile:hover{ border-color: var(--blue-2); box-shadow: 0 8px 30px rgba(0,123,255,.12); }
     .tile .title{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
-    .tile .num{ font-weight:800; font-size:14px; letter-spacing:.5px; color:#fff; margin-right:6px; width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg, var(--blue-2), var(--blue-4)); display:inline-flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,71,179,.22); flex-shrink:0; text-shadow:0 1px 1px rgba(0,0,0,.18); }
+    .tile .num{ font-weight:700; font-size:14px; letter-spacing:.5px; color:var(--blue-4); margin-right:6px; width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg, rgba(0,123,255,.18), rgba(0,71,179,.28)); display:inline-flex; align-items:center; justify-content:center; box-shadow:none; flex-shrink:0; }
     .pill{ display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:700; color:var(--blue-3); background:#fff; border:1.6px solid var(--blue-2); }
     .chips{ display:flex; flex-wrap:wrap; gap:8px; }
     .chip{ background:#fff; border:1.6px solid var(--blue-2); color:var(--blue-3); padding:6px 8px; border-radius:8px; font-size:12px; font-weight:600; }
@@ -226,8 +226,8 @@ const makeLink = (slug = '') => {
 const accountConfigs = {
   'Admin': {
     projectName: 'Главная по технологиям KG',
-    pageTitle: 'Технологический радар — Главная по технологиям KG',
-    accessLabel: 'Тестовый доступ',
+    pageTitle: 'Технологический радар',
+    accessLabel: 'Data',
     technologies: [
       {
         id:'ekg-platform',
@@ -288,7 +288,7 @@ const accountConfigs = {
   'Admin1': {
     projectName: 'SaaS Portfolio',
     pageTitle: 'Технологический радар — SaaS Portfolio',
-    accessLabel: 'Тестовый доступ',
+    accessLabel: 'МИТ',
     technologies: [
       {
         id:'plg-activation',
