@@ -75,7 +75,8 @@
     .source-list a:hover{ text-decoration: underline; }
 
     /* ITC аналитика */
-    .itc{ display:grid; grid-template-columns: 1.4fr 1fr; gap:20px; align-items:stretch; }
+    .itc{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.05fr); gap:20px; align-items:start; }
+    .itc-details{ display:flex; flex-direction:column; gap:18px; }
     .itc-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:var(--shadow); }
     .itc-card h3{ margin:0 0 10px; font-size:18px; color:var(--blue-3); }
     .itc-score{ font-size:42px; font-weight:800; color:var(--blue-4); margin:0 0 10px; }
@@ -85,6 +86,15 @@
     .itc-metric h4{ margin:0 0 6px; font-size:14px; color:var(--blue-3); letter-spacing:.2px; text-transform:uppercase; }
     .itc-metric p{ margin:0; color:var(--muted); font-size:13px; line-height:1.5; }
     .itc-metric strong{ color:var(--blue-4); }
+
+    .itc-spider{ margin:0; padding:18px; border-radius:14px; border:1px solid var(--line); background:#fff; box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .itc-spider svg{ width:100%; height:auto; max-width:320px; }
+    .itc-spider figcaption{ margin:0; font-size:12px; color:var(--muted); text-align:center; }
+    .itc-spider .grid-ring{ stroke:rgba(0,71,179,.25); stroke-width:1; }
+    .itc-spider .axis{ stroke:rgba(0,71,179,.3); stroke-width:1; stroke-dasharray:4 4; }
+    .itc-spider .area{ fill:rgba(0,123,255,.28); stroke:var(--blue-2); stroke-width:2; }
+    .itc-spider .dot{ fill:#fff; stroke:var(--blue-3); stroke-width:1.4; }
+    .itc-spider .axis-label{ font-size:12px; fill:var(--blue-3); font-weight:600; }
 
     /* Диаграмма TAM/SAM/SOM */
     .market-chart{ display:block; width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; }
@@ -110,6 +120,8 @@
       .cards{ grid-template-columns:1fr; }
       .source-list{ columns: 1; }
       .itc{ grid-template-columns:1fr; }
+      .itc-details{ gap:16px; }
+      .itc-spider{ max-width:420px; margin:0 auto; }
       .itc-metrics{ grid-template-columns:1fr; }
     }
     h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
@@ -144,29 +156,36 @@
       </div>
     </header>
 
+    <div class="print-page-break" aria-hidden="true"></div>
+
     <h2>Индекс технологичности (ITC) по платформам корпоративных графов знаний</h2>
     <section class="itc">
-      <div class="itc-card">
-        <h3>Итоговый балл</h3>
-        <p class="itc-score">3/10</p>
-        <p class="itc-note">Эпизодическая активность: первые исследования и внедрения, слабая новизна, технологическая готовность почти нулевая. Рост присутствует, но едва заметен.</p>
-      </div>
-      <div class="itc-metrics">
-        <div class="itc-metric">
-          <h4>SM — научный моментум</h4>
-          <p><strong>40</strong>: указывает на замедление тренда.</p>
+      <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="40,20,18,20" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+        <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность/хайп.</figcaption>
+      </figure>
+      <div class="itc-details">
+        <div class="itc-card">
+          <h3>Итоговый балл</h3>
+          <p class="itc-score">3/10</p>
+          <p class="itc-note">Эпизодическая активность: первые исследования и внедрения, слабая новизна, технологическая готовность почти нулевая. Рост присутствует, но едва заметен.</p>
         </div>
-        <div class="itc-metric">
-          <h4>NV — новизна / фронтир</h4>
-          <p><strong>20</strong>: демонстрирует зрелость подходов и фокус на оптимизации издержек.</p>
-        </div>
-        <div class="itc-metric">
-          <h4>IP — импакт</h4>
-          <p><strong>18</strong>: сигнализирует о прикладной нишевости или временном лаге накопления ссылок; корректная трактовка требует сравнений в пределах близких дисциплин.</p>
-        </div>
-        <div class="itc-metric">
-          <h4>HR — хайп / зрелость</h4>
-          <p><strong>20</strong>: указывает на лабораторную стадию или высокие барьеры входа.</p>
+        <div class="itc-metrics">
+          <div class="itc-metric">
+            <h4>SM — научный моментум</h4>
+            <p><strong>40</strong>: указывает на замедление тренда.</p>
+          </div>
+          <div class="itc-metric">
+            <h4>NV — новизна / фронтир</h4>
+            <p><strong>20</strong>: демонстрирует зрелость подходов и фокус на оптимизации издержек.</p>
+          </div>
+          <div class="itc-metric">
+            <h4>IP — импакт</h4>
+            <p><strong>18</strong>: сигнализирует о прикладной нишевости или временном лаге накопления ссылок; корректная трактовка требует сравнений в пределах близких дисциплин.</p>
+          </div>
+          <div class="itc-metric">
+            <h4>HR — хайп / зрелость</h4>
+            <p><strong>20</strong>: указывает на лабораторную стадию или высокие барьеры входа.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -443,6 +462,105 @@
 
     <footer>© 2025 • Тех-дайджест: Корпоративные графы знаний • CC-BY Attribution requested</footer>
   </div>
+  <script>
+    (function(){
+      var SVG_NS = 'http://www.w3.org/2000/svg';
+      function renderSpiders(){
+        var containers = document.querySelectorAll('.itc-spider');
+        Array.prototype.forEach.call(containers, function(container){
+          var labels = (container.dataset.labels || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+          if(!labels.length){ return; }
+          var raw = (container.dataset.values || '').split(',').map(function(s){ return Number(s.trim()); });
+          var max = Number(container.dataset.max || 100) || 100;
+          var levels = Number(container.dataset.levels || 5) || 5;
+          var existing = container.querySelector('svg');
+          if(existing){ existing.remove(); }
+
+          var svg = document.createElementNS(SVG_NS, 'svg');
+          svg.setAttribute('viewBox', '0 0 320 320');
+          svg.setAttribute('width', '100%');
+          svg.setAttribute('height', '100%');
+          svg.setAttribute('focusable', 'false');
+
+          var center = 160;
+          var radius = 120;
+
+          var toPoint = function(ratio, idx){
+            var angle = -Math.PI/2 + idx * (Math.PI * 2 / labels.length);
+            var r = radius * ratio;
+            return {
+              x: center + Math.cos(angle) * r,
+              y: center + Math.sin(angle) * r
+            };
+          };
+
+          var gridGroup = document.createElementNS(SVG_NS, 'g');
+          for(var level = 1; level <= levels; level++){
+            var pts = labels.map(function(_, idx){ return toPoint(level/levels, idx); });
+            var polygon = document.createElementNS(SVG_NS, 'polygon');
+            polygon.setAttribute('points', pts.map(function(p){ return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' '));
+            polygon.setAttribute('class', 'grid-ring');
+            polygon.setAttribute('fill', level % 2 === 0 ? 'rgba(0,123,255,.05)' : 'rgba(0,123,255,.1)');
+            gridGroup.appendChild(polygon);
+          }
+          svg.appendChild(gridGroup);
+
+          var axisGroup = document.createElementNS(SVG_NS, 'g');
+          labels.forEach(function(label, idx){
+            var end = toPoint(1, idx);
+            var axis = document.createElementNS(SVG_NS, 'line');
+            axis.setAttribute('x1', center);
+            axis.setAttribute('y1', center);
+            axis.setAttribute('x2', end.x);
+            axis.setAttribute('y2', end.y);
+            axis.setAttribute('class', 'axis');
+            axisGroup.appendChild(axis);
+
+            var labelPoint = toPoint(1.12, idx);
+            var text = document.createElementNS(SVG_NS, 'text');
+            text.textContent = label;
+            text.setAttribute('x', labelPoint.x);
+            text.setAttribute('y', labelPoint.y);
+            text.setAttribute('class', 'axis-label');
+            var anchor = labelPoint.x < center - 5 ? 'end' : (labelPoint.x > center + 5 ? 'start' : 'middle');
+            text.setAttribute('text-anchor', anchor);
+            axisGroup.appendChild(text);
+          });
+          svg.appendChild(axisGroup);
+
+          var valuePoints = labels.map(function(_, idx){
+            var value = Math.max(0, Math.min(raw[idx] || 0, max));
+            return toPoint(value / max, idx);
+          });
+
+          var areaGroup = document.createElementNS(SVG_NS, 'g');
+          var area = document.createElementNS(SVG_NS, 'polygon');
+          area.setAttribute('points', valuePoints.map(function(p){ return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' '));
+          area.setAttribute('class', 'area');
+          areaGroup.appendChild(area);
+
+          valuePoints.forEach(function(pt){
+            var dot = document.createElementNS(SVG_NS, 'circle');
+            dot.setAttribute('cx', pt.x);
+            dot.setAttribute('cy', pt.y);
+            dot.setAttribute('r', 4);
+            dot.setAttribute('class', 'dot');
+            areaGroup.appendChild(dot);
+          });
+
+          svg.appendChild(areaGroup);
+          container.insertBefore(svg, container.firstChild);
+        });
+      }
+
+      renderSpiders();
+      var resizeTimer;
+      window.addEventListener('resize', function(){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderSpiders, 160);
+      });
+    })();
+  </script>
   <script src="../assets/pdf-download.js" defer></script>
 </body>
 </html>
