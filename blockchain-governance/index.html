@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Корпоративные системы управления данными и целостностью на основе блокчейна</title>
+  <meta name="description" content="Blockchain-based enterprise data governance & integrity systems — определение тренда, рынок, игроки, ценность для бизнеса и пилоты." />
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link rel="stylesheet" href="../assets/pdf-download.css" />
+  <style>
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
+    :root{
+      --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
+      --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-5:#CFE6FF;
+      --line:#e6eef8; --shadow: 0 10px 30px rgba(0, 80, 170, .10); --radius:18px;
+    }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+    .wrap{ max-width: 1120px; margin: 28px auto 64px; padding: 0 20px; }
+
+    header.hero{ background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .hero img.logo{ height:64px; width:auto; display:block; }
+    .hero .text{ flex:1; min-width: 260px; }
+    header.hero h1{ margin:0 0 6px; letter-spacing:.2px; font-size: clamp(28px, 3.2vw, 44px); color:var(--blue-4); }
+    header.hero p.sub{ margin:0; color:var(--muted); font-size:15px; }
+
+    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .tag{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1.6px solid var(--blue-5); font-size:13px; color:var(--blue-3); }
+
+    .stats{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:12px; width:100%; }
+    .kpi{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .kpi .v{ font-size: clamp(18px,2.4vw,28px); font-weight:800; color:var(--blue-3); }
+    .kpi .l{ font-size:12px; color:var(--muted); margin-top:4px; }
+
+    h2{ margin: 34px 0 12px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
+    section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+    .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+
+    .bullet{ margin:0; padding-left:18px; }
+    .bullet li{ margin:6px 0; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chip{ background:#fff; border:1.8px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
+    .chip:hover{ border-color: var(--blue-1); box-shadow: 0 2px 8px rgba(0, 123, 255, .12); }
+
+    .cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
+    .card{ padding:14px; border-radius:14px; background:#fff; border:1px solid var(--line); box-shadow: var(--shadow); }
+    .card h4{ margin:0 0 6px; font-size:16px; color:var(--blue-3); }
+
+    .itc-layout{ display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:18px; align-items:center; }
+    .itc-spider{ margin:0; padding:16px; border-radius:14px; border:1px solid var(--line); background:#fff; box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .itc-spider svg{ width:100%; height:auto; max-width:320px; }
+    .itc-spider figcaption{ margin:0; font-size:12px; color:var(--muted); text-align:center; }
+    .itc-cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
+    .itc-spider .grid-ring{ stroke:rgba(0,71,179,.25); stroke-width:1; }
+    .itc-spider .axis{ stroke:rgba(0,71,179,.3); stroke-width:1; stroke-dasharray:4 4; }
+    .itc-spider .area{ fill:rgba(0,123,255,.28); stroke:var(--blue-2); stroke-width:2; }
+    .itc-spider .dot{ fill:#fff; stroke:var(--blue-3); stroke-width:1.4; }
+    .itc-spider .axis-label{ font-size:12px; fill:var(--blue-3); font-weight:600; }
+
+    .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+    .roadmap-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+    .phase{ position:relative; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
+    .phase h3{ margin:0 0 10px; font-size:16px; color:var(--blue-3); display:flex; align-items:center; gap:8px; }
+    .phase h3 .pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); color:#fff; font-size:12px; font-weight:700; }
+    .phase ul{ margin:0; padding-left:18px; }
+    .phase li{ margin:6px 0; }
+
+    .tbl{ width:100%; border-collapse: collapse; font-size:14px; }
+    .tbl th, .tbl td{ padding:10px 12px; border-bottom:1px solid var(--line); text-align:left; }
+    .tbl th{ color:var(--muted); font-weight:600; }
+
+    .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
+    .lg{ display:inline-flex; align-items:center; gap:8px; }
+    .c1,.c2,.c3{ width:14px; height:14px; display:inline-block; border-radius:4px; }
+    .c1{ background:var(--blue-1); }
+    .c2{ background:var(--blue-2); }
+    .c3{ background:var(--blue-4); }
+
+    details{ background:#fff; border:1px dashed var(--blue-5); padding:10px 12px; border-radius:12px; }
+    summary{ cursor:pointer; font-weight:700; color:var(--blue-3); }
+
+    .source-list{ columns: 2; gap: 18px; }
+    .source-list p{ margin:0 0 10px; }
+    .source-list a{ color: var(--blue-2); text-decoration: none; }
+    .source-list a:hover{ text-decoration: underline; }
+
+    .regional{ display:grid; grid-template-columns:1fr; gap:12px; }
+    .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .regional figcaption{ padding:8px 12px 12px; font-size:12px; color:var(--muted); }
+    .regional-table{ width:100%; border-collapse:collapse; font-size:13px; }
+    .regional-table thead th{ background:rgba(0,167,255,.08); color:var(--blue-3); font-weight:700; }
+    .regional-table th, .regional-table td{ padding:10px 12px; border-bottom:1px solid var(--line); text-align:left; }
+    .regional-table tbody tr:last-child td{ border-bottom:none; }
+    .regional-table .value{ font-weight:700; color:var(--blue-3); white-space:nowrap; }
+    .regional-table .bar-cell{ width:48%; }
+    .regional-bar{ height:8px; border-radius:999px; background:rgba(0,167,255,.18); position:relative; overflow:hidden; }
+    .regional-bar span{ position:absolute; inset:0; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); }
+
+    footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
+
+    @media (max-width: 960px){
+      .itc-layout{ grid-template-columns:1fr; }
+      .itc-spider{ max-width:420px; margin:0 auto; }
+    }
+    @media (max-width: 880px){
+      .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-2{ grid-template-columns:1fr; }
+      .grid-3{ grid-template-columns:1fr; }
+      .cards{ grid-template-columns:1fr; }
+      .source-list{ columns: 1; }
+      .roadmap-grid{ grid-template-columns:1fr; }
+      .itc-cards{ grid-template-columns:1fr; }
+    }
+    @media (max-width: 640px){
+      .stats{ grid-template-columns:1fr; }
+      header.hero{ padding:20px 18px; }
+      section{ padding:16px; }
+    }
+    @media (max-width: 520px){
+      .tag{ font-size:12px; }
+      .tagrow{ gap:6px; }
+    }
+    h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
+      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow: var(--shadow); background:#fff;">
+        <span style="font-size:18px; line-height:1">←</span>
+        <span>На главную</span>
+      </a>
+    </nav>
+
+    <header class="hero">
+      <img src="../assets/logo.png" alt="SCI logo" class="logo" />
+      <div class="text">
+        <h1>Корпоративные системы управления данными и целостностью на основе блокчейна</h1>
+        <p class="sub">Blockchain-based Enterprise Data Governance & Integrity • обновлено: <strong>23&nbsp;октября&nbsp;2025</strong></p>
+        <div class="tagrow">
+          <span class="tag">RDF/RDFS/OWL&nbsp;2 • SKOS • SHACL</span>
+          <span class="tag">SPARQL&nbsp;1.2 • OBDA/OBDI • R2RML</span>
+          <span class="tag">PROV-O • Управляемые леджеры • Lineage</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="kpi"><div class="v"><strong>3/10</strong></div><div class="l">Индекс технологичности (ITC)</div></div>
+        <div class="kpi"><div class="v"><strong>26–31%</strong></div><div class="l">CAGR 2025–2029</div></div>
+        <div class="kpi"><div class="v">TAM <strong>$7.0–8.0B</strong></div><div class="l">Оценка рынка 2025</div></div>
+        <div class="kpi"><div class="v"><strong>2–5 лет</strong></div><div class="l">Горизонт массового внедрения</div></div>
+      </div>
+    </header>
+
+    <h2>Коротко</h2>
+    <section>
+      <p><strong>Корпоративные системы управления данными и обеспечения целостности на основе блокчейна</strong> моделируют корпоративные данные как связные графы на <em>RDF/RDFS/OWL&nbsp;2</em> и <em>SKOS</em>, валидируют качества через <em>SHACL</em> и выполняют запросы <em>SPARQL&nbsp;1.2</em>. Леджеры фиксируют lineage и хэши преобразований для доказуемой неизменности и аудита. Драйверы: персонализация и семантический поиск, снижение OPEX интеграции через <em>OBDA/OBDI</em>, ускорение time-to-insight материализованным выводом и повышение compliance через <em>SHACL</em> и <em>PROV-O</em>.</p>
+      <div class="grid-2">
+        <div>
+          <h3>Драйверы</h3>
+          <ul class="bullet">
+            <li>Рост выручки через персонализацию и семантический поиск по онтологиям и GraphRAG.</li>
+            <li>Снижение OPEX за счёт виртуализации данных по R2RML/Direct Mapping вместо сложного ETL.</li>
+            <li>Compliance и аудит благодаря автоматизированной валидации SHACL и провенансу PROV-O.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Статус и рынок</h3>
+          <ul class="bullet">
+            <li>Горизонт массового внедрения: <strong>2–5</strong> лет (консолидация RDF/SPARQL&nbsp;1.2, ISO&nbsp;23257, отраслевые data spaces).</li>
+            <li>Рынок растёт <strong>26–31%</strong> CAGR (база&nbsp;<strong>2025</strong>).</li>
+            <li>Ключевые игроки: Amazon Neptune, Ontotext GraphDB, Fluree Nexus, TopBraid EDG и др.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Индекс технологичности (ITC)</h2>
+    <section>
+      <div class="itc-layout">
+        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="40,30,4,8" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+        </figure>
+        <div class="itc-cards">
+          <div class="card"><h4>SM — 40</h4><p>Научный моментум замедляется: исследования концентрируются на стандартах SPARQL&nbsp;1.2 и графовом lineage.</p></div>
+          <div class="card"><h4>NV — 30</h4><p>Новизна умеренная: акцент смещается в оптимизацию издержек и интеграцию с управляемыми леджерами.</p></div>
+          <div class="card"><h4>IP — 4</h4><p>Импакт нишевый: отрасли BFSI/healthcare пилотируют решения, но масштабных референсов пока мало.</p></div>
+          <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа: требуются компетенции по онтологиям, OBDA и безопасным блокчейн-интеграциям.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <h2>Состав тренда: ключевые технологии</h2>
+    <section>
+      <div class="grid-3">
+        <div class="card">
+          <h4>Модели и онтологии</h4>
+          <div class="chips">
+            <span class="chip">RDF</span><span class="chip">RDFS</span><span class="chip">OWL&nbsp;2</span><span class="chip">SKOS</span><span class="chip">SHACL</span><span class="chip">DCAT/Schema.org</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Языки и запросы</h4>
+          <div class="chips">
+            <span class="chip">SPARQL&nbsp;1.2</span><span class="chip">SPARQL Update</span><span class="chip">GraphQL (семантический слой)</span><span class="chip">SHACL-SPARQL</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Управление онтологиями</h4>
+          <div class="chips">
+            <span class="chip">Таксономии</span><span class="chip">Версионирование</span><span class="chip">Выравнивание онтологий</span><span class="chip">Реестры метаданных</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Семантическая интеграция</h4>
+          <div class="chips">
+            <span class="chip">OBDA/OBDI</span><span class="chip">R2RML</span><span class="chip">Direct Mapping</span><span class="chip">Виртуализация данных</span><span class="chip">Семантическая гармонизация</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Хранение и индексация</h4>
+          <div class="chips">
+            <span class="chip">RDF-триплсторы</span><span class="chip">Quad-репозитории</span><span class="chip">Индексы SPO/GSPO</span><span class="chip">Хранение доказательств</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Вывод и соответствие</h4>
+          <div class="chips">
+            <span class="chip">RIF/SWRL</span><span class="chip">Материализация</span><span class="chip">Инкрементальный вывод</span><span class="chip">SHACL-валидация</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Lineage и качество</h4>
+          <div class="chips">
+            <span class="chip">PROV-O/W3C PROV</span><span class="chip">Каталогизация преобразований</span><span class="chip">Качество данных по онтологиям</span><span class="chip">Неизменяемые хэши</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <h2>Ценность для бизнеса</h2>
+    <section>
+      <div class="cards">
+        <div class="card"><h4>Выручка и удержание</h4><p>Персонализация контента и офферов на OWL&nbsp;2/SKOS и GraphQL-слое повышает CTR на <strong>+3–7%</strong> и LTV на <strong>+5–10%</strong>.</p></div>
+        <div class="card"><h4>OPEX интеграции</h4><p>OBDA/OBDI и виртуализация поверх онтологий снижают трудозатраты интеграций на <strong>20–35%</strong> и ускоряют подключение источников в <strong>1.5–2×</strong>.</p></div>
+        <div class="card"><h4>Time-to-insight</h4><p>SPARQL&nbsp;1.2 и материализованный вывод сокращают цикл аналитики на <strong>30–60%</strong>, повышая повторное использование наборов на <strong>25–40%</strong>.</p></div>
+        <div class="card"><h4>Качество и compliance</h4><p>SHACL/SHACL-SPARQL правила уменьшают критические нарушения схем на <strong>60–90%</strong> и ускоряют обратную связь в CI/CD.</p></div>
+        <div class="card"><h4>Аудит и риски</h4><p>Подпись lineage-графов в управляемом блокчейне снижает затраты аудита на <strong>25–40%</strong> и уменьшает время ответа аудитору.</p></div>
+        <div class="card"><h4>Прозрачность цепочек</h4><p>Публикация доказательств происхождения и качества через QR-коды повышает доверие клиентов и снижает число рекламаций.</p></div>
+        <div class="card"><h4>GraphRAG и аналитика</h4><p>Графовый слой для LLM повышает точность и объяснимость ответов, снижая галлюцинации на <strong>5–15 п.п.</strong>.</p></div>
+      </div>
+    </section>
+
+    <h2>Горизонт внедрения</h2>
+    <section class="roadmap">
+      <div class="roadmap-grid">
+        <div class="phase">
+          <h3><span class="pill">0–2 года</span></h3>
+          <ul class="bullet">
+            <li>Тампер-учёт provenance/lineage на PROV-O, SHACL и SPARQL&nbsp;1.1.</li>
+            <li>Управляемые облачные леджеры и записи хэшей преобразований.</li>
+            <li>Запуск eIDAS&nbsp;2 кейсов аудита, цепочек поставок и согласий.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">2–5 лет</span></h3>
+          <ul class="bullet">
+            <li>Закрепление стандартов RDF/SPARQL&nbsp;1.2 и ISO&nbsp;23257.</li>
+            <li>Массовые пилоты отраслевых data spaces и расширение коннекторов.</li>
+            <li>Развитие SHACL-валидации, каталогов и онтологического lineage.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">5–10 лет</span></h3>
+          <ul class="bullet">
+            <li>Сквозные графы доверия и межцепочечная интероперабельность.</li>
+            <li>Автоматизированное соответствие регуляциям и логический вывод по подписанным lineage-графам.</li>
+            <li>Зрелые спецификации электронных реестров и цифровых доверенных услуг.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Размер рынка и CAGR</h2>
+    <section>
+      <table class="tbl" aria-label="Размер рынка">
+        <thead>
+          <tr><th>Метрика</th><th>Значение</th><th>Комментарий</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>TAM 2025</td><td><strong>$7.0–8.0B</strong></td><td>Сумма подрынков: knowledge graphs, blockchain traceability, data lineage.</td></tr>
+          <tr><td>SAM 2025</td><td><strong>$4.2–5.2B</strong></td><td>Фокус на Северной Америке и Европе, вертикали BFSI/healthcare/manufacturing.</td></tr>
+          <tr><td>SOM 2025</td><td><strong>$20–40M</strong></td><td>Bottom-up: ~600 аккаунтов × $0.4–0.6M ACV × 5–8% win-rate.</td></tr>
+          <tr><td>CAGR 2025–2029</td><td><strong>≈26–31%</strong></td><td>Драйверы: genAI, регуляторика/трассируемость, усиление data governance.</td></tr>
+        </tbody>
+      </table>
+      <div class="market-chart">
+        <svg viewBox="0 0 1000 220" width="100%" height="220" role="img" aria-label="Диаграмма TAM SAM SOM">
+          <defs>
+            <linearGradient id="bg1" x1="0" x2="1"><stop offset="0%" stop-color="#CFE6FF"/><stop offset="100%" stop-color="#00A7FF"/></linearGradient>
+            <linearGradient id="bg2" x1="0" x2="1"><stop offset="0%" stop-color="#9BC8FF"/><stop offset="100%" stop-color="#007BFF"/></linearGradient>
+            <linearGradient id="bg3" x1="0" x2="1"><stop offset="0%" stop-color="#7EB2FF"/><stop offset="100%" stop-color="#0047B3"/></linearGradient>
+          </defs>
+          <g font-size="13" font-weight="700" fill="#0b0d12">
+            <text x="20" y="60">TAM</text>
+            <text x="20" y="130">SAM</text>
+            <text x="20" y="200">SOM</text>
+          </g>
+          <g>
+            <rect x="160" y="46" width="760" height="28" rx="8" fill="url(#bg1)"/>
+            <rect x="160" y="116" width="560" height="28" rx="8" fill="url(#bg2)"/>
+            <rect x="160" y="186" width="60" height="28" rx="8" fill="url(#bg3)"/>
+          </g>
+          <g font-size="12" font-weight="800" fill="#003F6B" text-anchor="start">
+            <text x="940" y="62">~$7.5B</text>
+            <text x="730" y="132">~$4.7B</text>
+            <text x="235" y="202">~$0.03B</text>
+          </g>
+        </svg>
+        <div class="legend">
+          <span class="lg"><span class="c1"></span> TAM (весь адресуемый рынок)</span>
+          <span class="lg"><span class="c2"></span> SAM (приоритетные регионы/вертикали)</span>
+          <span class="lg"><span class="c3"></span> SOM (достижимый фокус 2025)</span>
+        </div>
+      </div>
+    </section>
+
+    <h2>Инвестиции и сделки (2023–2025)</h2>
+    <section>
+      <ul class="bullet">
+        <li>Финансирование блокчейн/крипто стартапов выросло до <strong>$2.4B</strong> в 2024&nbsp;Q1 (PitchBook, Reuters).</li>
+        <li><strong>Fluree</strong> привлекла <strong>$10M Series A</strong> (апрель 2023) при участии SineWave Ventures, Eve Atlas, Augment Ventures.</li>
+        <li><strong>Sahara AI</strong> закрыла <strong>$43M Series A</strong> (август 2024) для платформы прозрачного вознаграждения данных.</li>
+        <li><strong>ProvLabs</strong> (carve-out Provenance Blockchain Foundation) объявила о сид-раунде в декабре 2024.</li>
+        <li><strong>Progress</strong> купила MarkLogic за <strong>$355M</strong> (февраль 2023) — усиление компетенций в управлении корпоративными данными.</li>
+        <li>Accenture Ventures взяла стратегическую долю в Stardog (май 2023) для расширения предложений knowledge graph.</li>
+      </ul>
+    </section>
+
+    <h2>Ключевые вендоры и игроки</h2>
+    <section>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Платформы и движки</h4>
+          <ul class="bullet">
+            <li><strong>Amazon Neptune</strong> — managed RDF/SPARQL графовая БД с поддержкой provenance.</li>
+            <li><strong>Ontotext GraphDB</strong> — RDF triple store с SHACL-валидацией и коллекцией плагинов lineage.</li>
+            <li><strong>Fluree Nexus</strong> — граф-леджер JSON-LD/RDF с криптографической историей.</li>
+            <li><strong>Cambridge Semantics Anzo</strong> — knowledge graph на W3C стандартах с SPARQL endpoint.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Облака и managed-сервисы</h4>
+          <ul class="bullet">
+            <li><strong>Stardog Cloud</strong> — виртуализация данных, inference, lineage и управляемый сервис.</li>
+            <li><strong>Fluree Nexus Cloud</strong> — управляемые кластеры с верифицируемыми транзакциями.</li>
+            <li><strong>TopBraid EDG</strong> — управление онтологиями и словарями на SHACL, SKOS, RDFS/OWL.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Интеграция и OBDA</h4>
+          <ul class="bullet">
+            <li><strong>Stardog Virtual Graphs</strong> — SPARQL-to-SQL с поддержкой R2RML и Direct Mapping.</li>
+            <li><strong>Ontop</strong> — open-source OBDA движок для виртуализации реляционных источников.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Открытые инструменты</h4>
+          <ul class="bullet">
+            <li><strong>Eclipse RDF4J</strong> — библиотека и сервер с SHACL-валидацией.</li>
+            <li><strong>Apache Jena Fuseki</strong> — SPARQL&nbsp;1.1 сервер с Graph Store Protocol.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Стандарты и консорциумы</h4>
+          <ul class="bullet">
+            <li><strong>W3C</strong> — развивает SPARQL&nbsp;1.2, SHACL и PROV-O.</li>
+            <li><strong>GS1</strong> — EPCIS для трассируемости событий цепочек поставок.</li>
+            <li><strong>European Commission</strong> — eIDAS&nbsp;2 (Regulation EU 2024/1183) стимулирует аудит и доверенные сервисы.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Региональная активность</h2>
+    <section class="regional">
+      <figure>
+        <table class="regional-table">
+          <thead>
+            <tr>
+              <th>Регион</th>
+              <th class="bar-cell">Доля публикаций*</th>
+              <th style="text-align:right;">Работ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Европа</th>
+              <td class="bar-cell">
+                <div class="regional-bar"><span style="width:78%;"></span></div>
+              </td>
+              <td class="value" style="text-align:right;">34</td>
+            </tr>
+            <tr>
+              <th scope="row">Северная Америка</th>
+              <td class="bar-cell">
+                <div class="regional-bar"><span style="width:72%;"></span></div>
+              </td>
+              <td class="value" style="text-align:right;">31</td>
+            </tr>
+            <tr>
+              <th scope="row">Азия–Тихоокеанский регион</th>
+              <td class="bar-cell">
+                <div class="regional-bar"><span style="width:58%;"></span></div>
+              </td>
+              <td class="value" style="text-align:right;">25</td>
+            </tr>
+            <tr>
+              <th scope="row">Ближний Восток и Африка</th>
+              <td class="bar-cell">
+                <div class="regional-bar"><span style="width:36%;"></span></div>
+              </td>
+              <td class="value" style="text-align:right;">15</td>
+            </tr>
+            <tr>
+              <th scope="row">Латинская Америка</th>
+              <td class="bar-cell">
+                <div class="regional-bar"><span style="width:26%;"></span></div>
+              </td>
+              <td class="value" style="text-align:right;">11</td>
+            </tr>
+          </tbody>
+        </table>
+        <figcaption>* Внутренний анализ SciSource по открытым публикациям и пилотам, 2023–2025.</figcaption>
+      </figure>
+    </section>
+
+    <h2>Гипотезы для пилотов</h2>
+    <section>
+      <details open>
+        <summary>Семантический каталог + GraphRAG для продаж</summary>
+        <p>Цель — рост выручки и retention. Архитектура: RDF/OWL&nbsp;+ SKOS, SPARQL&nbsp;1.1 выборки, GraphRAG слой ответа. Метрики: groundedness, relevance, доля корректных ссылок, среднее время ответа. Срок: 8–12 недель; go/no-go — метрики не хуже текущей базы знаний.</p>
+      </details>
+      <details open style="margin-top:12px;">
+        <summary>Виртуализация данных вместо ETL</summary>
+        <p>Цель — снижение OPEX и ускорение поставки витрин. Подход: OBDA с R2RML/Direct Mapping, виртуальные графы поверх CRM/ERP. Метрики: доля запросов без ETL, p95 задержки, снижение дублирующих пайплайнов. Срок: 6–10 недель; go/no-go — SLA выдержаны без копирования данных.</p>
+      </details>
+      <details open style="margin-top:12px;">
+        <summary>Контроль качества по SHACL</summary>
+        <p>Цель — повышение качества данных. Подход: SHACL/SHACL-SPARQL правила как шлюз качества. Метрики: доля записей, прошедших валидацию, число критических нарушений, время обратной связи. Срок: 4–8 недель; go/no-go — критичные правила блокируют нарушения.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Доказуемая целостность и аудит lineage</summary>
+        <p>Цель — снижение регуляторных рисков. Подход: моделирование происхождения в PROV-O, каталогизация в DCAT, фиксация дайджестов в управляемом леджере. Метрики: наличие криптографических квитанций, воспроизводимость lineage-графа, время ответа аудитору. Срок: 6–9 недель; go/no-go — 100% записей пилота имеют проверяемые квитанции.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>Единый словарь и таксономии</summary>
+        <p>Цель — рост точности поиска и согласованной аналитики. Подход: SKOS, OWL&nbsp;2, версионирование глоссариев. Метрики: Precision@k, снижение конфликтов терминов, доля активных терминов с владельцами. Срок: 6–8 недель; go/no-go — утверждён версионированный набор для приоритетных доменов.</p>
+      </details>
+      <details style="margin-top:12px;">
+        <summary>RDF-триплстор для мастер-данных</summary>
+        <p>Цель — повышение полноты и объяснимости связок. Подход: загрузка в триплстор, индексы SPO/GSPO, SPARQL best practices. Метрики: доля корректных связок, p95 задержки, доля запросов с трассируемыми объяснениями. Срок: 6–10 недель; go/no-go — приоритетные кейсы выполняются в окне SLA и объяснимость доступна.</p>
+      </details>
+    </section>
+
+    <h2>Источники</h2>
+    <section>
+      <div class="source-list">
+        <p><a href="https://altair.com/newsroom/news-releases/altair-acquires-cambridge-semantics-powering-next-generation-enterprise-data-fabrics-and-generative-ai/" target="_blank" rel="noopener">Altair acquires Cambridge Semantics (2024)</a></p>
+        <p><a href="https://www.european-digital-identity-regulation.com/Article_45_(Regulation_EU_2024_1183).html" target="_blank" rel="noopener">European Commission — Regulation (EU) 2024/1183</a></p>
+        <p><a href="https://www.finsmes.com/2023/04/fluree-closes-10m-series-a-funding.html" target="_blank" rel="noopener">FINSMS — Fluree closes $10M Series A</a></p>
+        <p><a href="https://www.gs1.org/standards/epcis" target="_blank" rel="noopener">GS1 EPCIS</a></p>
+        <p><a href="https://newsroom.ibm.com/2019-06-13-IBM-KPMG-Merck-and-Walmart-to-collaborate-as-part-of-FDAs-program-to-evaluate-the-use-of-blockchain-to-protect-pharmaceutical-product-integrity" target="_blank" rel="noopener">IBM/KPMG/Merck/Walmart — FDA blockchain pilot</a></p>
+        <p><a href="https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/using-blockchain-to-improve-data-management-in-the-public-sector" target="_blank" rel="noopener">McKinsey — Blockchain for public sector data management</a></p>
+        <p><a href="https://investors.progress.com/news-releases/news-release-details/progress-completes-acquisition-marklogic" target="_blank" rel="noopener">Progress completes acquisition of MarkLogic</a></p>
+        <p><a href="https://www.reuters.com/technology/venture-capital-funding-crypto-rises-24-bln-pitchbook-says-2024-05-20/" target="_blank" rel="noopener">Reuters — Venture funding in crypto rises to $2.4B</a></p>
+        <p><a href="https://www.reuters.com/technology/artificial-intelligence/decentralized-ai-network-sahara-raises-fresh-capital-samsung-backed-round-2024-08-14/" target="_blank" rel="noopener">Reuters — Sahara AI raises fresh capital</a></p>
+        <p><a href="https://www.stardog.com/news/accenture-takes-strategic-stake-in-knowledge-graph-maker-stardog/" target="_blank" rel="noopener">Stardog — Accenture strategic stake</a></p>
+        <p><a href="https://www.fda.gov/drugs/drug-safety-and-availability/dscsa-compliance-policies-establish-1-year-stabilization-period-implementing-electronic-systems" target="_blank" rel="noopener">FDA — DSCSA compliance policies</a></p>
+        <p><a href="https://www.w3.org/TR/prov-o/" target="_blank" rel="noopener">W3C — PROV-O</a></p>
+        <p><a href="https://www.w3.org/TR/r2rml/" target="_blank" rel="noopener">W3C — R2RML</a></p>
+        <p><a href="https://www.w3.org/TR/shacl/" target="_blank" rel="noopener">W3C — SHACL</a></p>
+        <p><a href="https://www.w3.org/TR/2024/PR-vocab-dcat-3-20240613/" target="_blank" rel="noopener">W3C — DCAT v3</a></p>
+      </div>
+    </section>
+
+    <footer>© 2025 • SCI • Главная по технологиям KG</footer>
+  </div>
+  <script>
+    (function(){
+      const SVG_NS = 'http://www.w3.org/2000/svg';
+      function renderSpiders(){
+        document.querySelectorAll('.itc-spider').forEach(container=>{
+          const labels = (container.dataset.labels || '').split(',').map(s=>s.trim()).filter(Boolean);
+          const raw = (container.dataset.values || '').split(',').map(s=> Number(s.trim()));
+          if(!labels.length) return;
+          const max = Number(container.dataset.max || 100) || 100;
+          const levels = Number(container.dataset.levels || 5) || 5;
+          const existing = container.querySelector('svg');
+          if(existing){ existing.remove(); }
+
+          const svg = document.createElementNS(SVG_NS, 'svg');
+          svg.setAttribute('viewBox','0 0 320 320');
+          svg.setAttribute('width','100%');
+          svg.setAttribute('height','100%');
+          svg.setAttribute('focusable','false');
+
+          const center = 160;
+          const radius = 120;
+
+          const toPoint = (ratio, idx)=>{
+            const angle = -Math.PI/2 + idx * (Math.PI*2/labels.length);
+            const r = radius * ratio;
+            return {
+              x: center + Math.cos(angle) * r,
+              y: center + Math.sin(angle) * r
+            };
+          };
+
+          const gridGroup = document.createElementNS(SVG_NS,'g');
+          for(let level=1; level<=levels; level++){
+            const pts = labels.map((_, idx)=> toPoint(level/levels, idx));
+            const polygon = document.createElementNS(SVG_NS,'polygon');
+            polygon.setAttribute('points', pts.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+            polygon.setAttribute('class','grid-ring');
+            polygon.setAttribute('fill', level % 2 === 0 ? 'rgba(0,123,255,.05)' : 'rgba(0,123,255,.1)');
+            gridGroup.appendChild(polygon);
+          }
+          svg.appendChild(gridGroup);
+
+          const axisGroup = document.createElementNS(SVG_NS,'g');
+          labels.forEach((label, idx)=>{
+            const end = toPoint(1, idx);
+            const axis = document.createElementNS(SVG_NS,'line');
+            axis.setAttribute('x1', center); axis.setAttribute('y1', center);
+            axis.setAttribute('x2', end.x); axis.setAttribute('y2', end.y);
+            axis.setAttribute('class','axis');
+            axisGroup.appendChild(axis);
+
+            const labelPoint = toPoint(1.12, idx);
+            const text = document.createElementNS(SVG_NS,'text');
+            text.textContent = label;
+            text.setAttribute('x', labelPoint.x);
+            text.setAttribute('y', labelPoint.y);
+            text.setAttribute('class','axis-label');
+            const anchor = labelPoint.x < center - 5 ? 'end' : (labelPoint.x > center + 5 ? 'start' : 'middle');
+            text.setAttribute('text-anchor', anchor);
+            axisGroup.appendChild(text);
+          });
+          svg.appendChild(axisGroup);
+
+          const valuePoints = labels.map((_, idx)=>{
+            const value = Math.max(0, Math.min(raw[idx] ?? 0, max));
+            return toPoint(value / max, idx);
+          });
+
+          const areaGroup = document.createElementNS(SVG_NS,'g');
+          const area = document.createElementNS(SVG_NS,'polygon');
+          area.setAttribute('points', valuePoints.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+          area.setAttribute('class','area');
+          areaGroup.appendChild(area);
+
+          valuePoints.forEach(pt=>{
+            const dot = document.createElementNS(SVG_NS,'circle');
+            dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y); dot.setAttribute('r', 4);
+            dot.setAttribute('class','dot');
+            areaGroup.appendChild(dot);
+          });
+
+          svg.appendChild(areaGroup);
+          container.insertBefore(svg, container.firstChild);
+        });
+      }
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', renderSpiders);
+      } else {
+        renderSpiders();
+      }
+    })();
+  </script>
+  <script src="../assets/pdf-download.js" defer></script>
+</body>
+</html>
