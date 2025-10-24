@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Корпоративные блокчейн-платформы</title>
+  <meta name="description" content="Enterprise Blockchain Platforms — дайджест по корпоративным DLT-сетям: сценарии, зрелость, вендоры и метрики рынка." />
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link rel="stylesheet" href="../assets/pdf-download.css" />
+  <style>
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
+    :root{
+      --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
+      --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-5:#CFE6FF;
+      --line:#e6eef8; --shadow:0 10px 30px rgba(0, 80, 170, .10); --radius:18px;
+    }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap{ max-width:1120px; margin:28px auto 64px; padding:0 20px; }
+
+    header.hero{ background:linear-gradient(180deg,#f8fbff 0%,#ffffff 100%); padding:24px; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .hero img.logo{ height:64px; width:auto; display:block; }
+    .hero .text{ flex:1; min-width:260px; }
+    header.hero h1{ margin:0 0 6px; letter-spacing:.2px; font-size:clamp(28px,3.2vw,44px); color:var(--blue-4); }
+    header.hero p.sub{ margin:0; color:var(--muted); font-size:15px; }
+
+    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .tag{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#fff; border:1.6px solid var(--blue-5); font-size:13px; color:var(--blue-3); }
+
+    .stats{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:12px; width:100%; }
+    .kpi{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow:var(--shadow); }
+    .kpi .v{ font-size:clamp(18px,2.4vw,28px); font-weight:800; color:var(--blue-3); }
+    .kpi .l{ font-size:12px; color:var(--muted); margin-top:4px; }
+
+    h2{ margin:34px 0 12px; font-size:clamp(20px,2.4vw,28px); color:var(--blue-4); }
+    h2::after{ content:""; display:block; width:56px; height:4px; background:linear-gradient(90deg,var(--blue-2),var(--blue-1)); border-radius:2px; margin-top:8px; }
+    section{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+
+    .grid-2{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .grid-3{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .bullet{ margin:0; padding-left:18px; }
+    .bullet li{ margin:6px 0; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chip{ background:#fff; border:1.8px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
+    .chip:hover{ border-color:var(--blue-1); box-shadow:0 2px 8px rgba(0,123,255,.12); }
+
+    .cards{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .card{ padding:14px; border-radius:14px; background:#fff; border:1px solid var(--line); box-shadow:var(--shadow); }
+    .card h3{ margin:0 0 8px; font-size:16px; color:var(--blue-3); }
+    .card ul{ margin:0; padding-left:18px; }
+
+    .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .roadmap-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .phase{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow:var(--shadow); }
+    .phase h3{ margin:0 0 10px; font-size:16px; color:var(--blue-3); display:flex; align-items:center; gap:8px; }
+    .phase h3 .pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:linear-gradient(90deg,var(--blue-2),var(--blue-1)); color:#fff; font-size:12px; font-weight:700; }
+    .phase ul{ margin:0; padding-left:18px; }
+    .phase li{ margin:6px 0; }
+
+    .source-list{ columns:2; gap:18px; }
+    .source-list a{ color:var(--blue-2); text-decoration:none; }
+    .source-list a:hover{ text-decoration:underline; }
+
+    footer{ color:var(--muted); font-size:12px; margin-top:22px; text-align:center; }
+
+    @media (max-width:880px){
+      .stats{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .grid-2{ grid-template-columns:1fr; }
+      .grid-3{ grid-template-columns:1fr; }
+      .cards{ grid-template-columns:1fr; }
+      .roadmap-grid{ grid-template-columns:1fr; }
+      .source-list{ columns:1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
+      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow:var(--shadow); background:#fff;">
+        <span style="font-size:18px; line-height:1">←</span>
+        <span>На главную</span>
+      </a>
+    </nav>
+
+    <header class="hero">
+      <img src="../assets/logo.png" alt="SCI logo" class="logo" />
+      <div class="text">
+        <h1>Корпоративные блокчейн-платформы</h1>
+        <p class="sub">Enterprise Blockchain Platforms • обновлено: <strong>4&nbsp;ноября&nbsp;2025</strong></p>
+        <div class="tagrow">
+          <span class="tag">Hyperledger Fabric • Corda • Quorum</span>
+          <span class="tag">Zero-Knowledge • Tokenization • dApp orchestration</span>
+          <span class="tag">DLT Governance • Digital Assets • Smart Contracts</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="kpi"><div class="v"><strong>18–22%</strong> CAGR</div><div class="l">Рост рынка корпоративных DLT (2025–2029)</div></div>
+        <div class="kpi"><div class="v">TAM <strong>$12–14B</strong></div><div class="l">Глобальный объём 2025</div></div>
+        <div class="kpi"><div class="v">SAM <strong>$4.2–5.1B</strong></div><div class="l">Финансовый сектор + цепочки поставок</div></div>
+        <div class="kpi"><div class="v">SOM <strong>$0.8–1.1B</strong></div><div class="l">Регион EMEA</div></div>
+      </div>
+    </header>
+
+    <h2>Коротко</h2>
+    <section>
+      <p><strong>Корпоративные блокчейн-платформы</strong> обеспечивают прозрачность и неизменяемость транзакций в мультистейкхолдерских процессах: управление цифровыми активами, документооборот, цепочки поставок, пост-трейд клиринг. Платформы строятся на permissioned DLT (BFT/RAFT консенсусы), позволяют реализовать кастомные смарт-контракты, токенизацию активов, traceability и автоматизацию комплаенса.</p>
+      <div class="grid-2">
+        <div>
+          <h3>Драйверы</h3>
+          <ul class="bullet">
+            <li>Регуляторные требования к прозрачности цепочек поставок и ESG-отчётности.</li>
+            <li>Цифровые валюты центральных банков (CBDC) и институциональная токенизация.</li>
+            <li>Борьба с фродом и ускорение cross-border расчетов.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Статус и рынок</h3>
+          <ul class="bullet">
+            <li>Горизонт массового внедрения: <strong>3–5</strong> лет для цепочек поставок, <strong>5–7</strong> лет для капитальных рынков.</li>
+            <li>Пилоты в ритейле, энергетике, логистике; масштабные программы у банков (JP&nbsp;Morgan Onyx, HSBC Orion).</li>
+            <li>Ключевые вендоры: IBM, R3, ConsenSys, Digital Asset, Hedera, VMware.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Ключевые сценарии</h2>
+    <section class="cards">
+      <div class="card">
+        <h3>Цифровые активы и токенизация</h3>
+        <ul>
+          <li>Выпуск security tokens и облигаций с мгновенной расчётностью.</li>
+          <li>Рынки токенизированных товаров (золото, углеродные кредиты).</li>
+          <li>Управление lifecycle активов с KYC/AML контролем.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Цепочки поставок</h3>
+        <ul>
+          <li>Прослеживаемость происхождения и условия хранения.</li>
+          <li>Автоматизация сертификаций и таможенных процедур.</li>
+          <li>Консенсус между производителем, логистом и маркетплейсом.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Документооборот и идентичность</h3>
+        <ul>
+          <li>Self-sovereign ID, цифровые паспорта продукции.</li>
+          <li>Notary-as-a-service, юридически значимые события.</li>
+          <li>Zero-knowledge доказательства для селективного раскрытия.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Инфраструктура платежей</h3>
+        <ul>
+          <li>Instant cross-border settlement с atomic delivery versus payment.</li>
+          <li>Интеграция с платежными шлюзами и ERP.</li>
+          <li>Смарт-контракты для escrow и trade finance.</li>
+        </ul>
+      </div>
+    </section>
+
+    <h2>Дорожная карта внедрения</h2>
+    <section class="roadmap">
+      <div class="roadmap-grid">
+        <div class="phase">
+          <h3><span class="pill">0–6 мес.</span> Инициирование</h3>
+          <ul>
+            <li>Бизнес-кейс с оценкой ROI и регуляторных ограничений.</li>
+            <li>Выбор модели управления консорциумом и юридической формы.</li>
+            <li>PoC на ограниченном наборе участников, интеграция с ERP/CRM.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">6–18 мес.</span> Пилот и масштабирование</h3>
+          <ul>
+            <li>Настройка токеномики, политики доступа и жизненного цикла данных.</li>
+            <li>Реализация смарт-контрактов и оркестровки процессов.</li>
+            <li>Подключение внешних систем (KYC, AML, IoT) через API/gateways.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">18+ мес.</span> Продукция</h3>
+          <ul>
+            <li>Обеспечение непрерывного соответствия регуляторным требованиям.</li>
+            <li>Монетизация доступа к данным, управление ролями и аудитом.</li>
+            <li>Интеграция с CBDC, стандартами ISO&nbsp;20022 и цифровыми активами.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Метрики зрелости</h2>
+    <section>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Научный моментум (SM)</h3>
+          <p><strong>55/100</strong> — рост публикаций по консорциумным сетям и ZK-доказательствам, стабилизация вокруг interoperability.</p>
+        </div>
+        <div class="card">
+          <h3>Новизна (NV)</h3>
+          <p><strong>42/100</strong> — зрелые инструменты разработки, но активный фронтир в privacy-preserving вычислениях.</p>
+        </div>
+        <div class="card">
+          <h3>Импакт (IP)</h3>
+          <p><strong>48/100</strong> — рост цитируемости кейсов в финансах, требования к масштабированию.</p>
+        </div>
+        <div class="card">
+          <h3>Хайп/зрелость (HR)</h3>
+          <p><strong>60/100</strong> — переход от хайпа к прагматичным пилотам, повышенное внимание регуляторов.</p>
+        </div>
+        <div class="card">
+          <h3>Операционная готовность</h3>
+          <p><strong>3/5</strong> — зрелые DevOps-пайплайны, но дефицит специалистов по governance и безопасности.</p>
+        </div>
+        <div class="card">
+          <h3>Экосистема</h3>
+          <p><strong>4/5</strong> — устойчивые консорциумы (we.trade, Marco Polo, Contour), активные открытые стандарты (W3C DID, ISO&nbsp;23257).</p>
+        </div>
+      </div>
+    </section>
+
+    <h2>Источник и аналитика</h2>
+    <section>
+      <details>
+        <summary>Методология оценки</summary>
+        <p>Скоринг основан на анализе публикаций, активности open-source репозиториев, финансовых отчётах вендоров и регуляторных инициатив по цифровым активам. Дополнительно учитывались данные Gartner, IDC, CB&nbsp;Insights и отчёты BIS.</p>
+      </details>
+      <h3 style="margin-top:18px; font-size:16px; color:var(--blue-3);">Выборка источников</h3>
+      <div class="source-list">
+        <a href="https://www.gartner.com/en/documents/" target="_blank" rel="noopener">Gartner Market Guide for Blockchain Platforms</a>
+        <a href="https://www.bis.org/publ/" target="_blank" rel="noopener">BIS papers on tokenisation</a>
+        <a href="https://www.r3.com/insights/" target="_blank" rel="noopener">R3 Insights</a>
+        <a href="https://consensys.net/reports/" target="_blank" rel="noopener">ConsenSys Institutional DeFi</a>
+        <a href="https://www.ibm.com/blockchain/resources" target="_blank" rel="noopener">IBM Blockchain case studies</a>
+        <a href="https://www.weforum.org/" target="_blank" rel="noopener">WEF Global Blockchain Council</a>
+      </div>
+    </section>
+
+    <footer>© 2025 • SCI • Каталог корпоративных блокчейн-платформ</footer>
+  </div>
+
+  <script>
+    (function(){
+      var doc = document.documentElement;
+      doc.classList.add('auth-check');
+      try{
+        if(localStorage.getItem('sci-auth') === 'true'){
+          doc.classList.add('auth-ok');
+        } else {
+          window.location.replace('/login/');
+        }
+      } catch(err){
+        window.location.replace('/login/');
+      }
+    })();
+  </script>
+</body>
+</html>
