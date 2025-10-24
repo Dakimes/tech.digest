@@ -61,6 +61,17 @@
     .card{ padding:14px; border-radius:14px; background:#fff; border:1px solid var(--line); box-shadow: var(--shadow); }
     .card h4{ margin:0 0 6px; font-size:16px; color:var(--blue-3); }
 
+    .itc-layout{ display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:18px; align-items:center; }
+    .itc-spider{ margin:0; padding:16px; border-radius:14px; border:1px solid var(--line); background:#fff; box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .itc-spider svg{ width:100%; height:auto; max-width:320px; }
+    .itc-spider figcaption{ margin:0; font-size:12px; color:var(--muted); text-align:center; }
+    .itc-cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
+    .itc-spider .grid-ring{ stroke:rgba(0,71,179,.25); stroke-width:1; }
+    .itc-spider .axis{ stroke:rgba(0,71,179,.3); stroke-width:1; stroke-dasharray:4 4; }
+    .itc-spider .area{ fill:rgba(0,123,255,.22); stroke:var(--blue-2); stroke-width:2; }
+    .itc-spider .dot{ fill:#fff; stroke:var(--blue-3); stroke-width:1.4; }
+    .itc-spider .axis-label{ font-size:12px; fill:var(--blue-3); font-weight:600; }
+
     .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
     .roadmap-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
     .phase{ position:relative; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
@@ -84,6 +95,7 @@
     summary{ cursor:pointer; font-weight:700; color:var(--blue-3); }
 
     .source-list{ columns: 2; gap: 18px; }
+    .source-list p{ margin:0 0 10px; }
     .source-list a{ color: var(--blue-2); text-decoration: none; }
     .source-list a:hover{ text-decoration: underline; }
 
@@ -94,6 +106,10 @@
 
     footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
 
+    @media (max-width: 960px){
+      .itc-layout{ grid-template-columns:1fr; }
+      .itc-spider{ max-width:420px; margin:0 auto; }
+    }
     @media (max-width: 880px){
       .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); }
       .grid-2{ grid-template-columns:1fr; }
@@ -101,6 +117,16 @@
       .cards{ grid-template-columns:1fr; }
       .source-list{ columns: 1; }
       .roadmap-grid{ grid-template-columns:1fr; }
+      .itc-cards{ grid-template-columns:1fr; }
+    }
+    @media (max-width: 640px){
+      .stats{ grid-template-columns:1fr; }
+      header.hero{ padding:20px 18px; }
+      section{ padding:16px; }
+    }
+    @media (max-width: 520px){
+      .tag{ font-size:12px; }
+      .tagrow{ gap:6px; }
     }
     h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
   </style>
@@ -158,11 +184,16 @@
 
     <h2>Индекс технологичности (ITC)</h2>
     <section>
-      <div class="cards">
-        <div class="card"><h4>SM — 42</h4><p>Научный моментум замедляется: рост публикаций стабилизировался, фокус смещается в инженерную оптимизацию.</p></div>
-        <div class="card"><h4>NV — 20</h4><p>Высокая зрелость и оптимизация стоимости: внедрение управляемых сервисов, BYOC и serverless‑форматов.</p></div>
-        <div class="card"><h4>IP — 2</h4><p>Импакт пока нишевый: требуется накопление референсов и отраслевых ссылок для масштабных решений.</p></div>
-        <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа и лабораторная стадия: компетенции по stateful streams и exactly-once дефицитны.</p></div>
+      <div class="itc-layout">
+        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="42,20,2,8" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+        </figure>
+        <div class="itc-cards">
+          <div class="card"><h4>SM — 42</h4><p>Научный моментум замедляется: рост публикаций стабилизировался, фокус смещается в инженерную оптимизацию.</p></div>
+          <div class="card"><h4>NV — 20</h4><p>Высокая зрелость и оптимизация стоимости: внедрение управляемых сервисов, BYOC и serverless‑форматов.</p></div>
+          <div class="card"><h4>IP — 2</h4><p>Импакт пока нишевый: требуется накопление референсов и отраслевых ссылок для масштабных решений.</p></div>
+          <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа и лабораторная стадия: компетенции по stateful streams и exactly-once дефицитны.</p></div>
+        </div>
       </div>
     </section>
 
@@ -398,21 +429,116 @@
     <h2>Источники</h2>
     <section>
       <div class="source-list">
-        <a href="https://www.forrester.com/report/the-forrester-wave-tm-streaming-data-platforms-q4-2023/RES178464" target="_blank" rel="noopener">Forrester (2023) — Streaming Data Platforms Wave</a>
-        <a href="https://www.forrester.com/report/the-streaming-data-platforms-landscape-q3-2025/RES184143" target="_blank" rel="noopener">Forrester (2025) — Landscape</a>
-        <a href="https://www.gartner.com/en/documents/4347499" target="_blank" rel="noopener">Gartner Document 4347499</a>
-        <a href="https://www.confluent.io/press-release/confluent-plans-immerok-acquisition-to-accelerate-cloud-native-apache-flink/" target="_blank" rel="noopener">Confluent plans Immerok acquisition (2023)</a>
-        <a href="https://investors.confluent.io/news-releases/news-release-details/confluent-announces-general-availability-confluent-cloud-apache" target="_blank" rel="noopener">Confluent Cloud for Apache Flink GA (2024)</a>
-        <a href="https://investors.confluent.io/news-releases/news-release-details/confluent-acquires-warpstream-advance-next-gen-byoc-data" target="_blank" rel="noopener">Confluent acquires WarpStream (2024)</a>
-        <a href="https://www.redpanda.com/press/redpanda-raises-100m-in-series-c-funding" target="_blank" rel="noopener">Redpanda raises $100M Series C (2023)</a>
-        <a href="https://www.redpanda.com/press/redpanda-acquires-benthos" target="_blank" rel="noopener">Redpanda acquires Benthos (2024)</a>
-        <a href="https://www.redpanda.com/press/redpanda-raises-100m-launches-enterprise-agentic-ai-platform" target="_blank" rel="noopener">Redpanda raises $100M Series D (2025)</a>
-        <a href="https://www.businesswire.com/news/home/20240313224497/en/WarpStream-Labs-Raises-20M-to-Modernize-Data-Streaming-with-a-Cloud-Native-Replacement-for-Apache-Kafka" target="_blank" rel="noopener">WarpStream Labs raises $20M (2024)</a>
-        <a href="https://www.cncf.io/announcements/2024/01/25/cloud-native-computing-foundation-announces-the-graduation-of-cloudevents/" target="_blank" rel="noopener">CNCF CloudEvents Graduation (2024)</a>
+        <p><a href="https://www.forrester.com/report/the-forrester-wave-tm-streaming-data-platforms-q4-2023/RES178464" target="_blank" rel="noopener">Forrester (2023) — Streaming Data Platforms Wave</a></p>
+        <p><a href="https://www.forrester.com/report/the-streaming-data-platforms-landscape-q3-2025/RES184143" target="_blank" rel="noopener">Forrester (2025) — Landscape</a></p>
+        <p><a href="https://www.gartner.com/en/documents/4347499" target="_blank" rel="noopener">Gartner Document 4347499</a></p>
+        <p><a href="https://www.confluent.io/press-release/confluent-plans-immerok-acquisition-to-accelerate-cloud-native-apache-flink/" target="_blank" rel="noopener">Confluent plans Immerok acquisition (2023)</a></p>
+        <p><a href="https://investors.confluent.io/news-releases/news-release-details/confluent-announces-general-availability-confluent-cloud-apache" target="_blank" rel="noopener">Confluent Cloud for Apache Flink GA (2024)</a></p>
+        <p><a href="https://investors.confluent.io/news-releases/news-release-details/confluent-acquires-warpstream-advance-next-gen-byoc-data" target="_blank" rel="noopener">Confluent acquires WarpStream (2024)</a></p>
+        <p><a href="https://www.redpanda.com/press/redpanda-raises-100m-in-series-c-funding" target="_blank" rel="noopener">Redpanda raises $100M Series C (2023)</a></p>
+        <p><a href="https://www.redpanda.com/press/redpanda-acquires-benthos" target="_blank" rel="noopener">Redpanda acquires Benthos (2024)</a></p>
+        <p><a href="https://www.redpanda.com/press/redpanda-raises-100m-launches-enterprise-agentic-ai-platform" target="_blank" rel="noopener">Redpanda raises $100M Series D (2025)</a></p>
+        <p><a href="https://www.businesswire.com/news/home/20240313224497/en/WarpStream-Labs-Raises-20M-to-Modernize-Data-Streaming-with-a-Cloud-Native-Replacement-for-Apache-Kafka" target="_blank" rel="noopener">WarpStream Labs raises $20M (2024)</a></p>
+        <p><a href="https://www.cncf.io/announcements/2024/01/25/cloud-native-computing-foundation-announces-the-graduation-of-cloudevents/" target="_blank" rel="noopener">CNCF CloudEvents Graduation (2024)</a></p>
       </div>
     </section>
 
     <footer>© 2025 • SCI • Главная по технологиям KG</footer>
   </div>
+<script>
+  (function(){
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    function renderSpiders(){
+      document.querySelectorAll('.itc-spider').forEach(container=>{
+        const labels = (container.dataset.labels || '').split(',').map(s=>s.trim()).filter(Boolean);
+        const raw = (container.dataset.values || '').split(',').map(s=> Number(s.trim()));
+        if(!labels.length) return;
+        const max = Number(container.dataset.max || 100) || 100;
+        const levels = Number(container.dataset.levels || 5) || 5;
+        const existing = container.querySelector('svg');
+        if(existing){ existing.remove(); }
+
+        const svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('viewBox','0 0 320 320');
+        svg.setAttribute('width','100%');
+        svg.setAttribute('height','100%');
+        svg.setAttribute('focusable','false');
+
+        const center = 160;
+        const radius = 120;
+
+        const toPoint = (ratio, idx)=>{
+          const angle = -Math.PI/2 + idx * (Math.PI*2/labels.length);
+          const r = radius * ratio;
+          return {
+            x: center + Math.cos(angle) * r,
+            y: center + Math.sin(angle) * r
+          };
+        };
+
+        const gridGroup = document.createElementNS(SVG_NS,'g');
+        for(let level=1; level<=levels; level++){
+          const pts = labels.map((_, idx)=> toPoint(level/levels, idx));
+          const polygon = document.createElementNS(SVG_NS,'polygon');
+          polygon.setAttribute('points', pts.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+          polygon.setAttribute('class','grid-ring');
+          polygon.setAttribute('fill', level % 2 === 0 ? 'rgba(0,123,255,.05)' : 'rgba(0,123,255,.1)');
+          gridGroup.appendChild(polygon);
+        }
+        svg.appendChild(gridGroup);
+
+        const axisGroup = document.createElementNS(SVG_NS,'g');
+        labels.forEach((label, idx)=>{
+          const end = toPoint(1, idx);
+          const axis = document.createElementNS(SVG_NS,'line');
+          axis.setAttribute('x1', center); axis.setAttribute('y1', center);
+          axis.setAttribute('x2', end.x); axis.setAttribute('y2', end.y);
+          axis.setAttribute('class','axis');
+          axisGroup.appendChild(axis);
+
+          const labelPoint = toPoint(1.12, idx);
+          const text = document.createElementNS(SVG_NS,'text');
+          text.textContent = label;
+          text.setAttribute('x', labelPoint.x);
+          text.setAttribute('y', labelPoint.y);
+          text.setAttribute('class','axis-label');
+          const anchor = labelPoint.x < center - 5 ? 'end' : (labelPoint.x > center + 5 ? 'start' : 'middle');
+          text.setAttribute('text-anchor', anchor);
+          axisGroup.appendChild(text);
+        });
+        svg.appendChild(axisGroup);
+
+        const valuePoints = labels.map((_, idx)=>{
+          const value = Math.max(0, Math.min(raw[idx] ?? 0, max));
+          return toPoint(value / max, idx);
+        });
+
+        const areaGroup = document.createElementNS(SVG_NS,'g');
+        const area = document.createElementNS(SVG_NS,'polygon');
+        area.setAttribute('points', valuePoints.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+        area.setAttribute('class','area');
+        area.setAttribute('fill', 'rgba(0,123,255,.28)');
+        areaGroup.appendChild(area);
+
+        valuePoints.forEach(pt=>{
+          const dot = document.createElementNS(SVG_NS,'circle');
+          dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y); dot.setAttribute('r', 4);
+          dot.setAttribute('class','dot');
+          areaGroup.appendChild(dot);
+        });
+
+        svg.appendChild(areaGroup);
+        container.insertBefore(svg, container.firstChild);
+      });
+    }
+
+    renderSpiders();
+    let resizeTimer;
+    window.addEventListener('resize', ()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderSpiders, 160);
+    });
+  })();
+</script>
 </body>
 </html>

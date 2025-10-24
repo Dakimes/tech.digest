@@ -33,7 +33,7 @@
     .wrap{ max-width: 1200px; margin: 28px auto 64px; padding: 0 20px; }
 
     /* Header */
-    header.hero{ display:flex; align-items:center; gap:16px; padding:16px 18px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg, #f7fbff 0%, #fff 100%); box-shadow:var(--shadow); }
+    header.hero{ display:flex; align-items:center; gap:16px; padding:16px 18px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg, #f7fbff 0%, #fff 100%); box-shadow:var(--shadow); flex-wrap:wrap; }
     .logo{ height:56px; width:auto; }
     .brand{ font-weight:800; font-size: clamp(18px,2.2vw,22px); letter-spacing:.2px; color:var(--blue-4); }
     .nav{ margin-left:auto; }
@@ -58,9 +58,11 @@
     /* Radar */
     .radar-wrap{ position:relative; border:1px solid var(--line); border-radius:var(--radius); padding:16px; background: #fff; box-shadow: var(--shadow); }
     .radar{ position:relative; width:100%; max-width:100%; height: 360px; margin:auto; background:
-      radial-gradient(circle at center, rgba(0,123,255,.06) 0 1px, transparent 1px) 0 0/24px 24px; border-radius:14px; overflow:hidden; }
+      radial-gradient(circle at center, rgba(0,123,255,.04) 0 1px, transparent 1px) 0 0/24px 24px; border-radius:14px; overflow:hidden; }
     .radar svg{ position:absolute; inset:0; width:100%; height:100%; }
-    .ring-label{ display:none; }
+    .ring-label{ display:block; font-size:12px; fill:var(--blue-4); font-weight:600; opacity:.85; }
+    .axis-line{ stroke:rgba(0,71,179,.25); stroke-width:1; stroke-dasharray:4 4; }
+    .ring-zone{ stroke:rgba(0,71,179,.35); stroke-width:1.2; }
 
     .radar-legend{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:flex-start; padding-top:10px; font-size:12px; color:#2b3b6a; }
     .radar-legend .lg{ display:inline-flex; align-items:center; gap:8px; }
@@ -70,6 +72,8 @@
     .dot{ cursor:pointer; transition: opacity .15s ease; }
     .dot circle{ filter: drop-shadow(0 2px 6px rgba(0,0,0,.15)); }
     .dot text{ font-size:12px; font-weight:700; fill:#0b0d12; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
+    .dot text[data-align="left"]{ text-anchor:end; }
+    .dot text[data-align="center"]{ text-anchor:middle; }
 
     /* Board */
     h2{ margin: 26px 0 10px; font-size: clamp(20px,2.4vw,28px); color:var(--blue-4); }
@@ -77,7 +81,22 @@
 
     .board{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; }
     @media (max-width: 980px){ .board{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
-    @media (max-width: 640px){ .board{ grid-template-columns: 1fr; } .radar{ height:320px; } }
+    @media (max-width: 760px){
+      header.hero{ flex-direction:column; align-items:flex-start; }
+      .nav{ width:100%; display:flex; justify-content:flex-start; }
+      .login-link{ width:100%; justify-content:center; }
+    }
+    @media (max-width: 640px){
+      .board{ grid-template-columns: 1fr; }
+      .radar{ height:320px; }
+      .radar-wrap{ padding:12px; }
+    }
+    @media (max-width: 480px){
+      header.hero{ padding:14px; }
+      .search{ flex-direction:column; }
+      .search input{ padding-left:38px; }
+      .radar{ height:280px; }
+    }
 
     .tile{ position:relative; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:10px; }
     .tile:hover{ border-color: var(--blue-2); box-shadow: 0 8px 30px rgba(0,123,255,.12); }
@@ -168,6 +187,7 @@ const rings = [
   {id:'production',label:'Продукция',  r:180, color:'#1c8fff'},
   {id:'scale',     label:'Масштаб',    r:230, color:'#0b5fd1'}
 ];
+let lastRadarData = technologies;
 
 function polarToXY(cx, cy, r, angleDeg){
   const a = (angleDeg - 90) * Math.PI/180; // 0° вверх
@@ -175,6 +195,7 @@ function polarToXY(cx, cy, r, angleDeg){
 }
 
 function renderRadar(data){
+  lastRadarData = data;
   const w = radarEl.clientWidth || radarEl.offsetWidth || 800;
   const h = radarEl.clientHeight || 360;
   const cx = w/2, cy = h/2;
@@ -184,17 +205,44 @@ function renderRadar(data){
   const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
 
-  // Кольца зрелости
-  rings.forEach(r=>{
+  const defs = document.createElementNS(svg.namespaceURI,'defs');
+  const lg = document.createElementNS(svg.namespaceURI,'linearGradient');
+  lg.setAttribute('id','grad'); lg.setAttribute('x1','0'); lg.setAttribute('x2','1');
+  const s1 = document.createElementNS(svg.namespaceURI,'stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','var(--blue-1)');
+  const s2 = document.createElementNS(svg.namespaceURI,'stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','var(--blue-2)');
+  lg.appendChild(s1); lg.appendChild(s2); defs.appendChild(lg); svg.appendChild(defs);
+
+  const ringGroup = document.createElementNS(svg.namespaceURI,'g');
+  rings.forEach((r, idx)=>{
     const R = r.r * scale;
     const c = document.createElementNS(svg.namespaceURI,'circle');
     c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', R);
-    c.setAttribute('fill','none'); c.setAttribute('stroke','var(--line)'); c.setAttribute('stroke-width','1.4');
-    svg.appendChild(c);
+    c.setAttribute('class','ring-zone');
+    c.setAttribute('fill', idx % 2 === 0 ? 'rgba(0,123,255,.09)' : 'rgba(0,123,255,.05)');
+    ringGroup.appendChild(c);
+
     const t = document.createElementNS(svg.namespaceURI,'text');
-    t.setAttribute('x', cx + R + 8); t.setAttribute('y', cy - 6);
-    t.setAttribute('class','ring-label'); t.textContent = r.label; svg.appendChild(t);
+    t.setAttribute('x', cx);
+    t.setAttribute('y', Math.max(18, cy - R + 14));
+    t.setAttribute('class','ring-label');
+    t.setAttribute('text-anchor','middle');
+    t.textContent = r.label;
+    ringGroup.appendChild(t);
   });
+  svg.appendChild(ringGroup);
+
+  const axes = document.createElementNS(svg.namespaceURI,'g');
+  const axisCount = 8;
+  for(let i=0;i<axisCount;i++){
+    const angle = (360/axisCount)*i;
+    const end = polarToXY(cx, cy, rings[rings.length-1].r * scale, angle);
+    const line = document.createElementNS(svg.namespaceURI,'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', end.x); line.setAttribute('y2', end.y);
+    line.setAttribute('class','axis-line');
+    axes.appendChild(line);
+  }
+  svg.appendChild(axes);
 
   if(!data.length){
     radarEl.innerHTML = '';
@@ -202,12 +250,7 @@ function renderRadar(data){
     return;
   }
 
-  const defs = document.createElementNS(svg.namespaceURI,'defs');
-  const lg = document.createElementNS(svg.namespaceURI,'linearGradient');
-  lg.setAttribute('id','grad'); lg.setAttribute('x1','0'); lg.setAttribute('x2','1');
-  const s1 = document.createElementNS(svg.namespaceURI,'stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','var(--blue-1)');
-  const s2 = document.createElementNS(svg.namespaceURI,'stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','var(--blue-2)');
-  lg.appendChild(s1); lg.appendChild(s2); defs.appendChild(lg); svg.appendChild(defs);
+  const labelBoxes = [];
 
   data.forEach((item, idx)=>{
     const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
@@ -219,8 +262,49 @@ function renderRadar(data){
     circle.setAttribute('fill','url(#grad)'); circle.setAttribute('stroke','var(--blue-3)'); circle.setAttribute('stroke-width','1');
 
     const label = document.createElementNS(svg.namespaceURI,'text');
-    label.setAttribute('x', pos.x + 14); label.setAttribute('y', pos.y - 12);
     label.textContent = item.name;
+
+    const align = pos.x < cx - 40 ? 'left' : (pos.x > cx + 40 ? 'right' : 'center');
+    let labelX = align === 'left' ? pos.x - 16 : align === 'right' ? pos.x + 16 : pos.x;
+    let labelY = pos.y - 12;
+    const approxWidth = Math.min(220, item.name.length * 6.8);
+    const labelHeight = 18;
+    const box = {
+      x: align === 'left' ? labelX - approxWidth : labelX,
+      y: labelY - labelHeight + 6,
+      width: approxWidth,
+      height: labelHeight
+    };
+
+    if(box.y < 12){
+      const diff = 12 - box.y;
+      box.y += diff; labelY += diff;
+    }
+
+    const collide = (a,b)=> !(a.x + a.width < b.x || b.x + b.width < a.x || a.y + a.height < b.y || b.y + b.height < a.y);
+    let guard = 0;
+    while(labelBoxes.some(b=>collide(b, box)) && guard < 12){
+      box.y += labelHeight;
+      labelY += labelHeight;
+      guard++;
+    }
+
+    if(align === 'right' && box.x + box.width > w - 8){
+      const shift = box.x + box.width - (w - 8);
+      labelX -= shift;
+      box.x -= shift;
+    }
+    if(align === 'left' && box.x < 8){
+      const shift = 8 - box.x;
+      labelX += shift;
+      box.x += shift;
+    }
+
+    label.setAttribute('x', labelX);
+    label.setAttribute('y', labelY);
+    if(align === 'left'){ label.setAttribute('text-anchor','end'); label.dataset.align='left'; }
+    else if(align === 'right'){ label.setAttribute('text-anchor','start'); label.dataset.align='right'; }
+    else { label.setAttribute('text-anchor','middle'); label.dataset.align='center'; }
 
     g.appendChild(circle);
     g.appendChild(label);
@@ -231,6 +315,7 @@ function renderRadar(data){
     g.addEventListener('keydown', (e)=>{ if(e.key==='Enter') go(); });
 
     svg.appendChild(g);
+    labelBoxes.push(box);
   });
 
   radarEl.innerHTML = '';
@@ -278,10 +363,14 @@ function setupSearch(){
 }
 
 // init
-renderRadar(technologies);
-renderBoard(technologies);
-setupSearch();
-window.addEventListener('resize', ()=> renderRadar(technologies));
+  renderRadar(technologies);
+  renderBoard(technologies);
+  setupSearch();
+  let radarResizeTimer;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(radarResizeTimer);
+    radarResizeTimer = setTimeout(()=> renderRadar(lastRadarData), 160);
+  });
 
 const loginLink = document.querySelector('.login-link');
 function isAuthenticated(){
