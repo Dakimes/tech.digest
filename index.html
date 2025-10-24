@@ -444,13 +444,20 @@ function setupSearch(){
       updateClearState();
       return;
     }
-    const res = base.filter(t=> {
-      const bag = [t.name, t.slug, t.ring, ringLabelsById[t.ring], ...(t.keys||[])]
-        .filter(Boolean)
-        .map(norm)
-        .join(' ');
+    const makeBag = (t)=> [t.name, t.slug, t.ring, ringLabelsById[t.ring], ...(t.keys||[])]
+      .filter(Boolean)
+      .map(norm)
+      .join(' ');
+    let res = base.filter(t=> {
+      const bag = makeBag(t);
       return terms.every(term => bag.includes(term));
     });
+    if(!res.length){
+      res = base.filter(t=> {
+        const bag = makeBag(t);
+        return terms.some(term => bag.includes(term));
+      });
+    }
     renderBoard(res);
     renderRadar(res);
     updateClearState();
