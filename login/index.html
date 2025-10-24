@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вход в систему</title>
+  <meta name="description" content="Страница входа в каталог SCI." />
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <style>
+    :root{
+      --bg:#f5f8ff; --card:#ffffff; --text:#0b0d12; --muted:#4b5563;
+      --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3;
+      --radius:18px; --line:#d9e6fb;
+    }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap{ min-height:100vh; display:flex; flex-direction:column; }
+    header{ padding:24px 28px; display:flex; align-items:center; gap:12px; }
+    header img{ height:44px; }
+    header .brand{ font-weight:800; font-size: clamp(18px,2.2vw,24px); color:var(--blue-4); }
+    main{ flex:1; display:flex; align-items:center; justify-content:center; padding:24px; }
+    form{ background:var(--card); border-radius:var(--radius); padding:32px; box-shadow:0 16px 40px rgba(0,71,179,.18); border:1px solid rgba(0,71,179,.12); width:min(400px, 100%); display:flex; flex-direction:column; gap:20px; }
+    h1{ margin:0; font-size: clamp(22px, 3vw, 28px); color:var(--blue-4); text-align:center; }
+    label{ display:flex; flex-direction:column; gap:6px; font-weight:600; color:var(--muted); }
+    input{ padding:12px 14px; border-radius:12px; border:1.8px solid var(--line); font-size:15px; transition:border-color .2s ease, box-shadow .2s ease; }
+    input:focus{ border-color:var(--blue-2); box-shadow:0 0 0 4px rgba(0,123,255,.14); outline:none; }
+    button{ background:var(--blue-4); color:#fff; border:none; border-radius:12px; padding:12px 18px; font-size:16px; font-weight:700; cursor:pointer; transition:background .2s ease, transform .2s ease; }
+    button:hover{ background:var(--blue-3); transform:translateY(-1px); }
+    button:focus-visible{ outline:3px solid rgba(0,123,255,.35); outline-offset:3px; }
+    .message{ text-align:center; font-weight:600; }
+    .error{ color:#d62839; }
+    .success{ color:#0a7a2f; }
+    .back-link{ text-align:center; font-size:14px; }
+    .back-link a{ color:var(--blue-4); font-weight:600; text-decoration:none; }
+    .back-link a:hover{ text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a href="../" style="display:inline-flex; align-items:center; gap:12px; text-decoration:none;">
+        <img src="../assets/logo.png" alt="SCI logo" />
+        <span class="brand">SCI • Каталог технологий</span>
+      </a>
+    </header>
+    <main>
+      <form id="loginForm" aria-describedby="loginMessage">
+        <h1>Вход</h1>
+        <label>
+          Логин
+          <input type="text" id="username" name="username" autocomplete="username" required />
+        </label>
+        <label>
+          Пароль
+          <input type="password" id="password" name="password" autocomplete="current-password" required />
+        </label>
+        <button type="submit">Войти</button>
+        <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
+        <div class="back-link"><a href="../">← Вернуться на главную</a></div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const messageEl = document.getElementById('loginMessage');
+
+    function handleLogin(event){
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if(username === 'Admin' && password === 'Admin'){
+        messageEl.textContent = 'Вход выполнен, перенаправляем…';
+        messageEl.className = 'message success';
+        localStorage.setItem('sci-auth', 'true');
+        setTimeout(()=>{ window.location.href = '../'; }, 1200);
+      } else {
+        messageEl.textContent = 'Неверные данные. Попробуйте Admin/Admin.';
+        messageEl.className = 'message error';
+        localStorage.removeItem('sci-auth');
+      }
+    }
+
+    form.addEventListener('submit', handleLogin);
+  </script>
+</body>
+</html>
