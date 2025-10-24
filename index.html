@@ -255,7 +255,8 @@ function polarToXY(cx, cy, r, angleDeg){
 
 function renderRadar(data){
   if(!radarEl){ return; }
-  lastRadarData = data;
+  const items = Array.isArray(data) ? data : [];
+  lastRadarData = items;
   const w = radarEl.clientWidth || radarEl.offsetWidth || 800;
   const h = radarEl.clientHeight || 360;
   const cx = w/2, cy = h/2;
@@ -307,6 +308,7 @@ function renderRadar(data){
   if(!items.length){
     radarEl.innerHTML = '';
     radarEl.appendChild(svg);
+    if(radarEmptyEl){ radarEmptyEl.hidden = false; }
     return;
   }
 
@@ -380,6 +382,7 @@ function renderRadar(data){
 
   radarEl.innerHTML = '';
   radarEl.appendChild(svg);
+  if(radarEmptyEl){ radarEmptyEl.hidden = true; }
 }
 
 // === ДОСКА ===
