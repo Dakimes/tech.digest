@@ -96,6 +96,13 @@
     .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
     .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
     .regional figcaption{ padding:8px 12px; font-size:12px; color:var(--muted); }
+    .regional-table{ width:100%; border-collapse:collapse; font-size:13px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    .regional-table thead th{ background:rgba(0,167,255,.08); color:var(--blue-3); font-weight:700; padding:10px 12px; text-align:left; }
+    .regional-table tbody td{ padding:10px 12px; border-top:1px solid var(--line); text-align:left; }
+    .regional-table .value{ font-weight:700; color:var(--blue-3); white-space:nowrap; }
+    .regional-table .bar-cell{ width:48%; }
+    .regional-bar{ height:8px; border-radius:999px; background:rgba(0,167,255,.18); position:relative; overflow:hidden; }
+    .regional-bar span{ position:absolute; inset:0; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); }
 
     footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
 
@@ -125,13 +132,6 @@
 </head>
 <body>
   <div class="wrap">
-    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
-      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow: var(--shadow); background:#fff;">
-        <span style="font-size:18px; line-height:1">←</span>
-        <span>На главную</span>
-      </a>
-    </nav>
-
     <header class="hero">
       <img src="../assets/logo.png" alt="SCI logo" class="logo" />
       <div class="text">
@@ -150,6 +150,21 @@
         <div class="kpi"><div class="v"><strong>2–5 лет</strong></div><div class="l">Горизонт массового внедрения</div></div>
       </div>
     </header>
+
+    <h2>Индекс технологичности (ITC)</h2>
+    <section>
+      <div class="itc-layout">
+        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="42,20,2,8" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+        </figure>
+        <div class="itc-cards">
+          <div class="card"><h4>SM — 42</h4><p>Научный моментум замедляется: рост публикаций стабилизировался, фокус на инженерной оптимизации и доступности.</p></div>
+          <div class="card"><h4>NV — 20</h4><p>Новизна ограничена: индустрия переходит к управляемым сервисам, BYOC и serverless-моделям с упором на эффективность.</p></div>
+          <div class="card"><h4>IP — 2</h4><p>Импакт нишевый: требуется накопление крупных отраслевых референсов и кейсов в высокорискованных доменах.</p></div>
+          <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа: дефицит компетенций по stateful streams, exactly-once и операционному управлению кластером.</p></div>
+        </div>
+      </div>
+    </section>
 
     <h2>Коротко</h2>
     <section>
@@ -170,21 +185,6 @@
             <li>CloudEvents получил статус <strong>Graduated (2024)</strong> в CNCF.</li>
             <li>Рынок растёт <strong>14–19%</strong> CAGR (база 2025).</li>
           </ul>
-        </div>
-      </div>
-    </section>
-
-    <h2>Индекс технологичности (ITC)</h2>
-    <section>
-      <div class="itc-layout">
-        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="42,20,2,8" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
-        </figure>
-        <div class="itc-cards">
-          <div class="card"><h4>SM — 42</h4><p>Научный моментум замедляется: рост публикаций стабилизировался, фокус смещается в инженерную оптимизацию.</p></div>
-          <div class="card"><h4>NV — 20</h4><p>Высокая зрелость и оптимизация стоимости: внедрение управляемых сервисов, BYOC и serverless‑форматов.</p></div>
-          <div class="card"><h4>IP — 2</h4><p>Импакт пока нишевый: требуется накопление референсов и отраслевых ссылок для масштабных решений.</p></div>
-          <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа и лабораторная стадия: компетенции по stateful streams и exactly-once дефицитны.</p></div>
         </div>
       </div>
     </section>
@@ -247,8 +247,44 @@
     <section class="regional">
       <figure>
         <img src="../assets/regional-analytics.png" alt="Карта публикаций по потоковой обработке событий" loading="lazy" />
-        <figcaption>Основные публикации и внедрения сосредоточены в США, странах ЕС, Великобритании и Азии; усиливается внимание к ЕС (Германия) и США.</figcaption>
+        <figcaption>Северная Америка лидирует по числу пилотов в финтехе и AdTech; ЕС активен в индустриальном IoT и compliance, а АТР масштабирует суперприложения и телеком-пайплайны.</figcaption>
       </figure>
+      <table class="regional-table">
+        <thead>
+          <tr>
+            <th>Регион</th>
+            <th>Фокус</th>
+            <th class="bar-cell">Доля активных кейсов</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="value">Северная Америка</span></td>
+            <td>Managed Kafka/Flink, realtime fintech, AdTech</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:82%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Европа</span></td>
+            <td>Индустриальный IoT, телеком, требования GDPR/compliance</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:68%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Азия‑Тихоокеанский регион</span></td>
+            <td>Super apps, платежные суперсети, маркетплейсы</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:60%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Ближний Восток</span></td>
+            <td>Smart city, нефть и газ, энерготрейдинг в реальном времени</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:38%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Латинская Америка</span></td>
+            <td>Retail и цифровые банки, фрод-мониторинг</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:32%;"></span></div></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <h2>Горизонт внедрения</h2>
