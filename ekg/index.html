@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Технологический дайджест — Платформы корпоративных графов знаний</title>
-  <meta name="description" content="Enterprise Knowledge Graph Platforms — тех‑дайджест: стандарты, рынок, вендоры, ценность для бизнеса и гипотезы пилотов." />
+  <meta name="description" content="Enterprise Knowledge Graph Platforms — тех-дайджест: стандарты, рынок, вендоры, ценность для бизнеса и гипотезы пилотов." />
   <style>
     :root{
       /* Белая тема + более яркие синие */
@@ -46,7 +46,7 @@
     .chips{ display:flex; flex-wrap:wrap; gap:10px; }
     .chip{ background:#fff; border:1.8px solid var(--blue-2); color:var(--blue-3); padding:8px 10px; border-radius:10px; font-size:13px; font-weight:600; }
 
-    /* ROADMAP вместо вертикальной таймлинии */
+    /* ROADMAP */
     .roadmap{ position:relative; padding:16px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
     .roadmap-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
     .phase{ position:relative; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow: var(--shadow); }
@@ -54,18 +54,6 @@
     .phase h3 .pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); color:#fff; font-size:12px; font-weight:700; }
     .phase ul{ margin:0; padding-left:18px; }
     .phase li{ margin:6px 0; }
-    .arrow{display:none;} .arrow:after{display:none;}
-
-    @media (max-width: 880px){
-      .roadmap-grid{ grid-template-columns:1fr; }
-      .arrow{ display:none; }
-    }
-
-    .timeline{ position:relative; padding-left:22px; }
-    .timeline:before{ content:""; position:absolute; left:8px; top:6px; bottom:6px; width:2px; background: linear-gradient(180deg, var(--blue-2), var(--blue-5)); }
-    .tl-item{ position:relative; padding:10px 12px; margin: 6px 0 10px; border-radius: 12px; background:#fff; border:1px solid var(--line); }
-    .tl-item:before{ content:""; position:absolute; left:-15px; top:50%; transform: translateY(-50%); width:10px; height:10px; border-radius:50%; background:var(--blue-2); box-shadow:0 0 0 3px rgba(0,123,255,.18); }
-    .muted{ color:var(--muted); }
 
     .cards{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
     .card{ padding:14px; border-radius:14px; background:#fff; border:1px solid var(--line); }
@@ -82,7 +70,7 @@
     .source-list a{ color: var(--blue-2); text-decoration: none; }
     .source-list a:hover{ text-decoration: underline; }
 
-    /* Диаграмма TAM/SAM/SOM (исправленная) */
+    /* Диаграмма TAM/SAM/SOM */
     .market-chart{ display:block; width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; }
     .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
     .lg{ display:inline-flex; align-items:center; gap:8px; }
@@ -106,13 +94,9 @@
       .cards{ grid-template-columns:1fr; }
       .source-list{ columns: 1; }
     }
-    /* Акцент под заголовками секций */
     h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
-
-    /* Небольшой hover для чипсов */
     .chip:hover{ border-color: var(--blue-1); box-shadow: 0 2px 8px rgba(0, 123, 255, .12); }
-
-</style>
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -122,13 +106,14 @@
         <span>На главную · Технологический радар</span>
       </a>
     </nav>
+
     <header class="hero">
       <img src="../assets/logo.png" alt="SCI logo" class="logo" />
       <div class="text">
         <h1>Платформы корпоративных графов знаний</h1>
         <p class="sub">Enterprise Knowledge Graph Platforms • обновлено: <strong>23&nbsp;октября&nbsp;2025</strong></p>
         <div class="tagrow">
-          <span class="tag">RDF/OWL • SKOS • SHACL/SHEx • SPARQL&nbsp;1.2 • JSON‑LD • PROV‑O</span>
+          <span class="tag">RDF/OWL • SKOS • SHACL/SHEx • SPARQL&nbsp;1.2 • JSON-LD • PROV-O</span>
           <span class="tag">GraphRAG • Hybrid&nbsp;Search • Embeddings</span>
           <span class="tag">Managed Services • Orchestration • FAIR</span>
         </div>
@@ -141,7 +126,202 @@
       </div>
     </header>
 
-    <!-- Секция контента (укороченная здесь для сборки — вставьте ваш полный контент при необходимости) -->
+    <h2>Коротко</h2>
+    <section>
+      <p><strong>Платформы корпоративных графов знаний</strong> — оркестрованные пайплайны data engineering, интегрирующие источники, обогащающие онтологиями/метаданными и публикующие унифицированные данные для аналитики, графов знаний и LLM&nbsp;RAG. Ядро: <em>RDF/OWL</em>, <em>SKOS</em>, валидация <em>SHACL/SHEx</em>, запросы <em>SPARQL&nbsp;1.2</em>, публикации <em>JSON-LD</em>, провенанс <em>PROV-O</em>, каталоги <em>Dublin&nbsp;Core/DCAT</em>.</p>
+      <div class="grid-2">
+        <div>
+          <h3>Драйверы</h3>
+          <ul class="bullet">
+            <li>Персонализация и семантический поиск (GraphRAG, hybrid search).</li>
+            <li>Снижение OPEX через семантическую федерацию и унификацию схем.</li>
+            <li>Ускорение time-to-insight за счёт воспроизводимых оркестраций и семантических запросов.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Статус и рынок</h3>
+          <ul class="bullet">
+            <li>Горизонт массового внедрения: <strong>2–5</strong> лет (SPARQL&nbsp;<strong>1.2</strong>/RDF&nbsp;<strong>1.2</strong>, RDF Dataset Canonicalization).</li>
+            <li>Рост рынка <strong>22–30%</strong> CAGR (база&nbsp;<strong>2025</strong>).</li>
+            <li>Ключевые вендоры: Stardog, Amazon Neptune, Franz AllegroGraph, Deloitte×Neo4j и др.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Ключевые технологии</h2>
+    <section>
+      <div class="grid-3">
+        <div class="card">
+          <h4>Модели и семантика</h4>
+          <div class="chips">
+            <span class="chip">Онтологии</span><span class="chip">Таксономии</span><span class="chip">Референс-словари</span>
+            <span class="chip">RDF/OWL</span><span class="chip">SHACL/SHEx</span><span class="chip">Dublin Core</span><span class="chip">PROV-O</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Языки и запросы</h4>
+          <div class="chips">
+            <span class="chip">RDF/SPARQL&nbsp;1.2</span><span class="chip">JSON-LD</span><span class="chip">SKOS</span><span class="chip">R2RML/CSVW</span><span class="chip">XPath/XQuery</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Интеграция и загрузка</h4>
+          <div class="chips">
+            <span class="chip">ETL/ELT</span><span class="chip">Stream/Batch</span><span class="chip">Data&nbsp;Fusion</span><span class="chip">Record&nbsp;Linkage</span><span class="chip">Schema/Ontology&nbsp;Mapping</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Семантическое извлечение</h4>
+          <div class="chips">
+            <span class="chip">NER</span><span class="chip">Coreference</span><span class="chip">Entity&nbsp;Linking</span><span class="chip">Relation&nbsp;Extraction</span><span class="chip">Ontology-driven&nbsp;Annotation</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Пайплайны и оркестрация</h4>
+          <div class="chips">
+            <span class="chip">Workflow&nbsp;Orchestration</span><span class="chip">Reproducibility</span><span class="chip">Semantic&nbsp;Publishing</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Векторы и RAG</h4>
+          <div class="chips">
+            <span class="chip">Embeddings</span><span class="chip">Vector&nbsp;Indexes</span><span class="chip">Hybrid&nbsp;Search</span><span class="chip">Retrieval&nbsp;Pipelines</span><span class="chip">Grounding</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <h2>Ценность для бизнеса (ориентиры эффектов)</h2>
+    <section>
+      <div class="cards">
+        <div class="card"><h4>Выручка и удержание</h4><p>Персонализация на граф-аналитике и GraphRAG: uplift CTR <strong>+3–7%</strong>, конверсия <strong>+1–3 п.п.</strong>, LTV <strong>+5–10%</strong>.</p></div>
+        <div class="card"><h4>OPEX интеграции</h4><p>Семантическая федерация и единые схемы: снижение затрат на подключение источника на <strong>20–35%</strong>, ускорение онбординга в <strong>1.3–2.0×</strong>.</p></div>
+        <div class="card"><h4>Time-to-Insight</h4><p>SPARQL&nbsp;1.2 и оркестрации: цикл аналитики короче на <strong>30–60%</strong>, повторное использование наборов <strong>+25–40%</strong>.</p></div>
+        <div class="card"><h4>Качество ответов AI</h4><p>Grounding LLM на KG/GraphRAG: снижение галлюцинаций на <strong>5–15 п.п.</strong>, обоснованные ответы <strong>≥80%</strong>.</p></div>
+        <div class="card"><h4>Compliance и риски</h4><p>Lineage по PROV-O и DCAT: подготовка к аудитам быстрее на <strong>25–40%</strong>, расследования −<strong>30–50%</strong>.</p></div>
+        <div class="card"><h4>MDM и качество данных</h4><p>SHACL/SHEx + fusion: дубликаты ↓ на <strong>30–70%</strong>, критические нарушения схем ↓ на <strong>60–90%</strong>.</p></div>
+      </div>
+    </section>
+
+    <h2>Горизонт внедрения</h2>
+    <section class="roadmap">
+      <div class="roadmap-grid">
+        <div class="phase">
+          <h3><span class="pill">0–2 года</span></h3>
+          <ul class="bullet">
+            <li>Семантические каталоги данных и DCAT-описания.</li>
+            <li>Lineage/аудит по PROV-О; SHACL-валидация.</li>
+            <li>RAG-граундирование на RDF/OWL, hybrid search.</li>
+            <li>Managed RDF-графы (Neptune) с продакшн-кейсами.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">2–5 лет</span></h3>
+          <ul class="bullet">
+            <li>Стандарты SPARQL <strong>1.2</strong> / RDF <strong>1.2</strong> и каноникализация наборов.</li>
+            <li>GA-расширение managed-сервисов (Enterprise KG в облаках).</li>
+            <li>Оркестрации GraphRAG, потоковые пайплайны, кэшируемый retrieval.</li>
+            <li>Пилоты на нескольких доменах, KPI и SLO поиска.</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <h3><span class="pill">5–10 лет</span></h3>
+          <ul class="bullet">
+            <li>Межорганизационные дата-спейсы, онтологическая интероперабельность.</li>
+            <li>Регуляторные драйверы (EU AI Act) и доверенные обмены.</li>
+            <li>Автоматизированное обогащение, reasoning для аналитики и агентов.</li>
+            <li>Экосистемные каталоги и повторное использование по FAIR.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Размер рынка</h2>
+    <section>
+      <table class="tbl">
+        <thead><tr><th>Метрика</th><th>Оценка (2025)</th><th>Методика</th></tr></thead>
+        <tbody>
+          <tr><td>TAM</td><td><strong>$1.5–1.6B</strong></td><td>Триангуляция оценок Knowledge Graph market + sanity-check по Gartner.</td></tr>
+          <tr><td>SAM</td><td><strong>$0.56–0.72B</strong></td><td>TAM минус доля graph DB; 65–75% non-DB отнесено к платформам.</td></tr>
+          <tr><td>SOM</td><td><strong>$140–250M</strong></td><td>Top-down фильтр SAM по NA+EU и отраслям (BFSI/HC/паблик).</td></tr>
+          <tr><td>CAGR 2025–2029</td><td><strong>≈22–30%</strong></td><td>Драйверы: RAG/агенты; data fabric; governance/FAIR; облако.</td></tr>
+        </tbody>
+      </table>
+      <div class="market-chart">
+        <svg viewBox="0 0 1000 220" width="100%" height="220" role="img" aria-label="Диаграмма TAM SAM SOM">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1"><stop offset="0%" stop-color="#CFE6FF"/><stop offset="100%" stop-color="#00A7FF"/></linearGradient>
+            <linearGradient id="g2" x1="0" x2="1"><stop offset="0%" stop-color="#9BC8FF"/><stop offset="100%" stop-color="#007BFF"/></linearGradient>
+            <linearGradient id="g3" x1="0" x2="1"><stop offset="0%" stop-color="#7EB2FF"/><stop offset="100%" stop-color="#0047B3"/></linearGradient>
+          </defs>
+          <!-- Левые подписи категорий -->
+          <g font-size="13" font-weight="700" fill="#0b0d12">
+            <text x="20" y="60">TAM</text>
+            <text x="20" y="130">SAM</text>
+            <text x="20" y="200">SOM</text>
+          </g>
+          <!-- Столбчатые полосы -->
+          <g>
+            <rect x="160" y="46" width="760" height="28" rx="8" fill="url(#g1)"/>
+            <rect x="160" y="116" width="315" height="28" rx="8" fill="url(#g2)"/>
+            <rect x="160" y="186" width="96" height="28" rx="8" fill="url(#g3)"/>
+          </g>
+          <!-- Значения справа -->
+          <g font-size="12" font-weight="800" fill="#003F6B" text-anchor="start">
+            <text x="940" y="62">~$1.55B</text>
+            <text x="495" y="132">~$0.64B</text>
+            <text x="276" y="202">~$0.195B</text>
+          </g>
+        </svg>
+        <div class="legend">
+          <span class="lg"><span class="c1"></span> TAM (весь адресуемый рынок)</span>
+          <span class="lg"><span class="c2"></span> SAM (сегмент платформ)</span>
+          <span class="lg"><span class="c3"></span> SOM (достижимый фокус 2025)</span>
+        </div>
+      </div>
+    </section>
+
+    <h2>Ключевые вендоры и игроки</h2>
+    <section>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Платформы/движки (RDF/семантика)</h4>
+          <ul class="bullet">
+            <li><strong>Stardog</strong> — RDF/OWL, SPARQL, SHACL.</li>
+            <li><strong>Franz AllegroGraph</strong> — векторные хранилища и GraphRAG-функции.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Облака / managed-сервисы</h4>
+          <ul class="bullet">
+            <li><strong>Amazon Neptune</strong> — managed графовая БД (RDF <strong>1.1</strong>/SPARQL <strong>1.1</strong>, openCypher/Gremlin).</li>
+            <li><strong>Oracle Graph</strong> — Graph Studio в составе Autonomous Database (RDF/SPARQL).</li>
+            <li><strong>Ontotext GraphDB</strong> — managed-варианты на AWS/Azure/GCP.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Инструменты / SDK / OSS</h4>
+          <ul class="bullet">
+            <li><strong>Apache Jena</strong> — фреймворк RDF/OWL/SPARQL (ARQ/Fuseki).</li>
+            <li><strong>PoolParty Semantic Suite</strong> — SKOS/SKOS-XL, Extractor API, интеграции без ручного SPARQL.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Интеграторы / консалтинг</h4>
+          <ul class="bullet">
+            <li><strong>Deloitte × Neo4j</strong> — альянс (<strong>2024</strong>) по GenAI/GraphRAG с Vertex AI.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Стандарты</h4>
+          <ul class="bullet">
+            <li><strong>ISO/IEC 39075:2024 (GQL)</strong> — стандарт запросов к property-graphs.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <h2>Региональное развитие решений</h2>
     <section class="regional">
       <figure class="regional-figure">
@@ -150,7 +330,73 @@
       </figure>
     </section>
 
-    <footer>© 2025 • Тех‑дайджест: Корпоративные графы знаний • CC‑BY Attribution requested</footer>
+    <h2>Гипотезы для пилотов</h2>
+    <section>
+      <div class="grid-2">
+        <details open>
+          <summary>Графовый поиск и рекомендации</summary>
+          <p>Uplift CTR <strong>+3–7%</strong>, p99 поиска <strong>&lt; 100&nbsp;мс</strong> при recall@k <strong>≥ 0.95</strong>.</p>
+        </details>
+        <details>
+          <summary>Автозагрузка и нормализация в граф</summary>
+          <p>SHACL-валид: доля записей без критики <strong>≥ 98%</strong>; время инкрементальной загрузки <strong>&lt; 15&nbsp;мин</strong> на таблицу.</p>
+        </details>
+        <details>
+          <summary>Entity resolution контрагентов/клиентов</summary>
+          <p>F1 против baseline <strong>+5–15 п.п.</strong>; стабильность кластеров <strong>≥ 95%</strong>.</p>
+        </details>
+        <details>
+          <summary>Сквозной провенанс и аудит</summary>
+          <p>Покрытие провенансом приоритетных наборов <strong>≥ 90%</strong>; успешный выборочный аудит <strong>100%</strong>.</p>
+        </details>
+        <details>
+          <summary>GraphRAG для служебных знаний</summary>
+          <p>Прирост точности/faithfulness к базовому RAG <strong>+5–12 п.п.</strong>; доля ответов с цитированием узлов <strong>≥ 80%</strong>.</p>
+        </details>
+        <details>
+          <summary>Потоковое обновление графа</summary>
+          <p>Задержка от события до доступности в поиске <strong>&lt; 5&nbsp;мин</strong>; потери событий <strong>0%</strong>.</p>
+        </details>
+        <details>
+          <summary>FAIR-управление словарями и «находимость»</summary>
+          <p>Полнота метаданных (PID/лицензии/ссылки) <strong>≥ 95%</strong>; снижение ручных запросов к data-команде <strong>−20–40%</strong>.</p>
+        </details>
+      </div>
+    </section>
+
+    <h2>Ссылки и источники</h2>
+    <section>
+      <div class="source-list">
+        <p><a href="https://www.w3.org/TR/sparql12-query/" target="_blank" rel="noopener">W3C. SPARQL 1.2 Query</a></p>
+        <p><a href="https://www.w3.org/TR/sparql12-update/" target="_blank" rel="noopener">W3C. SPARQL 1.2 Update</a></p>
+        <p><a href="https://www.w3.org/TR/sparql12-protocol/" target="_blank" rel="noopener">W3C. SPARQL 1.2 Protocol</a></p>
+        <p><a href="https://w3c.github.io/sparql-federated-query/spec/" target="_blank" rel="noopener">W3C. SPARQL Federated Query</a></p>
+        <p><a href="https://www.iso.org/standard/76120.html" target="_blank" rel="noopener">ISO/IEC 39075:2024 GQL</a></p>
+        <p><a href="https://www.gqlstandards.org/" target="_blank" rel="noopener">GQL Standards</a></p>
+        <p><a href="https://blogs.oracle.com/database/post/property-graphs-in-oracle-database-23ai-the-sql-pgq-standard" target="_blank" rel="noopener">Oracle Blog: Property Graphs & SQL/PGQ</a></p>
+        <p><a href="https://docs.oracle.com/en/database/oracle/property-graph/24.1/spgdg/graph-developers-guide-property-graph.pdf" target="_blank" rel="noopener">Oracle Graph Developer’s Guide (24.1)</a></p>
+        <p><a href="https://docs.aws.amazon.com/neptune/" target="_blank" rel="noopener">AWS Neptune</a></p>
+        <p><a href="https://docs.aws.amazon.com/neptune/latest/userguide/feature-overview-data-model.html" target="_blank" rel="noopener">AWS Neptune data models</a></p>
+        <p><a href="https://www.stardog.com/" target="_blank" rel="noopener">Stardog</a></p>
+        <p><a href="https://www.ontotext.com/products/graphdb/" target="_blank" rel="noopener">Ontotext GraphDB</a></p>
+        <p><a href="https://graphdb.ontotext.com/documentation/11.0/" target="_blank" rel="noopener">GraphDB Docs</a></p>
+        <p><a href="https://metaphacts.com/metaphactory" target="_blank" rel="noopener">metaphactory</a></p>
+        <p><a href="https://github.com/microsoft/graphrag" target="_blank" rel="noopener">Microsoft GraphRAG (GitHub)</a></p>
+        <p><a href="https://github.com/DEEP-PolyU/Awesome-GraphRAG" target="_blank" rel="noopener">Awesome-GraphRAG</a></p>
+        <p><a href="https://metaphacts.com/images/PDFs/case-studies/metaphacts-Case-Study-Smart-Manufacturing-at-Siemens-with-metaphactory-Knowledge-Graph-Platform.pdf" target="_blank" rel="noopener">Siemens case (metaphacts)</a></p>
+        <p><a href="https://ceur-ws.org/Vol-2180/paper-86.pdf" target="_blank" rel="noopener">Siemens Industrial KG (CEUR-WS)</a></p>
+        <p><a href="https://neo4j.com/customer-stories/cisco/" target="_blank" rel="noopener">Cisco case (Neo4j)</a></p>
+        <p><a href="https://go.neo4j.com/rs/710-RRC-335/images/Neo4j-case-study-Cisco-EN-US.pdf" target="_blank" rel="noopener">Cisco case PDF</a></p>
+        <p><a href="https://www.biorxiv.org/content/10.1101/2021.10.28.466262.full" target="_blank" rel="noopener">AstraZeneca BIKG (bioRxiv)</a></p>
+        <p><a href="https://www.astrazeneca.com/what-science-can-do/topics/data-science-ai/connected-medicines-innovations-data-science-ai.html" target="_blank" rel="noopener">AstraZeneca on KGs</a></p>
+        <p><a href="https://www.marketsandmarkets.com/PressReleases/knowledge-graph.asp" target="_blank" rel="noopener">MarketsandMarkets: Knowledge Graph</a></p>
+        <p><a href="https://www.marketsandmarkets.com/PressReleases/graph-database.asp" target="_blank" rel="noopener">MarketsandMarkets: Graph Database</a></p>
+        <p><a href="https://www.mordorintelligence.com/industry-reports/graph-database-market" target="_blank" rel="noopener">Mordor Intelligence: Graph DB</a></p>
+        <p><a href="https://www.grandviewresearch.com/industry-analysis/graph-database-market-report" target="_blank" rel="noopener">Grand View Research: Graph DB</a></p>
+      </div>
+    </section>
+
+    <footer>© 2025 • Тех-дайджест: Корпоративные графы знаний • CC-BY Attribution requested</footer>
   </div>
 </body>
 </html>
