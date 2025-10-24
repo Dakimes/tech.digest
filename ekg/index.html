@@ -5,7 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Технологический дайджест — Платформы корпоративных графов знаний</title>
   <meta name="description" content="Enterprise Knowledge Graph Platforms — тех-дайджест: стандарты, рынок, вендоры, ценность для бизнеса и гипотезы пилотов." />
+  <script>
+    (function(){
+      var doc = document.documentElement;
+      doc.classList.add('auth-check');
+      try{
+        if(localStorage.getItem('sci-auth') === 'true'){
+          doc.classList.add('auth-ok');
+        } else {
+          window.location.replace('/login/');
+        }
+      } catch(err){
+        window.location.replace('/login/');
+      }
+    })();
+  </script>
   <style>
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
     :root{
       /* Белая тема + более яркие синие */
       --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;

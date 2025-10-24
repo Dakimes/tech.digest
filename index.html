@@ -5,7 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Главная</title>
   <meta name="description" content="Главная страница каталога: цифровой радар и карточки технологий." />
+  <script>
+    (function(){
+      var doc = document.documentElement;
+      doc.classList.add('auth-check');
+      try{
+        if(localStorage.getItem('sci-auth') === 'true'){
+          doc.classList.add('auth-ok');
+        } else {
+          window.location.replace('/login/');
+        }
+      } catch(err){
+        window.location.replace('/login/');
+      }
+    })();
+  </script>
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
   <style>
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
     :root{
       --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
       --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-6:#0B2F80;
@@ -18,6 +36,10 @@
     header.hero{ display:flex; align-items:center; gap:16px; padding:16px 18px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg, #f7fbff 0%, #fff 100%); box-shadow:var(--shadow); }
     .logo{ height:56px; width:auto; }
     .brand{ font-weight:800; font-size: clamp(18px,2.2vw,22px); letter-spacing:.2px; color:var(--blue-4); }
+    .nav{ margin-left:auto; }
+    .login-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:12px; background:var(--blue-4); color:#fff; font-weight:700; text-decoration:none; box-shadow:0 6px 18px rgba(0,71,179,.18); transition:background .2s ease, transform .2s ease; }
+    .login-link:hover{ background:var(--blue-3); transform:translateY(-1px); }
+    .login-link:focus-visible{ outline:3px solid rgba(0,123,255,.35); outline-offset:3px; }
 
     /* Blue top-level taxonomy band */
     .blueband{ margin-top:14px; background: linear-gradient(180deg, var(--blue-4), var(--blue-6)); color:#fff; border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid rgba(255,255,255,.15); }
@@ -72,6 +94,9 @@
     <header class="hero">
       <img src="./assets/logo.png" alt="SCI logo" class="logo" />
       <div class="brand">Технологический радар</div>
+      <nav class="nav" aria-label="Главная навигация">
+        <a class="login-link" href="./login/">Войти</a>
+      </nav>
     </header>
 
     <div class="search" role="search">
@@ -248,6 +273,42 @@ renderRadar(technologies);
 renderBoard(technologies);
 setupSearch();
 window.addEventListener('resize', ()=> renderRadar(technologies));
+
+const loginLink = document.querySelector('.login-link');
+function isAuthenticated(){
+  try{
+    return localStorage.getItem('sci-auth') === 'true';
+  } catch(err){
+    return false;
+  }
+}
+function configureLoginLink(){
+  if(!loginLink) return;
+  const authed = isAuthenticated();
+  if(authed){
+    loginLink.textContent = 'Выйти';
+    loginLink.href = '#logout';
+    loginLink.setAttribute('aria-label', 'Выйти из аккаунта');
+    loginLink.onclick = (event)=>{
+      event.preventDefault();
+      try{
+        localStorage.removeItem('sci-auth');
+      } catch(err){
+        /* ignore */
+      }
+      configureLoginLink();
+      window.location.replace('/login/');
+    };
+  } else {
+    loginLink.textContent = 'Войти';
+    loginLink.href = './login/';
+    loginLink.removeAttribute('aria-label');
+    loginLink.onclick = null;
+  }
+}
+
+configureLoginLink();
+window.addEventListener('storage', configureLoginLink);
 </script>
 </body>
 </html>
