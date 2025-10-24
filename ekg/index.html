@@ -87,6 +87,18 @@
     .source-list a{ color: var(--blue-2); text-decoration: none; }
     .source-list a:hover{ text-decoration: underline; }
 
+    /* ITC аналитика */
+    .itc{ display:grid; grid-template-columns: 1.4fr 1fr; gap:20px; align-items:stretch; }
+    .itc-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:var(--shadow); }
+    .itc-card h3{ margin:0 0 10px; font-size:18px; color:var(--blue-3); }
+    .itc-score{ font-size:42px; font-weight:800; color:var(--blue-4); margin:0 0 10px; }
+    .itc-note{ margin:0; color:var(--muted); font-size:14px; line-height:1.6; }
+    .itc-metrics{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+    .itc-metric{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow); }
+    .itc-metric h4{ margin:0 0 6px; font-size:14px; color:var(--blue-3); letter-spacing:.2px; text-transform:uppercase; }
+    .itc-metric p{ margin:0; color:var(--muted); font-size:13px; line-height:1.5; }
+    .itc-metric strong{ color:var(--blue-4); }
+
     /* Диаграмма TAM/SAM/SOM */
     .market-chart{ display:block; width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; }
     .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; }
@@ -110,6 +122,8 @@
       .grid-3{ grid-template-columns:1fr; }
       .cards{ grid-template-columns:1fr; }
       .source-list{ columns: 1; }
+      .itc{ grid-template-columns:1fr; }
+      .itc-metrics{ grid-template-columns:1fr; }
     }
     h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-2), var(--blue-1)); border-radius:2px; margin-top:8px; }
     .chip:hover{ border-color: var(--blue-1); box-shadow: 0 2px 8px rgba(0, 123, 255, .12); }
@@ -142,6 +156,33 @@
         <div class="kpi"><div class="v">SOM <strong>$140–250M</strong></div><div class="l">Фокус NA+EU</div></div>
       </div>
     </header>
+
+    <h2>Индекс технологичности (ITC) по платформам корпоративных графов знаний</h2>
+    <section class="itc">
+      <div class="itc-card">
+        <h3>Итоговый балл</h3>
+        <p class="itc-score">3/10</p>
+        <p class="itc-note">Эпизодическая активность: первые исследования и внедрения, слабая новизна, технологическая готовность почти нулевая. Рост присутствует, но едва заметен.</p>
+      </div>
+      <div class="itc-metrics">
+        <div class="itc-metric">
+          <h4>SM — научный моментум</h4>
+          <p><strong>40</strong>: указывает на замедление тренда.</p>
+        </div>
+        <div class="itc-metric">
+          <h4>NV — новизна / фронтир</h4>
+          <p><strong>20</strong>: демонстрирует зрелость подходов и фокус на оптимизации издержек.</p>
+        </div>
+        <div class="itc-metric">
+          <h4>IP — импакт</h4>
+          <p><strong>18</strong>: сигнализирует о прикладной нишевости или временном лаге накопления ссылок; корректная трактовка требует сравнений в пределах близких дисциплин.</p>
+        </div>
+        <div class="itc-metric">
+          <h4>HR — хайп / зрелость</h4>
+          <p><strong>20</strong>: указывает на лабораторную стадию или высокие барьеры входа.</p>
+        </div>
+      </div>
+    </section>
 
     <h2>Коротко</h2>
     <section>
