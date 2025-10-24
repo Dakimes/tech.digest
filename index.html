@@ -24,6 +24,7 @@
   <style>
     html.auth-check body{ visibility:hidden; }
     html.auth-check.auth-ok body{ visibility:visible; }
+    :where([hidden]){ display:none !important; }
     :root{
       --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#0b0d12;
       --blue-1:#00A7FF; --blue-2:#007BFF; --blue-3:#0062D1; --blue-4:#0047B3; --blue-6:#0B2F80;
@@ -54,11 +55,43 @@
     .search{ position:relative; display:flex; gap:10px; margin:18px 0 26px; }
     .search input{ width:100%; border:2px solid var(--blue-2); border-radius:14px; padding:14px 14px 14px 42px; font-size:16px; outline:none; box-shadow: 0 6px 22px rgba(0,123,255,.12); }
     .search input:focus{ border-color: var(--blue-2); box-shadow: 0 0 0 4px rgba(0,123,255,.12); }
+    .search .clear{
+      border:none;
+      background:#f2f7ff;
+      color:var(--blue-3);
+      padding:12px 14px;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      transition:background .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+    .search .clear:hover:not(:disabled){ background:#e6f0ff; }
+    .search .clear:focus-visible{ outline:3px solid rgba(0,123,255,.35); outline-offset:3px; }
+    .search .clear:disabled{
+      opacity:.65;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
 
     /* Radar */
     .radar-wrap{ position:relative; border:1px solid var(--line); border-radius:var(--radius); padding:16px; background: #fff; box-shadow: var(--shadow); }
     .radar{ position:relative; width:100%; max-width:100%; height: 360px; margin:auto; background:
       radial-gradient(circle at center, rgba(0,123,255,.04) 0 1px, transparent 1px) 0 0/24px 24px; border-radius:14px; overflow:hidden; }
+    .radar-empty{
+      position:absolute;
+      inset:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:rgba(255,255,255,.92);
+      border:1px dashed var(--line);
+      border-radius:12px;
+      color:var(--muted);
+      font-weight:600;
+      padding:18px;
+      pointer-events:none;
+    }
     .radar svg{ position:absolute; inset:0; width:100%; height:100%; }
     .ring-label{ display:block; font-size:12px; fill:var(--blue-4); font-weight:600; opacity:.85; }
     .axis-line{ stroke:rgba(0,71,179,.25); stroke-width:1; stroke-dasharray:4 4; }
@@ -80,6 +113,17 @@
     h2::after{ content:""; display:block; width:56px; height:4px; background: linear-gradient(90deg, var(--blue-3), var(--blue-1)); border-radius:2px; margin-top:8px; }
 
     .board{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; }
+    .board-empty{
+      margin: 18px 0 0;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#f5f8ff;
+      color:var(--muted);
+      text-align:center;
+      font-weight:600;
+      box-shadow:var(--shadow);
+    }
     @media (max-width: 980px){ .board{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
     @media (max-width: 760px){
       header.hero{ flex-direction:column; align-items:flex-start; }
@@ -123,11 +167,12 @@
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; opacity:.6"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle><line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2"></line></svg>
         <input id="q" type="search" placeholder="Поиск по технологиям…" aria-label="Поиск по каталогу" autofocus />
       </div>
-      <button class="clear" id="clearBtn" type="button" style="border:none; background:#f2f7ff; color:var(--blue-3); padding:12px 14px; border-radius:12px; font-weight:700; cursor:pointer;">Очистить</button>
+      <button class="clear" id="clearBtn" type="button">Очистить</button>
     </div>
 
     <section class="radar-wrap" aria-label="Цифровой радар технологий">
       <div id="radar" class="radar"></div>
+      <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
       <div class="radar-legend" aria-label="Легенда зрелости">
         <span class="lg"><i class="m1"></i>Наблюдение</span>
         <span class="lg"><i class="m2"></i>Пилоты</span>
@@ -138,6 +183,7 @@
 
     <h2>Доска технологий</h2>
     <section id="board" class="board" aria-live="polite"></section>
+    <p id="boardEmpty" class="board-empty" hidden role="status" aria-live="polite">По текущему запросу технологий не найдено. Попробуйте изменить критерии поиска.</p>
 
     <footer>© 2025 • SCI • Главная по технологиям KG</footer>
   </div>
@@ -190,12 +236,16 @@ const technologies = [
 
 // === РАДАР ===
 const radarEl = document.getElementById('radar');
+const radarEmptyEl = document.getElementById('radarEmpty');
+const boardEl = document.getElementById('board');
+const boardEmptyEl = document.getElementById('boardEmpty');
 const rings = [
   {id:'observe',   label:'Наблюдение', r:80,  color:'#86d6ff'},
   {id:'pilot',     label:'Пилоты',     r:130, color:'#4eb2ff'},
   {id:'production',label:'Продукция',  r:180, color:'#1c8fff'},
   {id:'scale',     label:'Масштаб',    r:230, color:'#0b5fd1'}
 ];
+const ringLabelsById = rings.reduce((acc, ring)=>{ acc[ring.id] = ring.label; return acc; }, {});
 let lastRadarData = technologies;
 
 function polarToXY(cx, cy, r, angleDeg){
@@ -254,7 +304,7 @@ function renderRadar(data){
   }
   svg.appendChild(axes);
 
-  if(!data.length){
+  if(!items.length){
     radarEl.innerHTML = '';
     radarEl.appendChild(svg);
     return;
@@ -262,7 +312,7 @@ function renderRadar(data){
 
   const labelBoxes = [];
 
-  data.forEach((item, idx)=>{
+  items.forEach((item, idx)=>{
     const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
     const pos = polarToXY(cx, cy, R, item.angle || (40 + idx*30));
 
@@ -336,9 +386,17 @@ function renderRadar(data){
 function chip(el, text){ const s=document.createElement('span'); s.className='chip'; s.textContent=text; el.appendChild(s); }
 
 function renderBoard(list){
-  const board = document.getElementById('board');
-  board.innerHTML = '';
-  list.forEach(item=>{
+  if(!boardEl) return;
+  const items = Array.isArray(list) ? list : [];
+  boardEl.innerHTML = '';
+  const hasItems = items.length > 0;
+  if(boardEmptyEl){
+    boardEmptyEl.hidden = hasItems;
+  }
+  if(!hasItems){
+    return;
+  }
+  items.forEach(item=>{
     const a = document.createElement('a');
     a.href = item.link; a.className='tile'; a.setAttribute('data-id', item.id);
 
@@ -346,30 +404,70 @@ function renderBoard(list){
     const h = document.createElement('div'); h.style.fontWeight='800'; h.textContent=item.name;
     title.appendChild(h);
 
+    const ringLabel = ringLabelsById[item.ring];
+    if(ringLabel){
+      const pill = document.createElement('span');
+      pill.className = 'pill';
+      pill.textContent = ringLabel;
+      pill.setAttribute('aria-label', `Зрелость: ${ringLabel}`);
+      title.appendChild(pill);
+    }
+
     const chips = document.createElement('div'); chips.className='chips';
-    item.keys.slice(0,6).forEach(k=> chip(chips,k));
+    (item.keys || []).slice(0,6).forEach(k=> chip(chips,k));
 
     a.appendChild(title); a.appendChild(chips);
-    board.appendChild(a);
+    boardEl.appendChild(a);
   });
 }
 
 // === ПОИСК ===
 function setupSearch(){
   const input = document.getElementById('q');
+  const clearBtn = document.getElementById('clearBtn');
+  if(!input) return;
   const base = [...technologies];
-  function norm(s){ return (s||'').toString().toLowerCase(); }
+  const norm = (s)=> (s||'').toString().toLowerCase();
+  const updateClearState = ()=>{
+    if(clearBtn){
+      clearBtn.disabled = !input.value.trim();
+    }
+  };
   function filter(){
-    const q = norm(input.value);
-    if(!q){ renderBoard(base); renderRadar(base); return; }
-    const res = base.filter(t=> {
-      const bag = [t.name, t.type, ...(t.keys||[])].map(norm).join(' ');
-      return bag.includes(q);
+    const terms = norm(input.value).split(/\s+/).filter(Boolean);
+    if(!terms.length){
+      renderBoard(base);
+      renderRadar(base);
+      updateClearState();
+      return;
+    }
+    const makeBag = (t)=> [t.name, t.slug, t.ring, ringLabelsById[t.ring], ...(t.keys||[])]
+      .filter(Boolean)
+      .map(norm)
+      .join(' ');
+    let res = base.filter(t=> {
+      const bag = makeBag(t);
+      return terms.every(term => bag.includes(term));
     });
-    renderBoard(res); renderRadar(res);
+    if(!res.length){
+      res = base.filter(t=> {
+        const bag = makeBag(t);
+        return terms.some(term => bag.includes(term));
+      });
+    }
+    renderBoard(res);
+    renderRadar(res);
+    updateClearState();
   }
   input.addEventListener('input', filter);
-  document.getElementById('clearBtn').addEventListener('click', ()=>{ input.value=''; filter(); input.focus(); });
+  if(clearBtn){
+    clearBtn.addEventListener('click', ()=>{
+      input.value = '';
+      filter();
+      input.focus();
+    });
+  }
+  updateClearState();
 }
 
 // init
