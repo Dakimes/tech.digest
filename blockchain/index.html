@@ -55,6 +55,17 @@
     .card h3{ margin:0 0 8px; font-size:16px; color:var(--blue-3); }
     .card ul{ margin:0; padding-left:18px; }
 
+    .itc-layout{ display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:18px; align-items:center; }
+    .itc-spider{ margin:0; padding:16px; border-radius:14px; border:1px solid var(--line); background:#fff; box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .itc-spider svg{ width:100%; height:auto; max-width:320px; }
+    .itc-spider figcaption{ margin:0; font-size:12px; color:var(--muted); text-align:center; }
+    .itc-cards{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .itc-spider .grid-ring{ stroke:rgba(0,71,179,.25); stroke-width:1; }
+    .itc-spider .axis{ stroke:rgba(0,71,179,.3); stroke-width:1; stroke-dasharray:4 4; }
+    .itc-spider .area{ fill:rgba(0,123,255,.28); stroke:var(--blue-2); stroke-width:2; }
+    .itc-spider .dot{ fill:#fff; stroke:var(--blue-3); stroke-width:1.4; }
+    .itc-spider .axis-label{ font-size:12px; fill:var(--blue-3); font-weight:600; }
+
     .regional{ display:grid; grid-template-columns:1fr; gap:12px; }
     .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
     .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
@@ -88,18 +99,13 @@
       .cards{ grid-template-columns:1fr; }
       .roadmap-grid{ grid-template-columns:1fr; }
       .source-list{ columns:1; }
+      .itc-layout{ grid-template-columns:1fr; }
+      .itc-cards{ grid-template-columns:1fr; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
-      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow:var(--shadow); background:#fff;">
-        <span style="font-size:18px; line-height:1">←</span>
-        <span>На главную</span>
-      </a>
-    </nav>
-
     <header class="hero">
       <img src="../assets/logo.png" alt="SCI logo" class="logo" />
       <div class="text">
@@ -118,6 +124,33 @@
         <div class="kpi"><div class="v">SOM <strong>$0.8–1.1B</strong></div><div class="l">Регион EMEA</div></div>
       </div>
     </header>
+
+    <h2>Индекс технологичности (ITC)</h2>
+    <section>
+      <div class="itc-layout">
+        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="52,38,24,36" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+        </figure>
+        <div class="itc-cards">
+          <div class="card">
+            <h3>SM — 52</h3>
+            <p>Устойчивый научный моментум: активные исследования в области конфиденциальных вычислений, CBDC и cross-chain interoperability.</p>
+          </div>
+          <div class="card">
+            <h3>NV — 38</h3>
+            <p>Новизна выше средней: внедряются ZKP, MPC и регулируемые токенизационные модели, но ядро платформ стабилизируется.</p>
+          </div>
+          <div class="card">
+            <h3>IP — 24</h3>
+            <p>Импакт растёт за счёт масштабируемых консорциумов и пилотов в финансах, логистике и энергетике, но ещё ограничен регуляторикой.</p>
+          </div>
+          <div class="card">
+            <h3>HR — 36</h3>
+            <p>Операционная готовность умеренная: зрелые DevSecOps-пайплайны, но дефицит специалистов по governance и privacy-инженерии.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <h2>Коротко</h2>
     <section>
@@ -325,6 +358,101 @@
       } catch(err){
         window.location.replace('/login/');
       }
+    })();
+  </script>
+  <script>
+    (function(){
+      const SVG_NS = 'http://www.w3.org/2000/svg';
+      function renderSpiders(){
+        document.querySelectorAll('.itc-spider').forEach(container=>{
+          const labels = (container.dataset.labels || '').split(',').map(s=>s.trim()).filter(Boolean);
+          const raw = (container.dataset.values || '').split(',').map(s=> Number(s.trim()));
+          if(!labels.length) return;
+          const max = Number(container.dataset.max || 100) || 100;
+          const levels = Number(container.dataset.levels || 5) || 5;
+          const existing = container.querySelector('svg');
+          if(existing){ existing.remove(); }
+
+          const svg = document.createElementNS(SVG_NS, 'svg');
+          svg.setAttribute('viewBox','0 0 320 320');
+          svg.setAttribute('width','100%');
+          svg.setAttribute('height','100%');
+          svg.setAttribute('focusable','false');
+
+          const center = 160;
+          const radius = 120;
+
+          const toPoint = (ratio, idx)=>{
+            const angle = -Math.PI/2 + idx * (Math.PI*2/labels.length);
+            const r = radius * ratio;
+            return {
+              x: center + Math.cos(angle) * r,
+              y: center + Math.sin(angle) * r
+            };
+          };
+
+          const gridGroup = document.createElementNS(SVG_NS,'g');
+          for(let level=1; level<=levels; level++){
+            const pts = labels.map((_, idx)=> toPoint(level/levels, idx));
+            const polygon = document.createElementNS(SVG_NS,'polygon');
+            polygon.setAttribute('points', pts.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+            polygon.setAttribute('class','grid-ring');
+            polygon.setAttribute('fill', level % 2 === 0 ? 'rgba(0,123,255,.05)' : 'rgba(0,123,255,.1)');
+            gridGroup.appendChild(polygon);
+          }
+          svg.appendChild(gridGroup);
+
+          const axisGroup = document.createElementNS(SVG_NS,'g');
+          labels.forEach((label, idx)=>{
+            const end = toPoint(1, idx);
+            const axis = document.createElementNS(SVG_NS,'line');
+            axis.setAttribute('x1', center); axis.setAttribute('y1', center);
+            axis.setAttribute('x2', end.x); axis.setAttribute('y2', end.y);
+            axis.setAttribute('class','axis');
+            axisGroup.appendChild(axis);
+
+            const labelPoint = toPoint(1.12, idx);
+            const text = document.createElementNS(SVG_NS,'text');
+            text.textContent = label;
+            text.setAttribute('x', labelPoint.x);
+            text.setAttribute('y', labelPoint.y);
+            text.setAttribute('class','axis-label');
+            const anchor = labelPoint.x < center - 5 ? 'end' : (labelPoint.x > center + 5 ? 'start' : 'middle');
+            text.setAttribute('text-anchor', anchor);
+            axisGroup.appendChild(text);
+          });
+          svg.appendChild(axisGroup);
+
+          const valuePoints = labels.map((_, idx)=>{
+            const value = Math.max(0, Math.min(raw[idx] ?? 0, max));
+            return toPoint(value / max, idx);
+          });
+
+          const areaGroup = document.createElementNS(SVG_NS,'g');
+          const area = document.createElementNS(SVG_NS,'polygon');
+          area.setAttribute('points', valuePoints.map(p=> `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+          area.setAttribute('class','area');
+          area.setAttribute('fill', 'rgba(0,123,255,.28)');
+          areaGroup.appendChild(area);
+
+          valuePoints.forEach(pt=>{
+            const dot = document.createElementNS(SVG_NS,'circle');
+            dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y); dot.setAttribute('r', 4);
+            dot.setAttribute('class','dot');
+            areaGroup.appendChild(dot);
+          });
+
+          svg.appendChild(areaGroup);
+          container.insertBefore(svg, container.firstChild);
+        });
+      }
+
+      renderSpiders();
+      let resizeTimer;
+      window.addEventListener('resize', ()=>{
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderSpiders, 160);
+      });
     })();
   </script>
   <script src="../assets/pdf-download.js" defer></script>

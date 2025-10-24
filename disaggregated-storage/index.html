@@ -93,6 +93,13 @@
     .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
     .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
     .regional figcaption{ padding:8px 12px; font-size:12px; color:var(--muted); }
+    .regional-table{ width:100%; border-collapse:collapse; font-size:13px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    .regional-table thead th{ background:rgba(0,167,255,.08); color:var(--blue-3); font-weight:700; padding:10px 12px; text-align:left; }
+    .regional-table tbody td{ padding:10px 12px; border-top:1px solid var(--line); text-align:left; }
+    .regional-table .value{ font-weight:700; color:var(--blue-3); white-space:nowrap; }
+    .regional-table .bar-cell{ width:48%; }
+    .regional-bar{ height:8px; border-radius:999px; background:rgba(0,167,255,.18); position:relative; overflow:hidden; }
+    .regional-bar span{ position:absolute; inset:0; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); }
 
     footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
 
@@ -122,13 +129,6 @@
 </head>
 <body>
   <div class="wrap">
-    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
-      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow: var(--shadow); background:#fff;">
-        <span style="font-size:18px; line-height:1">←</span>
-        <span>На главную</span>
-      </a>
-    </nav>
-
     <header class="hero">
       <img src="../assets/logo.png" alt="SCI logo" class="logo" />
       <div class="text">
@@ -151,6 +151,21 @@
       </div>
     </header>
 
+    <h2>Индекс технологичности (ITC)</h2>
+    <section>
+      <div class="itc-layout">
+        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="32,20,8,18" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+        </figure>
+        <div class="itc-cards">
+          <div class="card"><h4>SM — 32</h4><p>Научный моментум смещается к операционным вопросам: публикации фокусируются на стандартных профилях и совместимости.</p></div>
+          <div class="card"><h4>NV — 20</h4><p>Новизна ограничена: ключевые инновации — в оптимизации стоимости владения, автоматизации терминологий и security-by-design.</p></div>
+          <div class="card"><h4>IP — 8</h4><p>Импакт пока нишевый: отраслевые референсы появляются в клинических сетях и страховании, но остаются точечными.</p></div>
+          <div class="card"><h4>HR — 18</h4><p>Командам не хватает экспертов по FHIR/OMOP и атрибутному доступу; зрелые процессы только в крупных госпиталях и payers.</p></div>
+        </div>
+      </div>
+    </section>
+
     <h2>Коротко</h2>
     <section>
       <p><strong>Дезагрегированные распределённые архитектуры хранения для корпоративных платформ данных</strong> — это платформы и модели данных, объединяющие HL7 FHIR R4/R5 и OMOP CDM для загрузки, гармонизации, управления и предоставления продольных клинических и wellness‑данных через FHIR REST/Bulk Data, Terminology Services и SMART on FHIR (OAuth&nbsp;2.0). Подход поддерживает интероперабельный обмен, мультиинституциональную аналитику, прозрачный аудит и безопасную интеграцию API, снижая OPEX и ускоряя time-to-insight.</p>
@@ -170,21 +185,6 @@
             <li>Рынок растёт <strong>12–15%</strong> CAGR (база&nbsp;<strong>2025</strong>), инвесторы фокусируются на интероперабельности.</li>
             <li>Вендоры: Google Cloud Healthcare API, Azure Health Data Services, AWS HealthLake, InterSystems IRIS for Health.</li>
           </ul>
-        </div>
-      </div>
-    </section>
-
-    <h2>Индекс технологичности (ITC)</h2>
-    <section>
-      <div class="itc-layout">
-        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="32,20,8,18" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
-        </figure>
-        <div class="itc-cards">
-          <div class="card"><h4>SM — 32</h4><p>Научный моментум замедляется: публикации смещаются в сторону операционного внедрения и интеграции стандартов.</p></div>
-          <div class="card"><h4>NV — 20</h4><p>Новизна умеренная: рынок переходит к оптимизации затрат и закреплению профилей US Core, Bulk Data IG и SMART on FHIR.</p></div>
-          <div class="card"><h4>IP — 8</h4><p>Импакт нишевый: требуется накопление отраслевых ссылок и кейсов мультиинституциональной аналитики.</p></div>
-          <div class="card"><h4>HR — 18</h4><p>Высокие барьеры входа: нехватка экспертизы по FHIR/OMOP, lineage и атрибутному контролю доступа тормозит масштабирование.</p></div>
         </div>
       </div>
     </section>
@@ -409,8 +409,44 @@
     <section class="regional">
       <figure>
         <img src="../assets/regional-analytics.png" alt="Карта публикаций и пилотов по дезагрегированным архитектурам хранения FHIR/OMOP" loading="lazy" />
-        <figcaption>Максимальная концентрация публикаций и пилотов фиксируется в США, Канаде, странах ЕС и Южной Корее; активность ЕС (Германия, Нидерланды) и США продолжает расти.</figcaption>
+        <figcaption>США и Канада доминируют благодаря инициативам CMS/ONC и TEFCA; ЕС ускоряет формирование data spaces, в АТР растёт активность Сингапура и Южной Кореи.</figcaption>
       </figure>
+      <table class="regional-table">
+        <thead>
+          <tr>
+            <th>Регион</th>
+            <th>Фокус</th>
+            <th class="bar-cell">Доля активных кейсов</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="value">Северная Америка</span></td>
+            <td>TEFCA, payer-to-payer обмен, Medicare FHIR APIs</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:84%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Европа</span></td>
+            <td>Data spaces, DARWIN EU, регуляторные требования EMA</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:72%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Азия‑Тихоокеанский регион</span></td>
+            <td>Национальные медицинские платформы, smart hospital</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:54%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Ближний Восток</span></td>
+            <td>Госпрограммы цифрового здравоохранения (ОАЭ, Саудовская Аравия)</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:36%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Латинская Америка</span></td>
+            <td>Интероперабельность страховой отчётности и telehealth</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:28%;"></span></div></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <h2>Публикации и отчёты</h2>

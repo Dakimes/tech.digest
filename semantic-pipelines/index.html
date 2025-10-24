@@ -96,6 +96,13 @@
     .regional figure{ margin:0; background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
     .regional img{ width:100%; height:auto; display:block; border-radius:var(--radius); }
     .regional figcaption{ padding:8px 12px; font-size:12px; color:var(--muted); }
+    .regional-table{ width:100%; border-collapse:collapse; font-size:13px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    .regional-table thead th{ background:rgba(0,167,255,.08); color:var(--blue-3); font-weight:700; padding:10px 12px; text-align:left; }
+    .regional-table tbody td{ padding:10px 12px; border-top:1px solid var(--line); text-align:left; }
+    .regional-table .value{ font-weight:700; color:var(--blue-3); white-space:nowrap; }
+    .regional-table .bar-cell{ width:48%; }
+    .regional-bar{ height:8px; border-radius:999px; background:rgba(0,167,255,.18); position:relative; overflow:hidden; }
+    .regional-bar span{ position:absolute; inset:0; border-radius:999px; background:linear-gradient(90deg, var(--blue-2), var(--blue-1)); }
 
     footer{ color:var(--muted); font-size:12px; margin-top: 22px; text-align:center; }
 
@@ -125,13 +132,6 @@
 </head>
 <body>
   <div class="wrap">
-    <nav style="display:flex; justify-content:flex-start; margin-bottom:10px;">
-      <a href="/" style="display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1.6px solid var(--line); border-radius:10px; text-decoration:none; color:var(--blue-3); font-weight:700; box-shadow: var(--shadow); background:#fff;">
-        <span style="font-size:18px; line-height:1">←</span>
-        <span>На главную</span>
-      </a>
-    </nav>
-
     <header class="hero">
       <img src="../assets/logo.png" alt="SCI logo" class="logo" />
       <div class="text">
@@ -150,6 +150,21 @@
         <div class="kpi"><div class="v"><strong>0–2 года</strong></div><div class="l">Горизонт массового внедрения</div></div>
       </div>
     </header>
+
+    <h2>Индекс технологичности (ITC)</h2>
+    <section>
+      <div class="itc-layout">
+        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="44,28,6,16" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+        </figure>
+        <div class="itc-cards">
+          <div class="card"><h4>SM — 44</h4><p>Стабильный поток публикаций по гибридным векторно-реляционным запросам, ISO&nbsp;GQL и PROV-O.</p></div>
+          <div class="card"><h4>NV — 28</h4><p>Новизна средняя: вендоры закрепляют гибридные движки и автоматизацию семантических моделей.</p></div>
+          <div class="card"><h4>IP — 6</h4><p>Импакт растёт медленно: крупные референсы появляются в BFSI и телекомах, но остаются штучными.</p></div>
+          <div class="card"><h4>HR — 16</h4><p>Операционная готовность ограничена: нужны специалисты по онтологиям, ISO&nbsp;GQL и управлению эмбеддингами.</p></div>
+        </div>
+      </div>
+    </section>
 
     <h2>Коротко</h2>
     <section>
@@ -170,22 +185,6 @@
             <li>Рост рынка <strong>32–38%</strong> CAGR (база <strong>2025</strong>).</li>
             <li>Ключевые вендоры: Weaviate, AlloyDB for PostgreSQL, Azure AI Search, Amazon OpenSearch Service.</li>
           </ul>
-        </div>
-      </div>
-    </section>
-
-    <h2>Индекс технологичности (ITC)</h2>
-    <section>
-      <p style="margin:0 0 16px; color:var(--muted);"><strong>Итоговый балл 2/10.</strong> Имитация R&D: рост бизнеса от продукта маловероятен при текущей зрелости.</p>
-      <div class="itc-layout">
-        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="30,8,6,12" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — хайп/зрелость команд.</figcaption>
-        </figure>
-        <div class="itc-cards">
-          <div class="card"><h4>SM — 30</h4><p>Указывает на замедление тренда: новые исследования появляются реже, акцент смещается в инженерные оптимизации.</p></div>
-          <div class="card"><h4>NV — 8</h4><p>Сигнализирует о зрелости решений и фокусе на оптимизации издержек и bundled-сервисах.</p></div>
-          <div class="card"><h4>IP — 6</h4><p>Отражает прикладную нишевость и временной лаг накопления цитирований; важны сравнения внутри смежных дисциплин.</p></div>
-          <div class="card"><h4>HR — 12</h4><p>Говорит о лабораторной стадии и высоких барьерах входа: компетенции по гибридным планам и vector-ops дефицитны.</p></div>
         </div>
       </div>
     </section>
@@ -407,6 +406,50 @@
           <p>Цель — стабильность SLA и масштабирование без простоев; подход — распределённое шардирование и репликация, горячее перестроение графов, управление TTL/кэшем и балансировкой; данные — продовые индексы с реальным трафиком; метрики — отсутствие деградации пользовательских метрик и ошибок поиска, время перестроения в согласованном окне; длительность — 6–8 недель; go/no-go — перестроение без видимой деградации SLA и качества выдачи.</p>
         </details>
       </div>
+    </section>
+
+    <h2>Региональная активность</h2>
+    <section class="regional">
+      <figure>
+        <img src="../assets/regional-analytics.png" alt="Карта публикаций по семантическим конвейерам" loading="lazy" />
+        <figcaption>США и Канада лидируют по RAG-платформам и knowledge graph orchestration; ЕС развивает data spaces и цифровой суверенитет, а АТР масштабирует семантический поиск в суперприложениях.</figcaption>
+      </figure>
+      <table class="regional-table">
+        <thead>
+          <tr>
+            <th>Регион</th>
+            <th>Фокус</th>
+            <th class="bar-cell">Доля активных кейсов</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="value">Северная Америка</span></td>
+            <td>Enterprise RAG, knowledge graphs, управляемые semantic pipelines</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:76%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Европа</span></td>
+            <td>Data spaces, регуляторный compliance, цифровой суверенитет</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:68%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Азия‑Тихоокеанский регион</span></td>
+            <td>Супераппы, телеком и e-commerce knowledge graphs</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:54%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Ближний Восток</span></td>
+            <td>Госуслуги, ESG-отчётность, цифровые регистры</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:34%;"></span></div></td>
+          </tr>
+          <tr>
+            <td><span class="value">Латинская Америка</span></td>
+            <td>Финансовый комплаенс и антимошеннические RAG-процессы</td>
+            <td class="bar-cell"><div class="regional-bar"><span style="width:28%;"></span></div></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <h2>Источники</h2>
