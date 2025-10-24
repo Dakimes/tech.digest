@@ -66,11 +66,16 @@
         
       </form>
     </main>
+    <footer style="padding:24px 0; text-align:center; font-size:12px; color:var(--muted);">© 2025 SciArticle</footer>
   </div>
 
   <script>
     const form = document.getElementById('loginForm');
     const messageEl = document.getElementById('loginMessage');
+    const accounts = {
+      'Admin': { password: 'Admin', label: 'Главная' },
+      'Admin1': { password: 'Admin1', label: 'SaaS Portfolio' }
+    };
 
     function handleLogin(event){
       event.preventDefault();
@@ -79,11 +84,13 @@
       messageEl.textContent = '';
       messageEl.className = 'message';
 
-      if(username === 'Admin' && password === 'Admin'){
+      const account = accounts[username];
+      if(account && account.password === password){
         messageEl.textContent = 'Вход выполнен, перенаправляем…';
         messageEl.className = 'message success';
         try{
           localStorage.setItem('sci-auth', 'true');
+          localStorage.setItem('sci-account', username);
         } catch(err){
           /* ignore */
         }
@@ -93,6 +100,7 @@
         messageEl.className = 'message error';
         try{
           localStorage.removeItem('sci-auth');
+          localStorage.removeItem('sci-account');
         } catch(err){
           /* ignore */
         }
