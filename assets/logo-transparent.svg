@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 48" role="img" aria-labelledby="title desc">
+  <title id="title">SCI Technology Radar</title>
+  <desc id="desc">Stylized SCI monogram inside gradient ring on a transparent background.</desc>
+  <defs>
+    <linearGradient id="grad-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+    <linearGradient id="grad-letter" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0EA5E9" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(37,99,235,0.25)" />
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <circle cx="36" cy="24" r="20" fill="none" stroke="url(#grad-ring)" stroke-width="6" />
+    <path d="M26 20c1.4-5.2 6.2-9 12-9 5.8 0 10.6 3.8 12 9h-6.3c-.9-2.2-3-3.7-5.7-3.7-2.8 0-5.1 1.8-5.9 4.4-.2.8-.3 1.6-.3 2.3s.1 1.5.3 2.2c.8 2.6 3.1 4.4 5.9 4.4 2.7 0 4.8-1.5 5.7-3.7H50c-1.4 5.2-6.2 9-12 9-5.8 0-10.6-3.8-12-9-.3-1.1-.5-2.3-.5-3.5 0-1.1.2-2.3.5-3.4Z" fill="url(#grad-letter)" />
+  </g>
+  <text x="78" y="30" font-family="'Inter', 'Segoe UI', sans-serif" font-size="24" font-weight="700" fill="#0F172A">SCI</text>
+  <text x="128" y="30" font-family="'Inter', 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#2563EB">Radar</text>
+</svg>

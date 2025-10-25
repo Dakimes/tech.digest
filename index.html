@@ -20,7 +20,7 @@
       }
     })();
   </script>
-  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <link rel="icon" type="image/svg+xml" href="./assets/logo-transparent.svg" />
   <style>
     html.auth-check body{ visibility:hidden; }
     html.auth-check.auth-ok body{ visibility:visible; }
@@ -45,15 +45,26 @@
 
     /* Header */
     header.hero{ display:flex; align-items:center; gap:16px; padding:18px 20px; border:1px solid var(--border); border-radius:var(--radius); background:var(--card); box-shadow:var(--shadow); flex-wrap:wrap; }
+    .logo-link{ display:inline-flex; align-items:center; justify-content:center; border-radius:12px; text-decoration:none; }
+    .logo-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:4px; }
     .logo{ height:52px; width:auto; }
     .brand{ font-weight:700; font-size: clamp(20px,2.4vw,24px); letter-spacing:.2px; color:var(--text); }
     .nav{ margin-left:auto; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
     .nav-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; font-weight:600; text-decoration:none; box-shadow:none; border:1px solid var(--border); transition:background .2s ease, color .2s ease, transform .2s ease; background:var(--card-alt); color:var(--muted); }
     .nav-link:hover{ background:var(--border); color:var(--text); transform:translateY(-1px); }
     .nav-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
-    .nav-link--primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
-    .nav-link--primary:hover{ background:var(--accent-strong); color:#fff; }
-    .nav-link--primary:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
+    .nav-link--primary{
+      background:var(--card);
+      color:var(--accent-strong);
+      border-color:rgba(37,99,235,.22);
+      box-shadow:none;
+    }
+    .nav-link--primary:hover{
+      background:var(--card-alt);
+      color:var(--accent-strong);
+      border-color:var(--accent);
+    }
+    .nav-link--primary:focus-visible{ outline:3px solid rgba(37,99,235,.3); outline-offset:3px; }
 
     /* Blue top-level taxonomy band */
     .blueband{ margin-top:18px; background:var(--card); color:var(--text); border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--border); }
@@ -206,7 +217,9 @@
 <body>
   <div class="wrap">
     <header class="hero">
-      <img src="./assets/logo.png" alt="SCI logo" class="logo" />
+      <a class="logo-link" href="/">
+        <img src="./assets/logo-transparent.svg" alt="SCI logo" class="logo" />
+      </a>
       <div class="brand" id="projectBrand">Технологический радар</div>
       <div id="accountBadge" class="account-pill" hidden></div>
       <nav class="nav" aria-label="Главная навигация">
