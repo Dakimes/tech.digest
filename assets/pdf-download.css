@@ -90,21 +90,28 @@
     break-before:auto;
     page-break-after:avoid;
     break-after:avoid;
-    padding:18px 20px !important;
-    gap:12px !important;
-  }
-  .wrap > header.hero h1{
-    font-size:30px !important;
-  }
-  .wrap > header.hero p.sub{
-    font-size:13px !important;
-  }
-  .wrap > header.hero .stats{
-    margin-top:10px !important;
+    padding:14px 18px !important;
     gap:10px !important;
   }
+  .wrap > header.hero h1{
+    font-size:26px !important;
+  }
+  .wrap > header.hero p.sub{
+    font-size:12px !important;
+  }
+  .wrap > header.hero .stats{
+    margin-top:8px !important;
+    gap:8px !important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
   .wrap > header.hero .kpi{
-    padding:12px !important;
+    padding:10px !important;
+  }
+  .wrap > header.hero .kpi .v{
+    font-size:18px !important;
+  }
+  .wrap > header.hero .kpi .l{
+    font-size:11px !important;
   }
   .wrap > h2{
     page-break-before:always;
@@ -127,7 +134,7 @@
     break-before:auto !important;
     page-break-after:always;
     break-after:page;
-    margin-top:18px !important;
+    margin-top:12px !important;
   }
   .wrap > section.itc .itc-header{
     page-break-after:avoid;
@@ -140,6 +147,7 @@
   .wrap > section.itc .itc-group{
     page-break-inside:avoid;
     break-inside:avoid;
+    gap:12px !important;
   }
   .wrap > section.itc .itc-group > *{
     page-break-before:avoid;
@@ -148,13 +156,35 @@
   .wrap > section.itc .itc-layout{
     page-break-inside:avoid;
     break-inside:avoid;
-    gap:14px !important;
+    gap:12px !important;
   }
   .wrap > section.itc .itc-panel{
-    padding:18px !important;
+    padding:16px !important;
+  }
+  .wrap > section.itc .itc-header h2{
+    font-size:22px !important;
   }
   .wrap > section.itc .itc-spider{
+    padding:12px !important;
+  }
+  .wrap > section.itc .itc-card{
     padding:14px !important;
+  }
+  .wrap > section.itc .itc-score{
+    font-size:32px !important;
+  }
+  .wrap > section.itc .itc-note{
+    font-size:12px !important;
+  }
+  .wrap > section.itc .itc-metric{
+    padding:12px !important;
+  }
+  .wrap > section.itc .itc-metric h4{
+    font-size:12px !important;
+  }
+  .wrap > section.itc .itc-metric p{
+    font-size:12px !important;
+    line-height:1.45 !important;
   }
   header, section, footer, nav, .radar-wrap, .board, .hero, .stats, .cards, .itc-card, .itc-panel, .roadmap, .phase, .card, .kpi, .radar{
     page-break-inside:avoid;
