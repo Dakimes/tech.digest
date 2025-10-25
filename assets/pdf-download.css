@@ -99,6 +99,10 @@
     page-break-before:auto;
     break-before:auto;
   }
+  .wrap > header.hero + h2{
+    page-break-before:auto !important;
+    break-before:auto !important;
+  }
   .wrap > h2 + section{
     page-break-before:avoid;
     break-before:avoid;
