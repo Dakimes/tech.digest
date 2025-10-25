@@ -88,8 +88,23 @@
   .wrap > header.hero{
     page-break-before:auto;
     break-before:auto;
-    page-break-after:always;
-    break-after:page;
+    page-break-after:avoid;
+    break-after:avoid;
+    padding:18px 20px !important;
+    gap:12px !important;
+  }
+  .wrap > header.hero h1{
+    font-size:30px !important;
+  }
+  .wrap > header.hero p.sub{
+    font-size:13px !important;
+  }
+  .wrap > header.hero .stats{
+    margin-top:10px !important;
+    gap:10px !important;
+  }
+  .wrap > header.hero .kpi{
+    padding:12px !important;
   }
   .wrap > h2{
     page-break-before:always;
@@ -110,6 +125,9 @@
   .wrap > section.itc{
     page-break-before:auto !important;
     break-before:auto !important;
+    page-break-after:always;
+    break-after:page;
+    margin-top:18px !important;
   }
   .wrap > section.itc .itc-header{
     page-break-after:avoid;
@@ -126,6 +144,17 @@
   .wrap > section.itc .itc-group > *{
     page-break-before:avoid;
     break-before:avoid;
+  }
+  .wrap > section.itc .itc-layout{
+    page-break-inside:avoid;
+    break-inside:avoid;
+    gap:14px !important;
+  }
+  .wrap > section.itc .itc-panel{
+    padding:18px !important;
+  }
+  .wrap > section.itc .itc-spider{
+    padding:14px !important;
   }
   header, section, footer, nav, .radar-wrap, .board, .hero, .stats, .cards, .itc-card, .itc-panel, .roadmap, .phase, .card, .kpi, .radar{
     page-break-inside:avoid;
