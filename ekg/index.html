@@ -83,7 +83,11 @@
     .source-list a:hover{ text-decoration: underline; }
 
     /* ITC аналитика */
-    .itc{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.05fr); gap:20px; align-items:start; }
+    section.itc{ margin-top:34px; background:none; border:none; box-shadow:none; padding:0; }
+    .itc-panel{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+    .itc-group{ display:flex; flex-direction:column; gap:16px; }
+    .itc-header h2{ margin:0; }
+    .itc-layout{ display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:20px; align-items:center; }
     .itc-details{ display:flex; flex-direction:column; gap:18px; }
     .itc-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:var(--shadow); }
     .itc-card h3{ margin:0 0 10px; font-size:18px; color:var(--blue-3); }
@@ -134,7 +138,7 @@
       .grid-3{ grid-template-columns:1fr; }
       .cards{ grid-template-columns:1fr; }
       .source-list{ columns: 1; }
-      .itc{ grid-template-columns:1fr; }
+      .itc-layout{ grid-template-columns:1fr; }
       .itc-details{ gap:16px; }
       .itc-spider{ max-width:420px; margin:0 auto; }
       .itc-metrics{ grid-template-columns:1fr; }
@@ -165,35 +169,41 @@
       </div>
     </header>
 
-    <div class="print-page-break" aria-hidden="true"></div>
-
-    <h2>Индекс технологичности (ITC) по платформам корпоративных графов знаний</h2>
     <section class="itc">
-      <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="40,20,18,20" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-        <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность/хайп.</figcaption>
-      </figure>
-      <div class="itc-details">
-        <div class="itc-card">
-          <h3>Итоговый балл</h3>
-          <p class="itc-score">3/10</p>
-          <p class="itc-note">Эпизодическая активность: первые исследования и внедрения, слабая новизна, технологическая готовность почти нулевая. Рост присутствует, но едва заметен.</p>
-        </div>
-        <div class="itc-metrics">
-          <div class="itc-metric">
-            <h4>SM — научный моментум</h4>
-            <p><strong>40</strong>: указывает на замедление тренда.</p>
-          </div>
-          <div class="itc-metric">
-            <h4>NV — новизна / фронтир</h4>
-            <p><strong>20</strong>: демонстрирует зрелость подходов и фокус на оптимизации издержек.</p>
-          </div>
-          <div class="itc-metric">
-            <h4>IP — импакт</h4>
-            <p><strong>18</strong>: сигнализирует о прикладной нишевости или временном лаге накопления ссылок; корректная трактовка требует сравнений в пределах близких дисциплин.</p>
-          </div>
-          <div class="itc-metric">
-            <h4>HR — хайп / зрелость</h4>
-            <p><strong>20</strong>: указывает на лабораторную стадию или высокие барьеры входа.</p>
+      <div class="itc-panel">
+        <div class="itc-group">
+          <header class="itc-header">
+            <h2>Индекс технологичности (ITC) по платформам корпоративных графов знаний</h2>
+          </header>
+          <div class="itc-layout">
+            <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="40,20,18,20" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+              <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность/хайп.</figcaption>
+            </figure>
+            <div class="itc-details">
+              <div class="itc-card">
+                <h3>Итоговый балл</h3>
+                <p class="itc-score">3/10</p>
+                <p class="itc-note">Эпизодическая активность: первые исследования и внедрения, слабая новизна, технологическая готовность почти нулевая. Рост присутствует, но едва заметен.</p>
+              </div>
+              <div class="itc-metrics">
+                <div class="itc-metric">
+                  <h4>SM — научный моментум</h4>
+                  <p><strong>40</strong>: указывает на замедление тренда.</p>
+                </div>
+                <div class="itc-metric">
+                  <h4>NV — новизна / фронтир</h4>
+                  <p><strong>20</strong>: демонстрирует зрелость подходов и фокус на оптимизации издержек.</p>
+                </div>
+                <div class="itc-metric">
+                  <h4>IP — импакт</h4>
+                  <p><strong>18</strong>: сигнализирует о прикладной нишевости или временном лаге накопления ссылок; корректная трактовка требует сравнений в пределах близких дисциплин.</p>
+                </div>
+                <div class="itc-metric">
+                  <h4>HR — хайп / зрелость</h4>
+                  <p><strong>20</strong>: указывает на лабораторную стадию или высокие барьеры входа.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
