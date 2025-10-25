@@ -47,10 +47,13 @@
     header.hero{ display:flex; align-items:center; gap:16px; padding:18px 20px; border:1px solid var(--border); border-radius:var(--radius); background:var(--card); box-shadow:var(--shadow); flex-wrap:wrap; }
     .logo{ height:52px; width:auto; }
     .brand{ font-weight:700; font-size: clamp(20px,2.4vw,24px); letter-spacing:.2px; color:var(--text); }
-    .nav{ margin-left:auto; }
-    .login-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; background:var(--card-alt); color:var(--muted); font-weight:600; text-decoration:none; box-shadow:none; border:1px solid var(--border); transition:background .2s ease, color .2s ease, transform .2s ease; }
-    .login-link:hover{ background:var(--border); color:var(--text); transform:translateY(-1px); }
-    .login-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
+    .nav{ margin-left:auto; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+    .nav-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; font-weight:600; text-decoration:none; box-shadow:none; border:1px solid var(--border); transition:background .2s ease, color .2s ease, transform .2s ease; background:var(--card-alt); color:var(--muted); }
+    .nav-link:hover{ background:var(--border); color:var(--text); transform:translateY(-1px); }
+    .nav-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
+    .nav-link--primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
+    .nav-link--primary:hover{ background:var(--accent-strong); color:#fff; }
+    .nav-link--primary:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
 
     /* Blue top-level taxonomy band */
     .blueband{ margin-top:18px; background:var(--card); color:var(--text); border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--border); }
@@ -134,9 +137,12 @@
     }
     .radar-tooltip.is-visible{ opacity:1; }
     .radar-tooltip strong{ display:block; font-size:14px; margin-bottom:6px; color:var(--accent); }
-    .radar-tooltip span{ display:block; font-size:12px; color:var(--muted); }
-    .radar-tooltip ul{ margin:6px 0 0; padding-left:18px; color:var(--muted); }
-    .radar-tooltip li{ margin:2px 0; }
+    .radar-tooltip p{ margin:0 0 8px; font-size:12px; color:var(--muted); }
+    .radar-tooltip .tooltip-tags{ display:flex; flex-wrap:wrap; gap:6px; margin:0; }
+    .radar-tooltip .tooltip-tag{ display:inline-flex; align-items:center; padding:4px 8px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:11px; font-weight:600; letter-spacing:.2px; }
+    .radar-tooltip .tooltip-kpis{ margin:10px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+    .radar-tooltip .tooltip-kpi{ display:flex; gap:8px; align-items:flex-start; font-size:12px; color:var(--muted); }
+    .radar-tooltip .kpi-value{ color:var(--accent-strong); font-weight:700; min-width:68px; }
 
     /* Board */
     h2{
@@ -162,8 +168,8 @@
     @media (max-width: 980px){ .board{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
     @media (max-width: 760px){
       header.hero{ flex-direction:column; align-items:flex-start; }
-      .nav{ width:100%; display:flex; justify-content:flex-start; }
-      .login-link{ width:100%; justify-content:center; }
+      .nav{ width:100%; justify-content:flex-start; }
+      .nav-link{ width:100%; justify-content:center; }
     }
     @media (max-width: 640px){
       .board{ grid-template-columns: 1fr; }
@@ -188,8 +194,11 @@
     .tile .title{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
     .tile .num{ font-weight:600; font-size:13px; letter-spacing:.4px; color:var(--accent-strong); margin-right:8px; width:32px; height:32px; border-radius:12px; background:var(--accent-soft); display:inline-flex; align-items:center; justify-content:center; box-shadow:none; border:1px solid var(--accent-soft); flex-shrink:0; }
     .pill{ display:inline-block; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:600; color:var(--accent); background:var(--accent-soft); border:1px solid transparent; letter-spacing:.3px; }
-    .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0; }
     .chip{ background:var(--card-alt); border:1px solid transparent; color:var(--muted); padding:6px 10px; border-radius:10px; font-size:12px; font-weight:500; }
+    .tile .kpi-list{ margin:8px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+    .tile .kpi-item{ display:flex; gap:8px; align-items:flex-start; font-size:12px; color:var(--muted); }
+    .tile .kpi-value{ color:var(--accent-strong); font-weight:700; }
 
     footer{ color:var(--muted); font-size:12px; margin-top: 36px; text-align:center; }
   </style>
@@ -201,7 +210,8 @@
       <div class="brand" id="projectBrand">Технологический радар</div>
       <div id="accountBadge" class="account-pill" hidden></div>
       <nav class="nav" aria-label="Главная навигация">
-        <a class="login-link" href="./login/">Выйти</a>
+        <a class="nav-link nav-link--primary" href="./methodology/">Методология</a>
+        <a class="nav-link login-link" href="./login/">Выйти</a>
       </nav>
     </header>
 
@@ -250,6 +260,12 @@ const accountConfigs = {
         name:'Платформы корпоративных графов знаний',
         summary:'Построение и эксплуатация онтологий, фабрик данных и графовых витрин для корпоративных сценариев.',
         metrics:['RDF/OWL','SPARQL 1.2','SHACL/SHEx','JSON‑LD','PROV‑O','SKOS'],
+        kpis:[
+          { value:'22–30%', label:'CAGR, рост рынка (база 2025)' },
+          { value:'$1.5–1.6B', label:'TAM, оценка 2025' },
+          { value:'$0.56–0.72B', label:'SAM, сегмент платформ' },
+          { value:'$140–250M', label:'SOM, фокус NA+EU' }
+        ],
         ring:'production',
         angle: 40
       },
@@ -259,6 +275,12 @@ const accountConfigs = {
         name:'Семантические конвейеры интеграции и обработки данных',
         summary:'Автоматизация извлечения и обогащения данных для RAG и аналитики через семантические пайплайны.',
         metrics:['Hybrid Vector-SQL • ANN/HNSW','ISO GQL • SPARQL 1.2 • PROV-O','Semantic Retrieval • RAG Pipelines'],
+        kpis:[
+          { value:'2/10', label:'Индекс технологичности (ITC)' },
+          { value:'32–38%', label:'CAGR 2025–2029' },
+          { value:'$3.8–4.5B', label:'TAM, оценка 2025' },
+          { value:'0–2 года', label:'Горизонт массового внедрения' }
+        ],
         ring:'pilot',
         angle: 110
       },
@@ -268,6 +290,12 @@ const accountConfigs = {
         name:'Распределённые платформы потоковой передачи событий',
         summary:'Надёжная доставка событий и аналитика в реальном времени для продуктовых и операционных сценариев.',
         metrics:['Event Time','Stateful Streams','Kafka/Flink','Schema Registry','Exactly-once','CloudEvents'],
+        kpis:[
+          { value:'3/10', label:'Индекс технологичности (ITC)' },
+          { value:'14–19%', label:'CAGR 2025–2029' },
+          { value:'$5.6–6.1B', label:'TAM, суммарный рынок 2025' },
+          { value:'2–5 лет', label:'Горизонт массового внедрения' }
+        ],
         ring:'pilot',
         angle: 180
       },
@@ -277,6 +305,12 @@ const accountConfigs = {
         name:'Платформы распределённой потоковой обработки',
         summary:'Потоковые вычисления, CEP и SQL-процессы для миссии критичных real-time сервисов.',
         metrics:['Event Time','Watermarks','Streaming SQL','CEP','Schema Registry','Exactly-once'],
+        kpis:[
+          { value:'3/10', label:'Индекс технологичности (ITC)' },
+          { value:'14–19%', label:'CAGR 2025–2029' },
+          { value:'$5.6–6.1B', label:'TAM, суммарный рынок 2025' },
+          { value:'2–5 лет', label:'Горизонт массового внедрения' }
+        ],
         ring:'pilot',
         angle: 250
       },
@@ -286,6 +320,12 @@ const accountConfigs = {
         name:'Корпоративные системы управления данными и целостностью',
         summary:'Трассируемость, аудит и совместимость данных через DLT и онтологические политики.',
         metrics:['RDF/RDFS','OWL 2','SPARQL 1.2','SHACL','PROV-O','OBDA/R2RML'],
+        kpis:[
+          { value:'3/10', label:'Индекс технологичности (ITC)' },
+          { value:'26–31%', label:'CAGR 2025–2029' },
+          { value:'$7.0–8.0B', label:'TAM, оценка рынка 2025' },
+          { value:'2–5 лет', label:'Горизонт массового внедрения' }
+        ],
         ring:'pilot',
         angle: 320
       },
@@ -295,6 +335,12 @@ const accountConfigs = {
         name:'Дезагрегированные распределённые архитектуры хранения',
         summary:'Отделение вычислений и хранения для масштабируемых дата-платформ с интероперабельностью.',
         metrics:['HL7 FHIR R4/R5','OMOP CDM','FHIR Bulk Data $export','Terminology Services','SMART on FHIR / OAuth 2.0','Parquet & BigQuery'],
+        kpis:[
+          { value:'2/10', label:'Индекс технологичности (ITC)' },
+          { value:'12–15%', label:'CAGR 2025–2029' },
+          { value:'$5.8–6.8B', label:'TAM, оценка 2025' },
+          { value:'2–5 лет', label:'Горизонт массового внедрения' }
+        ],
         ring:'observe',
         angle: 10
       }
@@ -310,6 +356,11 @@ const accountConfigs = {
         name:'Product-Led Growth Activation Platforms',
         summary:'In-app онбординг, персонализация и телеметрия поведения для ускорения активации пользователей.',
         metrics:['Activation cohorts','Usage telemetry','In-app guides','Progress nudges'],
+        kpis:[
+          { value:'18–24%', label:'Годовой рост инвестиций в PLG-инструменты' },
+          { value:'30–45%', label:'Ускорение времени до активации после PLG-плейбуков' },
+          { value:'+12 п.п.', label:'Прирост конверсии в оплату после персонализации онбординга' }
+        ],
         ring:'production',
         angle: 35
       },
@@ -319,6 +370,11 @@ const accountConfigs = {
         name:'Revenue Operations Automation',
         summary:'Оркестрация лидов, биллинга и QBR через единый RevOps-плейбук и AI-подсказки.',
         metrics:['Billing sync','AI playbooks','Lead scoring','Pipeline health'],
+        kpis:[
+          { value:'+8–12%', label:'Рост win-rate за счёт единого пайплайна RevOps' },
+          { value:'20–30%', label:'Сокращение циклов согласования договоров' },
+          { value:'1,5×', label:'Ускорение подготовки QBR благодаря автоматизированной аналитике' }
+        ],
         ring:'pilot',
         angle: 120
       },
@@ -328,6 +384,11 @@ const accountConfigs = {
         name:'Customer Intelligence & Success AI',
         summary:'Прогноз оттока и рекомендации по расширению контрактов для команд customer success.',
         metrics:['Churn models','Expansion signals','Health scoring','Voice-of-customer AI'],
+        kpis:[
+          { value:'−25–35%', label:'Снижение оттока платящих клиентов' },
+          { value:'+10–18%', label:'Рост расширений благодаря AI-рекомендациям' },
+          { value:'3×', label:'Ускорение подготовки health review и QBR' }
+        ],
         ring:'pilot',
         angle: 210
       },
@@ -337,6 +398,11 @@ const accountConfigs = {
         name:'Pricing Experimentation & Packaging',
         summary:'Динамическое тестирование тарифов и пакетов с анализом эластичности и willingness-to-pay.',
         metrics:['Elasticity modeling','Offer A/B','Usage metering','Deal desk automation'],
+        kpis:[
+          { value:'6–8 недель', label:'Средний цикл проверки новой ценовой гипотезы' },
+          { value:'+5–9%', label:'Прирост ARR после оптимизации paywall' },
+          { value:'−10–15%', label:'Снижение оттока благодаря гибким пакетам' }
+        ],
         ring:'observe',
         angle: 300
       }
@@ -362,8 +428,16 @@ function resolveAccount(){
 const { id: activeAccountId, config: activeAccountConfig } = resolveAccount();
 const technologies = (activeAccountConfig?.technologies || []).map((item, index)=>{
   const metrics = Array.isArray(item.metrics) ? item.metrics : Array.isArray(item.keys) ? item.keys : [];
+  const kpis = Array.isArray(item.kpis)
+    ? item.kpis
+        .map((kpi)=>({
+          value: (kpi?.value ?? '').toString().trim(),
+          label: (kpi?.label ?? '').toString().trim()
+        }))
+        .filter((kpi)=> kpi.value || kpi.label)
+    : [];
   const link = item.link || makeLink(item.slug || '');
-  return { ...item, metrics, link, order: index + 1 };
+  return { ...item, metrics, kpis, link, order: index + 1 };
 });
 
 const brandEl = document.getElementById('projectBrand');
@@ -520,16 +594,32 @@ function renderRadar(data){
     g.setAttribute('role','link'); g.setAttribute('tabindex','0');
     g.addEventListener('keydown', (e)=>{ if(e.key==='Enter') go(); });
 
-    const textParts = [item.summary, ...(item.metrics || [])];
+    const textParts = [
+      item.summary,
+      ...(item.metrics || []),
+      ...((item.kpis || []).map((kpi)=> `${kpi.value || ''} ${kpi.label || ''}`.trim()))
+    ];
     const ariaSummary = textParts.filter(Boolean).join('. ');
     g.setAttribute('aria-label', ariaSummary ? `${orderLabel}. ${item.name}. ${ariaSummary}` : `${orderLabel}. ${item.name}`);
 
     const showTooltip = ()=>{
       if(!radarTooltipEl || !radarWrapEl){ return; }
-      const metricsList = (item.metrics || []).slice(0,5).map(m=>`<li>${m}</li>`).join('');
-      const summaryHtml = item.summary ? `<span>${item.summary}</span>` : '';
-      const metricsHtml = metricsList ? `<ul>${metricsList}</ul>` : '';
-      radarTooltipEl.innerHTML = `<strong>${orderLabel}. ${item.name}</strong>${summaryHtml}${metricsHtml}`;
+      const summaryHtml = item.summary ? `<p class="tooltip-summary">${item.summary}</p>` : '';
+      const tagsHtml = (item.metrics || [])
+        .slice(0,6)
+        .map((m)=>`<span class="tooltip-tag">${m}</span>`)
+        .join('');
+      const tagsBlock = tagsHtml ? `<div class="tooltip-tags">${tagsHtml}</div>` : '';
+      const kpiHtml = (item.kpis || [])
+        .slice(0,4)
+        .map((kpi)=>{
+          const value = kpi.value || '';
+          const label = kpi.label || '';
+          return `<li class="tooltip-kpi"><span class="kpi-value">${value}</span><span>${label}</span></li>`;
+        })
+        .join('');
+      const kpiBlock = kpiHtml ? `<ul class="tooltip-kpis">${kpiHtml}</ul>` : '';
+      radarTooltipEl.innerHTML = `<strong>${orderLabel}. ${item.name}</strong>${summaryHtml}${tagsBlock}${kpiBlock}`;
       const wrapRect = radarWrapEl.getBoundingClientRect();
       const svgRect = svg.getBoundingClientRect();
       const scaleX = svgRect.width / w;
@@ -619,10 +709,34 @@ function renderBoard(list){
       title.appendChild(pill);
     }
 
-    const chips = document.createElement('div'); chips.className='chips';
-    (item.metrics || item.keys || []).slice(0,6).forEach(k=> chip(chips,k));
+    a.appendChild(title);
 
-    a.appendChild(title); a.appendChild(chips);
+    const metricsValues = (item.metrics || item.keys || []).slice(0,6);
+    if(metricsValues.length){
+      const chips = document.createElement('div'); chips.className='chips';
+      metricsValues.forEach((k)=> chip(chips,k));
+      a.appendChild(chips);
+    }
+
+    const kpiItems = (item.kpis || []).slice(0,3);
+    if(kpiItems.length){
+      const kpiList = document.createElement('ul');
+      kpiList.className = 'kpi-list';
+      kpiItems.forEach((kpi)=>{
+        const li = document.createElement('li');
+        li.className = 'kpi-item';
+        const value = document.createElement('span');
+        value.className = 'kpi-value';
+        value.textContent = kpi.value;
+        const label = document.createElement('span');
+        label.className = 'kpi-label';
+        label.textContent = kpi.label;
+        li.appendChild(value);
+        li.appendChild(label);
+        kpiList.appendChild(li);
+      });
+      a.appendChild(kpiList);
+    }
     boardEl.appendChild(a);
   });
 }
@@ -647,7 +761,15 @@ function setupSearch(){
       updateClearState();
       return;
     }
-    const makeBag = (t)=> [t.name, t.slug, t.ring, t.summary, ringLabelsById[t.ring], ...(t.metrics || t.keys || [])]
+    const makeBag = (t)=> [
+      t.name,
+      t.slug,
+      t.ring,
+      t.summary,
+      ringLabelsById[t.ring],
+      ...(t.metrics || t.keys || []),
+      ...((t.kpis || []).flatMap((k)=> [k.value, k.label]))
+    ]
       .filter(Boolean)
       .map(norm)
       .join(' ');
