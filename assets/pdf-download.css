@@ -111,7 +111,7 @@
     page-break-before:auto !important;
     break-before:auto !important;
   }
-  .wrap > section.itc h2{
+  .wrap > section.itc .itc-header{
     page-break-after:avoid;
     break-after:avoid;
   }

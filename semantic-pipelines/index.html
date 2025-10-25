@@ -42,8 +42,9 @@
       background: linear-gradient(90deg, var(--blue-2), var(--blue-1)) no-repeat left bottom / 56px 4px;
     }
     section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
-    section.itc{ background:none; border:none; box-shadow:none; padding:0; }
+    section.itc{ margin-top:34px; background:none; border:none; box-shadow:none; padding:0; }
     .itc-panel{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+    .itc-header h2{ margin:0 0 16px; }
     .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
     .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
 
@@ -159,8 +160,10 @@
     </header>
 
     <section class="itc">
-      <h2>Индекс технологичности (ITC)</h2>
       <div class="itc-panel">
+        <header class="itc-header">
+          <h2>Индекс технологичности (ITC)</h2>
+        </header>
         <div class="itc-layout">
           <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="44,28,6,16" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
             <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
