@@ -42,6 +42,9 @@
       background: linear-gradient(90deg, var(--blue-2), var(--blue-1)) no-repeat left bottom / 56px 4px;
     }
     section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    section.itc{ margin-top:34px; background:none; border:none; box-shadow:none; padding:0; }
+    .itc-panel{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+    .itc-header h2{ margin:0 0 16px; }
     .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
     .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
 
@@ -122,6 +125,7 @@
       .stats{ grid-template-columns:1fr; }
       header.hero{ padding:20px 18px; }
       section{ padding:16px; }
+      .itc-panel{ padding:16px; }
     }
     @media (max-width: 520px){
       .tag{ font-size:12px; }
@@ -155,17 +159,21 @@
       </div>
     </header>
 
-    <h2>Индекс технологичности (ITC)</h2>
-    <section>
-      <div class="itc-layout">
-        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="32,20,8,18" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
-        </figure>
-        <div class="itc-cards">
-          <div class="card"><h4>SM — 32</h4><p>Научный моментум смещается к операционным вопросам: публикации фокусируются на стандартных профилях и совместимости.</p></div>
-          <div class="card"><h4>NV — 20</h4><p>Новизна ограничена: ключевые инновации — в оптимизации стоимости владения, автоматизации терминологий и security-by-design.</p></div>
-          <div class="card"><h4>IP — 8</h4><p>Импакт пока нишевый: отраслевые референсы появляются в клинических сетях и страховании, но остаются точечными.</p></div>
-          <div class="card"><h4>HR — 18</h4><p>Командам не хватает экспертов по FHIR/OMOP и атрибутному доступу; зрелые процессы только в крупных госпиталях и payers.</p></div>
+    <section class="itc">
+      <div class="itc-panel">
+        <header class="itc-header">
+          <h2>Индекс технологичности (ITC)</h2>
+        </header>
+        <div class="itc-layout">
+          <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="32,20,8,18" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+            <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+          </figure>
+          <div class="itc-cards">
+            <div class="card"><h4>SM — 32</h4><p>Научный моментум смещается к операционным вопросам: публикации фокусируются на стандартных профилях и совместимости.</p></div>
+            <div class="card"><h4>NV — 20</h4><p>Новизна ограничена: ключевые инновации — в оптимизации стоимости владения, автоматизации терминологий и security-by-design.</p></div>
+            <div class="card"><h4>IP — 8</h4><p>Импакт пока нишевый: отраслевые референсы появляются в клинических сетях и страховании, но остаются точечными.</p></div>
+            <div class="card"><h4>HR — 18</h4><p>Командам не хватает экспертов по FHIR/OMOP и атрибутному доступу; зрелые процессы только в крупных госпиталях и payers.</p></div>
+          </div>
         </div>
       </div>
     </section>

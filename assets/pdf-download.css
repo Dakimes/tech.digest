@@ -99,11 +99,23 @@
     page-break-before:auto;
     break-before:auto;
   }
+  .wrap > header.hero + h2{
+    page-break-before:auto !important;
+    break-before:auto !important;
+  }
   .wrap > h2 + section{
     page-break-before:avoid;
     break-before:avoid;
   }
-  header, section, footer, nav, .radar-wrap, .board, .hero, .stats, .cards, .itc-card, .roadmap, .phase, .card, .kpi, .radar{
+  .wrap > section.itc{
+    page-break-before:auto !important;
+    break-before:auto !important;
+  }
+  .wrap > section.itc .itc-header{
+    page-break-after:avoid;
+    break-after:avoid;
+  }
+  header, section, footer, nav, .radar-wrap, .board, .hero, .stats, .cards, .itc-card, .itc-panel, .roadmap, .phase, .card, .kpi, .radar{
     page-break-inside:avoid;
     break-inside:avoid;
   }
