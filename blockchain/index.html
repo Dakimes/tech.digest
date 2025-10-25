@@ -42,6 +42,8 @@
       background:linear-gradient(90deg,var(--blue-2),var(--blue-1)) no-repeat left bottom / 56px 4px;
     }
     section{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+    section.itc{ background:none; border:none; box-shadow:none; padding:0; }
+    .itc-panel{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
 
     .grid-2{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
     .grid-3{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
@@ -129,28 +131,30 @@
       </div>
     </header>
 
-    <h2>Индекс технологичности (ITC)</h2>
-    <section>
-      <div class="itc-layout">
-        <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="52,38,24,36" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-          <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
-        </figure>
-        <div class="itc-cards">
-          <div class="card">
-            <h3>SM — 52</h3>
-            <p>Устойчивый научный моментум: активные исследования в области конфиденциальных вычислений, CBDC и cross-chain interoperability.</p>
-          </div>
-          <div class="card">
-            <h3>NV — 38</h3>
-            <p>Новизна выше средней: внедряются ZKP, MPC и регулируемые токенизационные модели, но ядро платформ стабилизируется.</p>
-          </div>
-          <div class="card">
-            <h3>IP — 24</h3>
-            <p>Импакт растёт за счёт масштабируемых консорциумов и пилотов в финансах, логистике и энергетике, но ещё ограничен регуляторикой.</p>
-          </div>
-          <div class="card">
-            <h3>HR — 36</h3>
-            <p>Операционная готовность умеренная: зрелые DevSecOps-пайплайны, но дефицит специалистов по governance и privacy-инженерии.</p>
+    <section class="itc">
+      <h2>Индекс технологичности (ITC)</h2>
+      <div class="itc-panel">
+        <div class="itc-layout">
+          <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="52,38,24,36" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+            <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+          </figure>
+          <div class="itc-cards">
+            <div class="card">
+              <h3>SM — 52</h3>
+              <p>Устойчивый научный моментум: активные исследования в области конфиденциальных вычислений, CBDC и cross-chain interoperability.</p>
+            </div>
+            <div class="card">
+              <h3>NV — 38</h3>
+              <p>Новизна выше средней: внедряются ZKP, MPC и регулируемые токенизационные модели, но ядро платформ стабилизируется.</p>
+            </div>
+            <div class="card">
+              <h3>IP — 24</h3>
+              <p>Импакт растёт за счёт масштабируемых консорциумов и пилотов в финансах, логистике и энергетике, но ещё ограничен регуляторикой.</p>
+            </div>
+            <div class="card">
+              <h3>HR — 36</h3>
+              <p>Операционная готовность умеренная: зрелые DevSecOps-пайплайны, но дефицит специалистов по governance и privacy-инженерии.</p>
+            </div>
           </div>
         </div>
       </div>
