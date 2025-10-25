@@ -8,7 +8,7 @@
 ## Структура
 - `index.html` — главная (радар + доска).
 - `ekg/index.html` — страница технологии «Платформы корпоративных графов знаний».
-- `assets/logo.png` — логотип.
+- `assets/logo-transparent.svg` — логотип с прозрачным фоном.
 - `assets/regional-analytics.png` — региональная аналитика.
 - `CNAME` — домен `scisource.ru`.
 - `.github/workflows/pages.yml` — автодеплой на Pages.
