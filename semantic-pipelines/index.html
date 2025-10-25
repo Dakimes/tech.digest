@@ -44,7 +44,8 @@
     section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
     section.itc{ margin-top:34px; background:none; border:none; box-shadow:none; padding:0; }
     .itc-panel{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
-    .itc-header h2{ margin:0 0 16px; }
+    .itc-group{ display:flex; flex-direction:column; gap:16px; }
+    .itc-header h2{ margin:0; }
     .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
     .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
 
@@ -161,18 +162,20 @@
 
     <section class="itc">
       <div class="itc-panel">
-        <header class="itc-header">
-          <h2>Индекс технологичности (ITC)</h2>
-        </header>
-        <div class="itc-layout">
-          <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="44,28,6,16" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-            <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
-          </figure>
-          <div class="itc-cards">
-            <div class="card"><h4>SM — 44</h4><p>Стабильный поток публикаций по гибридным векторно-реляционным запросам, ISO&nbsp;GQL и PROV-O.</p></div>
-            <div class="card"><h4>NV — 28</h4><p>Новизна средняя: вендоры закрепляют гибридные движки и автоматизацию семантических моделей.</p></div>
-            <div class="card"><h4>IP — 6</h4><p>Импакт растёт медленно: крупные референсы появляются в BFSI и телекомах, но остаются штучными.</p></div>
-            <div class="card"><h4>HR — 16</h4><p>Операционная готовность ограничена: нужны специалисты по онтологиям, ISO&nbsp;GQL и управлению эмбеддингами.</p></div>
+        <div class="itc-group">
+          <header class="itc-header">
+            <h2>Индекс технологичности (ITC)</h2>
+          </header>
+          <div class="itc-layout">
+            <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="44,28,6,16" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+              <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+            </figure>
+            <div class="itc-cards">
+              <div class="card"><h4>SM — 44</h4><p>Стабильный поток публикаций по гибридным векторно-реляционным запросам, ISO&nbsp;GQL и PROV-O.</p></div>
+              <div class="card"><h4>NV — 28</h4><p>Новизна средняя: вендоры закрепляют гибридные движки и автоматизацию семантических моделей.</p></div>
+              <div class="card"><h4>IP — 6</h4><p>Импакт растёт медленно: крупные референсы появляются в BFSI и телекомах, но остаются штучными.</p></div>
+              <div class="card"><h4>HR — 16</h4><p>Операционная готовность ограничена: нужны специалисты по онтологиям, ISO&nbsp;GQL и управлению эмбеддингами.</p></div>
+            </div>
           </div>
         </div>
       </div>

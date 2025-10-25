@@ -44,7 +44,8 @@
     section{ background:var(--card); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
     section.itc{ margin-top:34px; background:none; border:none; box-shadow:none; padding:0; }
     .itc-panel{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
-    .itc-header h2{ margin:0 0 16px; }
+    .itc-group{ display:flex; flex-direction:column; gap:16px; }
+    .itc-header h2{ margin:0; }
     .grid-2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
     .grid-3{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
 
@@ -161,18 +162,20 @@
 
     <section class="itc">
       <div class="itc-panel">
-        <header class="itc-header">
-          <h2>Индекс технологичности (ITC)</h2>
-        </header>
-        <div class="itc-layout">
-          <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="40,30,4,8" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
-            <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
-          </figure>
-          <div class="itc-cards">
-            <div class="card"><h4>SM — 40</h4><p>Научный моментум замедляется: исследования концентрируются на стандартах SPARQL&nbsp;1.2 и графовом lineage.</p></div>
-            <div class="card"><h4>NV — 30</h4><p>Новизна умеренная: акцент смещается в оптимизацию издержек и интеграцию с управляемыми леджерами.</p></div>
-            <div class="card"><h4>IP — 4</h4><p>Импакт нишевый: отрасли BFSI/healthcare пилотируют решения, но масштабных референсов пока мало.</p></div>
-            <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа: требуются компетенции по онтологиям, OBDA и безопасным блокчейн-интеграциям.</p></div>
+        <div class="itc-group">
+          <header class="itc-header">
+            <h2>Индекс технологичности (ITC)</h2>
+          </header>
+          <div class="itc-layout">
+            <figure class="itc-spider" data-labels="SM,NV,IP,HR" data-values="40,30,4,8" data-max="100" aria-label="Спайдер-диаграмма индекса технологичности">
+              <figcaption>SM — научный моментум, NV — новизна, IP — импакт, HR — готовность команд.</figcaption>
+            </figure>
+            <div class="itc-cards">
+              <div class="card"><h4>SM — 40</h4><p>Научный моментум замедляется: исследования концентрируются на стандартах SPARQL&nbsp;1.2 и графовом lineage.</p></div>
+              <div class="card"><h4>NV — 30</h4><p>Новизна умеренная: акцент смещается в оптимизацию издержек и интеграцию с управляемыми леджерами.</p></div>
+              <div class="card"><h4>IP — 4</h4><p>Импакт нишевый: отрасли BFSI/healthcare пилотируют решения, но масштабных референсов пока мало.</p></div>
+              <div class="card"><h4>HR — 8</h4><p>Высокие барьеры входа: требуются компетенции по онтологиям, OBDA и безопасным блокчейн-интеграциям.</p></div>
+            </div>
           </div>
         </div>
       </div>
