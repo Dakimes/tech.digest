@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Методология технологического радара</title>
+  <meta name="description" content="Подробное описание расчёта индекса технологичности и аналитического пайплайна радара." />
+  <script>
+    (function(){
+      var doc = document.documentElement;
+      doc.classList.add('auth-check');
+      try{
+        if(localStorage.getItem('sci-auth') === 'true'){
+          doc.classList.add('auth-ok');
+        } else {
+          window.location.replace('../login/');
+        }
+      } catch(err){
+        window.location.replace('../login/');
+      }
+    })();
+  </script>
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <style>
+    :where([hidden]){ display:none !important; }
+    html.auth-check body{ visibility:hidden; }
+    html.auth-check.auth-ok body{ visibility:visible; }
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --card-alt:#f1f5f9;
+      --text:#0f172a;
+      --muted:#475569;
+      --accent:#2563eb;
+      --accent-strong:#1d4ed8;
+      --accent-soft:#dbeafe;
+      --line:#e2e8f0;
+      --shadow:0 18px 40px rgba(15,23,42,.08);
+      --radius:20px;
+    }
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font:16px/1.65 "Inter", "SF Pro Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .wrap{ max-width:1080px; margin:32px auto 80px; padding:0 20px; }
+    header.hero{
+      display:flex;
+      gap:24px;
+      align-items:center;
+      background:linear-gradient(135deg, rgba(37,99,235,.12), rgba(37,99,235,.04));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:30px 32px;
+      box-shadow:var(--shadow);
+      flex-wrap:wrap;
+    }
+    .hero img.logo{ width:auto; height:68px; flex-shrink:0; }
+    .hero .text{ flex:1; min-width:260px; }
+    .hero h1{ margin:0 0 12px; font-size:clamp(28px,4vw,46px); color:var(--accent-strong); letter-spacing:.2px; }
+    .hero p{ margin:0; color:var(--muted); font-size:16px; max-width:640px; }
+    .hero-actions{ display:flex; flex-direction:column; gap:10px; align-items:flex-end; min-width:180px; }
+    .hero-link{ display:inline-flex; align-items:center; justify-content:center; padding:12px 20px; border-radius:14px; font-weight:600; text-decoration:none; border:1px solid var(--line); color:var(--accent-strong); background:var(--card); transition:transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .hero-link:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(37,99,235,.12); }
+    .hero-link:focus-visible{ outline:3px solid rgba(37,99,235,.3); outline-offset:3px; }
+    .hero-link.primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
+    .hero-link.primary:hover{ background:var(--accent-strong); }
+
+    h2{ margin:48px 0 18px; font-size:clamp(24px,3.2vw,34px); color:var(--text); letter-spacing:.2px; }
+    h3{ font-size:20px; margin:0 0 12px; color:var(--accent-strong); }
+    p{ margin:0 0 14px; color:var(--muted); }
+    strong{ color:var(--text); }
+
+    section.panel{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .grid-3{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px; }
+    .grid-2{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:22px; }
+    .info-card{
+      background:rgba(37,99,235,.05);
+      border:1px solid rgba(37,99,235,.18);
+      border-radius:16px;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .info-card h3{ font-size:18px; color:var(--accent-strong); margin:0; }
+    .info-card p{ font-size:14px; color:var(--muted); margin:0; }
+    .info-card ul{ margin:0; padding-left:18px; color:var(--muted); font-size:14px; }
+
+    .metric-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; }
+    .metric-card{ border:1px solid rgba(37,99,235,.16); border-radius:18px; padding:20px; background:var(--card-alt); box-shadow:0 12px 28px rgba(15,23,42,.06); }
+    .metric-card h4{ margin:0 0 10px; font-size:17px; color:var(--accent-strong); }
+    .metric-card p{ font-size:14px; margin:0 0 8px; }
+    .metric-card ul{ margin:0; padding-left:18px; font-size:14px; color:var(--muted); }
+
+    .ladder{ width:100%; border-collapse:collapse; font-size:14px; color:var(--muted); }
+    .ladder th, .ladder td{ padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+    .ladder th{ text-align:left; color:var(--accent-strong); font-size:13px; text-transform:uppercase; letter-spacing:.4px; }
+    .ladder td strong{ color:var(--text); }
+
+    .timeline{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; font-size:14px; color:var(--muted); }
+    .timeline li{ position:relative; padding-left:32px; }
+    .timeline li::before{ content:""; position:absolute; left:0; top:6px; width:14px; height:14px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(37,99,235,.16); }
+
+    dl.score{ margin:0; display:grid; grid-template-columns:minmax(0,220px) minmax(0,1fr); row-gap:12px; column-gap:16px; font-size:14px; color:var(--muted); }
+    dl.score dt{ font-weight:700; color:var(--text); }
+    dl.score dd{ margin:0; }
+
+    .badge-row{ margin-top:16px; display:flex; flex-wrap:wrap; gap:10px; }
+    .badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; background:var(--card); border:1px solid rgba(37,99,235,.2); color:var(--accent-strong); font-weight:600; font-size:12px; letter-spacing:.3px; }
+
+    .list-split{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:18px; font-size:14px; color:var(--muted); }
+    .list-split ul{ margin:0; padding-left:18px; }
+
+    .callout{ border-left:4px solid var(--accent); padding:16px 20px; background:var(--card-alt); border-radius:14px; color:var(--muted); }
+
+    footer{ margin-top:56px; text-align:center; color:var(--muted); font-size:12px; }
+
+    @media (max-width: 1024px){
+      .grid-3, .metric-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 760px){
+      header.hero{ padding:24px; }
+      .hero-actions{ align-items:flex-start; flex-direction:row; }
+      .grid-3, .metric-grid, .grid-2, .list-split{ grid-template-columns:1fr; }
+    }
+    @media (max-width: 520px){
+      .hero-actions{ width:100%; justify-content:flex-start; }
+      .hero-link{ width:100%; }
+      .badge-row{ gap:8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <img src="../assets/logo.png" alt="SCI logo" class="logo" />
+      <div class="text">
+        <h1>Методология технологического радара</h1>
+        <p>Здесь собраны правила, по которым мы оцениваем технологии и строим индекс технологичности компаний. Текст написан простыми словами и иллюстрирован примерами, чтобы любой руководитель, аналитик или инженер мог повторить расчёт.</p>
+        <div class="badge-row">
+          <span class="badge">Шкала индекса: 1–10</span>
+          <span class="badge">Горизонт данных: 36 месяцев</span>
+          <span class="badge">Обновление: ежеквартально</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a class="hero-link primary" href="../">На главную</a>
+        <a class="hero-link" href="../login/" id="logoutLink">Выйти</a>
+      </div>
+    </header>
+
+    <h2>Что измеряет индекс технологичности (ITC)</h2>
+    <section class="panel">
+      <p><strong>ITC</strong> — единая оценка от 1 до 10, показывающая, насколько компания продвинулась в работе с технологией: от первых экспериментов до лидерства на рынке. Балл строится на шести субиндексах. Каждый субиндекс — это место компании в своём окружении (перцентиль) за последние 36 месяцев. Ниже — короткие описания и примеры.</p>
+      <div class="metric-grid" style="margin-top:20px;">
+        <article class="metric-card">
+          <h4>Научный импульс (SM, вес 20%)</h4>
+          <p>Показывает, растёт ли поток исследований и патентов компании и насколько стабильно это происходит.</p>
+          <ul>
+            <li>Смотрим рост публикаций год к году, изменение скорости роста и «ровность» ряда.</li>
+            <li>Пример: если за год публикаций стало вдвое больше и колебаний мало, субиндекс будет высоким.</li>
+          </ul>
+        </article>
+        <article class="metric-card">
+          <h4>Новизна и фронтир (NO, вес 15%)</h4>
+          <p>Оценивает, насколько свежие темы развивает компания.</p>
+          <ul>
+            <li>Сравниваем семантическую дистанцию работ с предыдущими исследованиями и долю статей в самых молодых кластерах SciTrends.</li>
+            <li>Пример: стартап публикует статьи в трендах, появившихся меньше трёх лет назад — получит высокий балл.</li>
+          </ul>
+        </article>
+        <article class="metric-card">
+          <h4>Трансляция в практику (TR, вес 20%)</h4>
+          <p>Меряем, как быстро идеи превращаются в патенты и прикладные артефакты.</p>
+          <ul>
+            <li>Берём долю работ, которые привели к патентам максимум за два года, медианное время от статьи до патента и долю прикладных кейсов.</li>
+            <li>Пример: если каждая вторая статья рождает патент за 18 месяцев и есть пилоты, субиндекс высокий.</li>
+          </ul>
+        </article>
+        <article class="metric-card">
+          <h4>Дифференциация (CD, вес 15%)</h4>
+          <p>Понимаем, насколько уникален технологический профиль.</p>
+          <ul>
+            <li>Сравниваем профиль компании с центроидом группы аналогов и смотрим, какие «белые пятна» она заняла.</li>
+            <li>Пример: компания исследует редкие комбинации методов — её расстояние до конкурентов велико, балл высокий.</li>
+          </ul>
+        </article>
+        <article class="metric-card">
+          <h4>Тяга экосистемы (EP, вес 15%)</h4>
+          <p>Собираем рыночные сигналы: вакансии, инвестиции, новости, поисковые запросы.</p>
+          <ul>
+            <li>Каждый сигнал переводим в перцентиль внутри отрасли и усредняем.</li>
+            <li>Пример: если тема вызывает всплеск вакансий и сделок, субиндекс стремится к 1.0.</li>
+          </ul>
+        </article>
+        <article class="metric-card">
+          <h4>Зрелость против хайпа (HR, вес 15%)</h4>
+          <p>Отвечает на вопрос, не перегрет ли интерес.</p>
+          <ul>
+            <li>Штрафуем, если публикаций много, а патентов и внедрений почти нет. Даём бонус за стандарты, кейсы и прикладные работы.</li>
+            <li>Пример: исследования множатся, но пилоты буксуют — балл снижается и удерживает ITC от завышения.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="callout" style="margin-top:24px;">
+        <strong>Итоговая формула.</strong> Складываем все шесть субиндексов с указанными весами, получаем число от 0 до 1. Далее переводим его в шкалу 1–10: <em>ITC = 1 + 9 × итоговая доля</em>. Округляем до ближайшего десятичного шага. Опциональные корректировки могут поднять или опустить результат максимум на 1 балл.
+      </div>
+    </section>
+
+    <h2>Опциональные корректировки (до ±1 балла)</h2>
+    <section class="panel">
+      <div class="grid-3">
+        <article class="info-card">
+          <h3>Влияние и цитируемость</h3>
+          <p>Если статьи и патенты компании часто цитируют, а исследовательская сеть хорошо связана, добавляем до +0.5 балла.</p>
+          <ul>
+            <li>Меряем скорость набора цитат и центральность в сети соавторов.</li>
+            <li>Применяем только при устойчивых сигналах минимум три квартала.</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>Защищаемость IP</h3>
+          <p>Патентные семьи, работающие в нескольких классах, и высокий интерес других компаний добавляют до +0.5 балла.</p>
+          <ul>
+            <li>Смотрим размер семей, кросс-классы и ссылки на патенты.</li>
+            <li>Если защита слабая, корректировка не применяется.</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>Каденс исполнения</h3>
+          <p>Стабильные релизы, обновления и выходы новых артефактов удерживают ITC от падения. Нерегулярность может снять до 0.5 балла.</p>
+          <ul>
+            <li>Анализируем медианный интервал между релизами, стандартами и публичными отчётами.</li>
+            <li>Если активность рваная, применяем штраф.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <h2>С кем сравниваем компанию</h2>
+    <section class="panel">
+      <div class="list-split">
+        <div>
+          <h3>Peer-set 70/30</h3>
+          <ul>
+            <li>70% набора — компании, работающие в тех же кластерах технологий.</li>
+            <li>30% — соседи в ближайших кластерах (определяем по эмбеддингам SciTrends).</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Как избегаем перекоса размера</h3>
+          <ul>
+            <li>Сравниваем только внутри размерных групп: например, по числу аффилированных публикаций или штату R&amp;D.</li>
+            <li>Используем перцентили, доли и расстояния вместо абсолютных значений.</li>
+            <li>Окно анализа — 36 месяцев для динамики и 60 месяцев для патентов.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Лестница уровней ITC 1–10</h2>
+    <section class="panel">
+      <table class="ladder">
+        <thead>
+          <tr>
+            <th>Уровень</th>
+            <th>Как выглядит профиль</th>
+            <th>Что это значит для бизнеса</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1–2</strong></td>
+            <td>Научный импульс, новизна и трансляция ниже 30-го перцентиля. Дифференциация низкая, хайп-риск высокий.</td>
+            <td>Компания повторяет чужие подходы, заметного роста продукта ожидать не стоит.</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>Появляются первые статьи, но новизна и патенты почти отсутствуют.</td>
+            <td>Активность эпизодическая, эффект для бизнеса едва заметен.</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td>Есть отдельные очаги новизны (около 40–50 перцентиля) и единичные патенты.</td>
+            <td>Технология уже на радаре, но рост ограничен и требует фокуса.</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td>Научный импульс, трансляция и дифференциация около 50 перцентиля.</td>
+            <td>Технология работает в прикладных процессах и даёт умеренный рост.</td>
+          </tr>
+          <tr>
+            <td><strong>6</strong></td>
+            <td>Новизна и импульс выше 60-го перцентиля, трансляция и тяга рынка выше 55.</td>
+            <td>Появляется заметный спрос со стороны продуктов и клиентов.</td>
+          </tr>
+          <tr>
+            <td><strong>7</strong></td>
+            <td>Научный импульс, трансляция и тяга рынка держатся выше 70, дифференциация — выше 65.</td>
+            <td>Продукты на базе технологии становятся драйвером роста.</td>
+          </tr>
+          <tr>
+            <td><strong>8</strong></td>
+            <td>Минимум четыре субиндекса выше 70, среди них обязательно трансляция и дифференциация.</td>
+            <td>Компания устойчиво обходит рынок, технология приносит ускоренный рост.</td>
+          </tr>
+          <tr>
+            <td><strong>9</strong></td>
+            <td>Не менее трёх субиндексов выше 80, включая новизну или трансляцию. Дополнительно помогают цитируемость и IP.</td>
+            <td>Компания задаёт правила игры в категории и собирает диспропорциональную долю рынка.</td>
+          </tr>
+          <tr>
+            <td><strong>10</strong></td>
+            <td>Почти все субиндексы выше 85, белые пятна заняты, цикл «исследование → IP → рынок» очень быстрый.</td>
+            <td>Компания формирует новый рынок и удерживает низкий риск хайпа.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <h2>Процедура расчёта шаг за шагом</h2>
+    <section class="panel">
+      <ol class="timeline">
+        <li><strong>Сбор следов.</strong> Подтягиваем статьи, патенты, стандарты и данные по рынку для компании и её peer-set. Фиксируем аффилиации, даты, цитаты.</li>
+        <li><strong>Обогащение SciTrends.</strong> Для каждой статьи получаем объект исследования, список технологий, эмбеддинги и кластер тренда. Выделяем риски, коммерциализацию и примеры внедрения.</li>
+        <li><strong>Расчёт субиндексов.</strong> Считаем временные ряды, расстояния, доли и перцентили. Отсекаем выбросы методом winsorize.</li>
+        <li><strong>Агрегация.</strong> Складываем субиндексы с весами, применяем корректировки, переводим результат в шкалу 1–10.</li>
+        <li><strong>Паспорт сигналов.</strong> Для каждой метрики собираем «паспорт»: список ключевых статей, патентов и кластеров, чтобы любой вывод можно было проверить.</li>
+      </ol>
+      <div class="callout" style="margin-top:24px;">
+        <strong>Пример.</strong> Корпорация А публикует 40 статей и 12 патентов за последние три года. Половина статей относится к молодым кластерам, треть уже принесла патенты за 18 месяцев. Рынок активно ищет специалистов и инвестирует в тему. После нормировки компания попадает в верхние 30% по всем субиндексам, итоговый ITC — 7.4. Если cadence релизов проседает, итоговый балл снижается на 0.5 и закрепляется на уровне 6.9.
+      </div>
+    </section>
+
+    <h2>Данные, которые нужны для расчёта</h2>
+    <section class="panel">
+      <div class="grid-3">
+        <article class="info-card">
+          <h3>Параметры модели</h3>
+          <p>Файл <code>README_Config</code> хранит окно анализа, пороги «молодого» кластера, метрику расстояния, веса субиндексов и метод нормализации.</p>
+        </article>
+        <article class="info-card">
+          <h3>Публикации</h3>
+          <p>Для каждой статьи нужны DOI, аннотация, дата, аффилиации, признаки прикладных артефактов и кластер SciTrends. Эти данные питают субиндексы SM, NO, TR и HR.</p>
+        </article>
+        <article class="info-card">
+          <h3>Патенты</h3>
+          <p>Сохраняем даты подачи и публикации, связки со статьями, тип патента и область применения. Используем для SM, TR и HR.</p>
+        </article>
+        <article class="info-card">
+          <h3>Кластеры и дистанции</h3>
+          <p>У каждого кластера фиксируем возраст, центроид эмбеддингов и плотность конкурентов. Таблица расстояний статья → предшественник помогает считать новизну.</p>
+        </article>
+        <article class="info-card">
+          <h3>Peer-профили</h3>
+          <p>Для каждой компании-конкурента храним отрасль, регион, профиль эмбеддингов и объёмы публикаций. Эти данные нужны для дифференциации и нормализации.</p>
+        </article>
+        <article class="info-card">
+          <h3>Сигналы экосистемы</h3>
+          <p>Месячные ряды по вакансиям, инвестициям, новостям, поисковым запросам и активности публикаций/патентов. Используем для тяги экосистемы.</p>
+        </article>
+        <article class="info-card">
+          <h3>Стандарты и кейсы</h3>
+          <p>Список внедрений, стандартов, руководств и бенчмарков. Они дают бонус зрелости и подтверждают трансляцию.</p>
+        </article>
+        <article class="info-card">
+          <h3>Агрегированные ряды</h3>
+          <p>Помещаем помесячные суммарные показатели по публикациям и патентам. На их основе считаем рост, ускорение и устойчивость.</p>
+        </article>
+        <article class="info-card">
+          <h3>Выходные таблицы</h3>
+          <p>Храним готовые субиндексы и финальные значения ITC для компаний, чтобы использовать в дашбордах и отчётах.</p>
+        </article>
+      </div>
+    </section>
+
+    <h2>Пайплайн SciTrends</h2>
+    <section class="panel">
+      <ul class="timeline">
+        <li><strong>Фильтрация по домену.</strong> Сначала выбираем статьи по интересующей области и подобласти, чтобы работать с релевантным набором.</li>
+        <li><strong>LLM-аннотации.</strong> По названию и аннотации статья получает объект и предмет исследования, а также список технологий.</li>
+        <li><strong>Выделение коммерциализации.</strong> Каждая технология проходит классификацию: есть ли признаки внедрения, примеры использования, риски и ограничения.</li>
+        <li><strong>Эмбеддинги и кластеризация.</strong> Технологии переводим в векторное пространство и группируем полносвязной кластеризацией. Для каждого кластера формируем название тренда.</li>
+        <li><strong>Временные ряды тренда.</strong> На горизонте трёх лет строим график количества публикаций, считаем скорость, ускорение и устойчивость. Дополнительно считаем долю молодых технологий, цитируемость и охват компаний.</li>
+        <li><strong>Технологический паспорт.</strong> Для каждого кластера собираем «паук» метрик, гипотезы, риски и лучшие примеры внедрения.</li>
+      </ul>
+    </section>
+
+    <h2>Иерархия технологических уровней</h2>
+    <section class="panel">
+      <div class="list-split">
+        <div>
+          <h3>От домена к кластеру</h3>
+          <ul>
+            <li><strong>Технологический домен.</strong> Крупная индустрия, например EnergyTech или MedTech.</li>
+            <li><strong>Область.</strong> Отраслевой сегмент внутри домена: возобновляемая энергетика, кардиология.</li>
+            <li><strong>Подобласть.</strong> Специализация по задачам: разработка месторождений, терапия.</li>
+            <li><strong>Направление.</strong> Прикладной блок, например визуальная диагностика.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>От топика к технологии</h3>
+          <ul>
+            <li><strong>Топик.</strong> Узкая тема исследований, например методы повышения нефтеотдачи.</li>
+            <li><strong>Кластер технологий.</strong> Группа родственных методов, объединённых общим принципом.</li>
+            <li><strong>Технология.</strong> Конкретная практика, например нейросетевой алгоритм поиска опухолей.</li>
+            <li>Эта иерархия помогает сравнивать компании на одном языке и строить воронку от идеи до внедрения.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <h2>Метрики внутри кластеров SciTrends</h2>
+    <section class="panel">
+      <div class="metric-grid">
+        <article class="metric-card">
+          <h4>Momentum кластера</h4>
+          <p>Считаем скорость и ускорение по месяцам, а также стабильность. Сглаживаем ряд, чтобы выделить устойчивый рост.</p>
+          <ul>
+            <li>Если скорость и ускорение положительные, кластер получает метку «растёт».</li>
+            <li>Используем блочный бутстрап для проверки надёжности результата.</li>
+          </ul>
+        </article>
+        <article class="metric-card">
+          <h4>Новизна</h4>
+          <p>Смотрим, сколько технологий кластера появились за последний год, и измеряем расстояние до ближайших предшественников.</p>
+          <ul>
+            <li>Высокая доля молодых технологий означает, что кластер на переднем крае.</li>
+          </ul>
+        </article>
+        <article class="metric-card">
+          <h4>Импакт и таланты</h4>
+          <p>Анализируем долю цитирований, охват компаний и спрос на специалистов.</p>
+          <ul>
+            <li>Графики помогают увидеть, где кластеры растут по публикациям и инвестициям.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="callout" style="margin-top:24px;">
+        <strong>White-space карта.</strong> Для стратегических сессий строим диаграмму «моментум против новизны». Размер точки показывает импакт, цвет — функцию (например, разработка или операции). Так легко заметить свободные ниши.
+      </div>
+    </section>
+
+    <h2>Как представляем результаты</h2>
+    <section class="panel">
+      <div class="grid-2">
+        <article class="info-card">
+          <h3>Карточка ITC</h3>
+          <ul>
+            <li>Балл 1–10 и паучья диаграмма субиндексов.</li>
+            <li>Ключевые публикации, патенты и кейсы в одном месте.</li>
+            <li>Цифры KPI из карточек технологий автоматически попадают в попапы радара и выделяются синим цветом.</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>Дашборды и отчёты</h3>
+          <ul>
+            <li>Карта белых пятен по кластерам и временная шкала «статья → патент → внедрение».</li>
+            <li>Пульс экосистемы с ранговыми спарк-лайнами по вакансиям, инвестициям и новостям.</li>
+            <li>Графики публикаций по трендам, дерево компаний и функций, региональные карты.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <footer>© 2025 SciArticle</footer>
+  </div>
+
+  <script>
+    (function(){
+      var logoutLink = document.getElementById('logoutLink');
+      if(!logoutLink){ return; }
+      logoutLink.addEventListener('click', function(event){
+        event.preventDefault();
+        try{
+          localStorage.removeItem('sci-auth');
+          localStorage.removeItem('sci-account');
+        } catch(err){
+          /* ignore */
+        }
+        window.location.replace('../login/');
+      });
+    })();
+  </script>
+</body>
+</html>
