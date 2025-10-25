@@ -48,8 +48,8 @@
     .logo{ height:52px; width:auto; }
     .brand{ font-weight:700; font-size: clamp(20px,2.4vw,24px); letter-spacing:.2px; color:var(--text); }
     .nav{ margin-left:auto; }
-    .login-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; background:var(--text); color:#fff; font-weight:600; text-decoration:none; box-shadow:none; border:1px solid var(--text); transition:opacity .2s ease, transform .2s ease; }
-    .login-link:hover{ opacity:.85; transform:translateY(-1px); }
+    .login-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; background:var(--card-alt); color:var(--muted); font-weight:600; text-decoration:none; box-shadow:none; border:1px solid var(--border); transition:background .2s ease, color .2s ease, transform .2s ease; }
+    .login-link:hover{ background:var(--border); color:var(--text); transform:translateY(-1px); }
     .login-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
 
     /* Blue top-level taxonomy band */
@@ -85,6 +85,10 @@
 
     /* Radar */
     .radar-wrap{ position:relative; border:1px solid var(--border); border-radius:var(--radius); padding:22px 22px 30px; background: var(--card); box-shadow: var(--shadow); }
+    .radar-toolbar{ display:flex; justify-content:flex-end; margin-bottom:16px; }
+    .radar-dashboard-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; background:var(--accent); color:#fff; font-weight:600; text-decoration:none; border:1px solid var(--accent); box-shadow:none; transition:background .2s ease, transform .2s ease; }
+    .radar-dashboard-link:hover{ background:var(--accent-strong); transform:translateY(-1px); }
+    .radar-dashboard-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
     .radar{ position:relative; width:100%; max-width:100%; height: clamp(440px, 58vw, 620px); margin:auto; background:
       radial-gradient(circle at center, rgba(37,99,235,.05) 0 1px, transparent 1px) 0 0/22px 22px; border-radius:18px; overflow:hidden; }
     .radar-empty{
@@ -165,6 +169,8 @@
       .board{ grid-template-columns: 1fr; }
       .radar{ height: clamp(360px, 90vw, 520px); }
       .radar-wrap{ padding:14px; }
+      .radar-toolbar{ margin-bottom:12px; }
+      .radar-dashboard-link{ width:100%; justify-content:center; }
     }
     @media (max-width: 480px){
       header.hero{ padding:14px; }
@@ -208,6 +214,9 @@
     </div>
 
     <section class="radar-wrap" aria-label="Цифровой радар технологий">
+      <div class="radar-toolbar">
+        <a class="radar-dashboard-link" href="https://datalens.yandex/unblwg4lldxmf" target="_blank" rel="noopener">Перейти в дашборд</a>
+      </div>
       <div id="radar" class="radar"></div>
       <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
     </section>
