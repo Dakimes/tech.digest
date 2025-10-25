@@ -525,13 +525,6 @@ function renderRadar(data){
   const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
 
-  const defs = document.createElementNS(svg.namespaceURI,'defs');
-  const lg = document.createElementNS(svg.namespaceURI,'linearGradient');
-  lg.setAttribute('id','grad'); lg.setAttribute('x1','0'); lg.setAttribute('x2','1');
-  const s1 = document.createElementNS(svg.namespaceURI,'stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','var(--accent-light)');
-  const s2 = document.createElementNS(svg.namespaceURI,'stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','var(--accent-strong)');
-  lg.appendChild(s1); lg.appendChild(s2); defs.appendChild(lg); svg.appendChild(defs);
-
   const ringGroup = document.createElementNS(svg.namespaceURI,'g');
   rings.forEach((r, idx)=>{
     const R = r.r * scale;
@@ -588,7 +581,7 @@ function renderRadar(data){
 
     const circle = document.createElementNS(svg.namespaceURI,'circle');
     circle.setAttribute('cx', pos.x); circle.setAttribute('cy', pos.y); circle.setAttribute('r', 14);
-    circle.setAttribute('fill','url(#grad)');
+    circle.setAttribute('fill','var(--accent)');
     circle.setAttribute('stroke','var(--accent-strong)');
     circle.setAttribute('stroke-width','1');
     circle.setAttribute('aria-hidden','true');
