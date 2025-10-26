@@ -110,7 +110,7 @@
     .radar-dashboard-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
     .radar{ position:relative; width:100%; max-width:100%; height: clamp(440px, 58vw, 620px); margin:auto; background:
       radial-gradient(circle at center, rgba(37,99,235,.05) 0 1px, transparent 1px) 0 0/22px 22px; border-radius:18px; overflow:hidden; }
-    .whitespace{ position:relative; width:100%; max-width:100%; height: clamp(460px, 60vw, 640px); margin:auto; border-radius:18px; overflow:hidden; border:1px solid rgba(37,99,235,.14); background:linear-gradient(135deg, rgba(37,99,235,.08), rgba(37,99,235,.02)); box-shadow: inset 0 1px 0 rgba(255,255,255,.6); }
+    .whitespace{ position:relative; width:100%; max-width:100%; height: clamp(460px, 60vw, 640px); margin:auto; border-radius:18px; overflow:hidden; border:1px solid rgba(148,163,184,.32); background:linear-gradient(135deg, rgba(15,23,42,.05), rgba(148,163,184,.12)); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 26px 54px rgba(15,23,42,.08); }
     .whitespace svg{ position:absolute; inset:0; width:100%; height:100%; display:block; }
     .radar-empty{
       position:absolute;
@@ -127,17 +127,17 @@
       padding:18px;
       pointer-events:none;
     }
-    .whitespace-about{ margin:0 0 18px; padding:20px 22px; border-radius:16px; border:1px solid rgba(37,99,235,.12); background:linear-gradient(120deg, rgba(37,99,235,.1), rgba(255,255,255,.95)); box-shadow:0 20px 36px rgba(15,23,42,.08); }
-    .whitespace-about h3{ margin:0 0 10px; font-size:18px; font-weight:700; color:var(--text); }
-    .whitespace-about p{ margin:0 0 12px; color:var(--muted); }
-    .whitespace-about ul{ margin:0; padding:0; list-style:none; display:grid; gap:8px; }
-    .whitespace-about li{ position:relative; padding-left:18px; color:var(--muted); font-size:14px; line-height:1.5; }
-    .whitespace-about li::before{ content:""; position:absolute; left:0; top:8px; width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px rgba(37,99,235,.18); }
-    .whitespace-grid-line{ stroke:rgba(148,163,184,.28); stroke-width:1; }
-    .whitespace-axis-line{ stroke:rgba(15,23,42,.38); stroke-width:1.3; }
+    .whitespace-about{ margin:26px 0 32px; padding:26px 28px; border-radius:20px; border:1px solid var(--border); background:var(--card); box-shadow:var(--shadow); }
+    .whitespace-about h3{ margin:0 0 12px; font-size:20px; font-weight:700; color:var(--text); letter-spacing:.2px; }
+    .whitespace-about p{ margin:0 0 14px; color:var(--muted); font-size:15px; line-height:1.65; }
+    .whitespace-about ul{ margin:0 0 12px; padding:0; list-style:none; display:grid; gap:10px; }
+    .whitespace-about li{ position:relative; padding-left:20px; color:var(--muted); font-size:14px; line-height:1.6; }
+    .whitespace-about li::before{ content:""; position:absolute; left:0; top:10px; width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(37,99,235,.14); }
+    .whitespace-grid-line{ stroke:rgba(148,163,184,.2); stroke-width:1; }
+    .whitespace-axis-line{ stroke:rgba(15,23,42,.28); stroke-width:1.3; }
     .whitespace-axis-tick{ fill:var(--muted); font-size:11px; font-weight:500; }
     .whitespace-axis-label{ fill:var(--muted); font-size:12px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; }
-    .whitespace-guideline{ stroke:rgba(37,99,235,.45); stroke-width:1.2; stroke-dasharray:6 6; }
+    .whitespace-guideline{ stroke:rgba(59,130,246,.35); stroke-width:1.2; stroke-dasharray:6 6; }
     .whitespace-callout{ fill:var(--text); font-size:13px; font-weight:600; }
     .radar svg{ position:absolute; inset:0; width:100%; height:100%; }
     .ring-label{ display:block; font-size:12px; fill:var(--muted); font-weight:600; }
@@ -212,6 +212,7 @@
       .view-toggle{ width:100%; justify-content:space-between; }
       .view-toggle__btn{ flex:1; text-align:center; }
       .radar-dashboard-link{ width:100%; justify-content:center; }
+      .whitespace-about{ margin:20px 0 28px; padding:22px 20px; border-radius:18px; }
     }
     @media (max-width: 480px){
       header.hero{ padding:14px; }
@@ -272,22 +273,23 @@
         </div>
         <a class="radar-dashboard-link" href="https://datalens.yandex/unblwg4lldxmf" target="_blank" rel="noopener">Перейти в дашборд</a>
       </div>
-      <div id="whiteSpaceAbout" class="whitespace-about" hidden>
-        <h3>White Space карта</h3>
-        <p>Диаграмма помогает увидеть незаполненные ниши: по оси X — моментум и скорость распространения, по оси Y — новизна. Размер пузыря отражает ожидаемый импакт, а цвет показывает зрелость и доступность экспертизы на рынке.</p>
-        <p>Используйте карту, чтобы подготовиться к стратегическим дискуссиям и быстрее выбирать направления развития.</p>
-        <ul>
-          <li>Фокусировать внимание на технологиях с сочетанием высокого импакта и управляемой сложности внедрения.</li>
-          <li>Синхронизировать продуктовые, исследовательские и коммерческие команды вокруг общих приоритетов.</li>
-          <li>Проверять инвестиционные гипотезы через призму спроса, новизны и готовности талантов.</li>
-        </ul>
-        <p><strong>Зона White Space</strong> — верхний правый сегмент диаграммы, где новизна и моментум растут, а конкуренция пока низкая.</p>
-      </div>
       <div id="radar" class="radar" role="tabpanel" aria-labelledby="viewRadar"></div>
       <div id="whiteSpace" class="whitespace" role="tabpanel" aria-labelledby="viewWhiteSpace" hidden></div>
       <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
       <div id="whiteSpaceEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения на карте White Space. Измените поисковый запрос.</div>
     </section>
+
+    <div id="whiteSpaceAbout" class="whitespace-about" hidden>
+      <h3>White Space карта</h3>
+      <p>Диаграмма помогает увидеть незаполненные ниши: по оси X — моментум и скорость распространения, по оси Y — новизна. Размер пузыря отражает ожидаемый импакт, а насыщенность цвета показывает зрелость и доступность экспертизы на рынке.</p>
+      <p>Используйте карту, чтобы подготовиться к стратегическим дискуссиям и быстрее выбирать направления развития.</p>
+      <ul>
+        <li>Фокусировать внимание на технологиях с сочетанием высокого импакта и управляемой сложности внедрения.</li>
+        <li>Синхронизировать продуктовые, исследовательские и коммерческие команды вокруг общих приоритетов.</li>
+        <li>Проверять инвестиционные гипотезы через призму спроса, новизны и готовности талантов.</li>
+      </ul>
+      <p><strong>Зона White Space</strong> — верхний правый сегмент диаграммы, где новизна и моментум растут, а конкуренция пока низкая.</p>
+    </div>
 
     <h2>Доска технологий</h2>
     <section id="board" class="board" aria-live="polite"></section>
@@ -675,9 +677,80 @@ const whiteSpaceItems = whiteSpaceRaw.map((item, index)=>{
   return { ...item, metrics, kpis, link, order: index + 1 };
 });
 
-const whiteSpaceMaxImpact = Math.max(1, ...whiteSpaceItems.map((item)=> Number(item.impact) || 0));
-const whiteSpaceMaturityRange = whiteSpaceItems.reduce((acc, item)=>{
-  const value = Number(item.maturity);
+const whiteSpaceBySlug = new Map();
+const whiteSpaceById = new Map();
+const whiteSpaceByName = new Map();
+const registerWhiteSpace = (key, map, value)=>{
+  if(!key){ return; }
+  const normalized = key.toString().toLowerCase();
+  if(!map.has(normalized)){ map.set(normalized, value); }
+};
+
+whiteSpaceItems.forEach((item)=>{
+  registerWhiteSpace(cleanSlug(item.slug || ''), whiteSpaceBySlug, item);
+  registerWhiteSpace(item.id, whiteSpaceById, item);
+  registerWhiteSpace((item.name || '').toString().toLowerCase().replace(/\s+/g,' ').trim(), whiteSpaceByName, item);
+});
+
+const resolveWhiteSpaceForTech = (tech)=>{
+  const slugKey = cleanSlug(tech.slug || '');
+  if(slugKey){
+    const slugKeyLc = slugKey.toLowerCase();
+    const direct = whiteSpaceBySlug.get(slugKeyLc);
+    if(direct){ return direct; }
+    for(const [key, value] of whiteSpaceBySlug.entries()){
+      if(key.includes(slugKeyLc) || slugKeyLc.includes(key)){
+        return value;
+      }
+    }
+  }
+  const byId = whiteSpaceById.get((tech.id || '').toString().toLowerCase());
+  if(byId){ return byId; }
+  const nameKey = (tech.name || '').toString().toLowerCase().replace(/\s+/g,' ').trim();
+  if(nameKey){
+    const directName = whiteSpaceByName.get(nameKey);
+    if(directName){ return directName; }
+    for(const [key, value] of whiteSpaceByName.entries()){
+      if(key.includes(nameKey) || nameKey.includes(key)){
+        return value;
+      }
+    }
+  }
+  return null;
+};
+
+technologies.forEach((tech)=>{
+  const match = resolveWhiteSpaceForTech(tech);
+  if(!match){ return; }
+  const wsMetrics = Array.isArray(match.metrics) ? match.metrics.filter(Boolean) : [];
+  const wsKpis = [
+    { value: (match.techScore || '').toString(), label: 'TechScore' },
+    { value: formatDecimal(match.novelty), label: 'Новизна' },
+    { value: formatDecimal(match.momentum), label: 'Моментум' },
+    { value: `${match.impactScore}%`, label: 'Impact (норм.)' }
+  ];
+  tech.whiteSpace = {
+    momentum: Number(match.momentum),
+    novelty: Number(match.novelty),
+    impact: Number(match.impact),
+    impactScore: Number(match.impactScore),
+    maturity: Number(match.maturity),
+    story: match.story || '',
+    what: match.what || '',
+    techScore: match.techScore || '',
+    metrics: wsMetrics,
+    kpis: wsKpis
+  };
+});
+
+const whiteSpaceBase = technologies.filter((item)=>{
+  const ws = item.whiteSpace || {};
+  return Number.isFinite(ws.momentum) && Number.isFinite(ws.novelty);
+});
+
+const whiteSpaceMaxImpact = Math.max(1, ...whiteSpaceBase.map((item)=> Number(item.whiteSpace?.impact) || 0));
+const whiteSpaceMaturityRange = whiteSpaceBase.reduce((acc, item)=>{
+  const value = Number(item.whiteSpace?.maturity);
   if(Number.isFinite(value)){
     if(value < acc.min){ acc.min = value; }
     if(value > acc.max){ acc.max = value; }
@@ -727,11 +800,11 @@ const rings = [
 ];
 const ringLabelsById = rings.reduce((acc, ring)=>{ acc[ring.id] = ring.label; return acc; }, {});
 let lastRadarData = technologies;
-let lastWhiteSpaceData = whiteSpaceItems;
+let lastWhiteSpaceData = whiteSpaceBase;
 let radarTooltipEl = null;
 let radarTooltipTimer = null;
-const baseByView = { radar: technologies, whitespace: whiteSpaceItems };
-const filteredByView = { radar: technologies, whitespace: whiteSpaceItems };
+const baseByView = { radar: technologies, whitespace: whiteSpaceBase };
+const filteredByView = { radar: technologies, whitespace: whiteSpaceBase };
 let activeView = 'radar';
 let lastSearchTerms = [];
 
@@ -922,18 +995,22 @@ const mixColors = (from, to, t)=>{
   const r = Math.round(start.r + (end.r - start.r) * ratio);
   const g = Math.round(start.g + (end.g - start.g) * ratio);
   const b = Math.round(start.b + (end.b - start.b) * ratio);
-  return `rgb(${r}, ${g}, ${b})`;
+  return { r, g, b };
 };
+
+const toRgbString = ({ r, g, b })=> `rgb(${r}, ${g}, ${b})`;
+const toRgbaString = ({ r, g, b }, alpha = 1)=> `rgba(${r}, ${g}, ${b}, ${alpha})`;
 
 const colorFromMaturity = (value)=>{
   const min = whiteSpaceMaturityRange.min;
   const max = whiteSpaceMaturityRange.max;
   if(!Number.isFinite(value)){ value = min; }
   if(!Number.isFinite(min) || !Number.isFinite(max) || max <= min){
-    return 'rgb(37, 99, 235)';
+    return toRgbaString(hexToRgb('#2563eb'), 0.48);
   }
   const ratio = Math.min(Math.max((value - min) / (max - min), 0), 1);
-  return mixColors('#60a5fa', '#1d4ed8', ratio);
+  const base = mixColors('#cbd5f5', '#2563eb', ratio * 0.9);
+  return toRgbaString(base, 0.48 + ratio * 0.18);
 };
 
 function renderWhiteSpace(data){
@@ -949,8 +1026,8 @@ function renderWhiteSpace(data){
   const innerWidth = Math.max(0, width - padding.left - padding.right);
   const innerHeight = Math.max(0, height - padding.top - padding.bottom);
 
-  const xValues = items.map((item)=> Number(item.momentum)).filter(Number.isFinite);
-  const yValues = items.map((item)=> Number(item.novelty)).filter(Number.isFinite);
+  const xValues = items.map((item)=> Number(item.whiteSpace?.momentum)).filter(Number.isFinite);
+  const yValues = items.map((item)=> Number(item.whiteSpace?.novelty)).filter(Number.isFinite);
   let xMin = xValues.length ? Math.min(...xValues) : -4;
   let xMax = xValues.length ? Math.max(...xValues) : 3;
   let yMin = yValues.length ? Math.min(...yValues) : 0;
@@ -979,11 +1056,11 @@ function renderWhiteSpace(data){
   gradient.setAttribute('y2','100%');
   const stopStart = document.createElementNS(svgNS,'stop');
   stopStart.setAttribute('offset','0%');
-  stopStart.setAttribute('stop-color','rgba(96,165,250,0.24)');
+  stopStart.setAttribute('stop-color','rgba(148,163,184,0.18)');
   gradient.appendChild(stopStart);
   const stopEnd = document.createElementNS(svgNS,'stop');
   stopEnd.setAttribute('offset','100%');
-  stopEnd.setAttribute('stop-color','rgba(37,99,235,0.05)');
+  stopEnd.setAttribute('stop-color','rgba(15,23,42,0.04)');
   gradient.appendChild(stopEnd);
   defs.appendChild(gradient);
   svg.appendChild(defs);
@@ -1007,8 +1084,8 @@ function renderWhiteSpace(data){
     highlight.setAttribute('y', padding.top);
     highlight.setAttribute('width', Math.max(0, (width - padding.right) - benchmarkX));
     highlight.setAttribute('height', Math.max(0, benchmarkY - padding.top));
-    highlight.setAttribute('fill','rgba(37,99,235,0.08)');
-    highlight.setAttribute('stroke','rgba(37,99,235,0.16)');
+    highlight.setAttribute('fill','rgba(148,163,184,0.14)');
+    highlight.setAttribute('stroke','rgba(59,130,246,0.22)');
     highlight.setAttribute('stroke-dasharray','6 6');
     highlight.setAttribute('rx', 14);
     svg.appendChild(highlight);
@@ -1095,8 +1172,8 @@ function renderWhiteSpace(data){
     calloutRect.setAttribute('width', bbox.width + padX * 2);
     calloutRect.setAttribute('height', bbox.height + padY * 2);
     calloutRect.setAttribute('rx', 8);
-    calloutRect.setAttribute('fill','rgba(37,99,235,0.18)');
-    calloutRect.setAttribute('stroke','rgba(37,99,235,0.35)');
+    calloutRect.setAttribute('fill','rgba(148,163,184,0.24)');
+    calloutRect.setAttribute('stroke','rgba(59,130,246,0.28)');
     calloutRect.setAttribute('stroke-width','1');
     calloutGroup.insertBefore(calloutRect, calloutText);
   }
@@ -1139,21 +1216,25 @@ function renderWhiteSpace(data){
   svg.appendChild(bubbleGroup);
 
   items.forEach((item, idx)=>{
-    const momentum = Number(item.momentum);
-    const novelty = Number(item.novelty);
+    const ws = item.whiteSpace || {};
+    const momentum = Number(ws.momentum);
+    const novelty = Number(ws.novelty);
     if(!Number.isFinite(momentum) || !Number.isFinite(novelty)){ return; }
     const x = scaleX(momentum);
     const y = scaleY(novelty);
-    const impact = Number(item.impact);
+    const impact = Number(ws.impact);
     const impactRatio = whiteSpaceMaxImpact ? Math.max(0, (impact || 0) / whiteSpaceMaxImpact) : 0;
     const radius = 18 + Math.sqrt(impactRatio) * 26;
-    const maturity = Number(item.maturity);
+    const maturity = Number(ws.maturity);
     const fillColor = colorFromMaturity(maturity);
-    const strokeColor = mixColors('#1d4ed8', '#0f172a', Math.min(1, Math.max(0, (Number.isFinite(maturity) ? (maturity - whiteSpaceMaturityRange.min) / ((whiteSpaceMaturityRange.max - whiteSpaceMaturityRange.min) || 1) : 0.5) + 0.1)));
+    const strokeBlend = mixColors('#475569', '#0f172a', Math.min(1, Math.max(0, Number.isFinite(maturity)
+      ? (maturity - whiteSpaceMaturityRange.min) / ((whiteSpaceMaturityRange.max - whiteSpaceMaturityRange.min) || 1)
+      : 0.5)));
+    const strokeColor = toRgbaString(strokeBlend, 0.75);
 
     const group = document.createElementNS(svgNS,'g');
     group.setAttribute('class','dot');
-    group.setAttribute('data-id', item.id || `ws-${idx + 1}`);
+    group.setAttribute('data-id', item.id || ws.id || `ws-${idx + 1}`);
 
     const circle = document.createElementNS(svgNS,'circle');
     circle.setAttribute('cx', x);
@@ -1161,9 +1242,9 @@ function renderWhiteSpace(data){
     circle.setAttribute('r', radius);
     circle.setAttribute('fill', fillColor);
     circle.setAttribute('stroke', strokeColor);
-    circle.setAttribute('stroke-width', '1.6');
+    circle.setAttribute('stroke-width', '1.4');
     circle.setAttribute('aria-hidden','true');
-    circle.style.filter = 'drop-shadow(0 12px 32px rgba(37,99,235,0.22))';
+    circle.style.filter = 'drop-shadow(0 14px 34px rgba(15,23,42,0.16))';
     group.appendChild(circle);
 
     const orderLabel = (item.order || idx + 1).toString().padStart(2,'0');
@@ -1198,13 +1279,24 @@ function renderWhiteSpace(data){
     const showTooltip = ()=>{
       if(!radarTooltipEl || !radarWrapEl){ return; }
       const summaryParts = [];
-      if(item.story){ summaryParts.push(`<p class="tooltip-summary"><span class="tooltip-caption">Зачем</span>${item.story}</p>`); }
-      if(item.what){ summaryParts.push(`<p class="tooltip-summary"><span class="tooltip-caption">Что</span>${item.what}</p>`); }
+      if(ws.story){ summaryParts.push(`<p class="tooltip-summary"><span class="tooltip-caption">Зачем</span>${ws.story}</p>`); }
+      if(ws.what){ summaryParts.push(`<p class="tooltip-summary"><span class="tooltip-caption">Что</span>${ws.what}</p>`); }
       if(item.summary){ summaryParts.push(`<p class="tooltip-summary">${item.summary}</p>`); }
       const summaryHtml = summaryParts.join('');
-      const tagsHtml = (item.metrics || []).slice(0,6).map((m)=>`<span class="tooltip-tag">${m}</span>`).join('');
+      const metricTags = (item.metrics && item.metrics.length ? item.metrics : ws.metrics || []);
+      const tagsHtml = metricTags.slice(0,6).map((m)=>`<span class="tooltip-tag">${m}</span>`).join('');
       const tagsBlock = tagsHtml ? `<div class="tooltip-tags">${tagsHtml}</div>` : '';
-      const kpiHtml = (item.kpis || []).slice(0,4)
+      const baseKpis = Array.isArray(item.kpis) ? item.kpis : [];
+      const wsKpis = Array.isArray(ws.kpis) ? ws.kpis : [];
+      const mergedKpis = [...baseKpis];
+      wsKpis.forEach((kpi)=>{
+        const key = `${kpi.value || ''}|${kpi.label || ''}`.toLowerCase();
+        const exists = mergedKpis.some((base)=> `${base.value || ''}|${base.label || ''}`.toLowerCase() === key);
+        if(!exists){ mergedKpis.push(kpi); }
+      });
+      const kpiHtml = mergedKpis
+        .filter((kpi)=> (kpi.value || kpi.label))
+        .slice(0,6)
         .map((kpi)=>{
           const value = (kpi.value || '').toString();
           const labelText = (kpi.label || '').toString();
@@ -1250,20 +1342,26 @@ function filterList(list, terms){
   if(!terms.length){ return items; }
   const normalizedTerms = terms.map(normalizeText);
   const makeBag = (t)=>{
+    const ws = t.whiteSpace || {};
+    const baseKpis = Array.isArray(t.kpis) ? t.kpis : [];
+    const wsKpis = Array.isArray(ws.kpis) ? ws.kpis : [];
+    const wsMetrics = Array.isArray(ws.metrics) ? ws.metrics : [];
     const parts = [
       t.name,
       t.slug,
       t.ring,
       ringLabelsById[t.ring],
       t.summary,
-      t.story,
-      t.what,
-      t.techScore,
-      Number.isFinite(Number(t.novelty)) ? formatDecimal(t.novelty) : t.novelty,
-      Number.isFinite(Number(t.momentum)) ? formatDecimal(t.momentum) : t.momentum,
-      t.impactScore,
+      ws.story,
+      ws.what,
+      ws.techScore,
+      Number.isFinite(Number(ws.novelty)) ? formatDecimal(ws.novelty) : ws.novelty,
+      Number.isFinite(Number(ws.momentum)) ? formatDecimal(ws.momentum) : ws.momentum,
+      ws.impactScore,
       ...(t.metrics || t.keys || []),
-      ...((t.kpis || []).flatMap((k)=> [k.value, k.label]))
+      ...wsMetrics,
+      ...baseKpis.flatMap((k)=> [k.value, k.label]),
+      ...wsKpis.flatMap((k)=> [k.value, k.label])
     ]
       .filter(Boolean)
       .map(normalizeText)
@@ -1302,6 +1400,46 @@ function updateEmptyStates(){
   if(whiteSpaceEmptyEl){
     whiteSpaceEmptyEl.hidden = activeView !== 'whitespace' || wsItems.length > 0;
   }
+}
+
+function applyFilteredView(){
+  updateToggleButtons();
+  const items = filteredByView[activeView] || [];
+  const hasWhiteSpaceItems = (filteredByView.whitespace || []).length > 0;
+  if(radarEl){
+    radarEl.hidden = activeView !== 'radar';
+    radarEl.setAttribute('aria-hidden', activeView !== 'radar' ? 'true' : 'false');
+  }
+  if(whiteSpaceEl){
+    whiteSpaceEl.hidden = activeView !== 'whitespace';
+    whiteSpaceEl.setAttribute('aria-hidden', activeView !== 'whitespace' ? 'true' : 'false');
+  }
+  if(whiteSpaceAboutEl){
+    whiteSpaceAboutEl.hidden = activeView !== 'whitespace' || !hasWhiteSpaceItems;
+  }
+  if(dashboardLinkEl){
+    dashboardLinkEl.hidden = activeView !== 'radar';
+  }
+  if(activeView === 'radar'){
+    renderRadar(items);
+  } else {
+    renderWhiteSpace(items);
+  }
+  renderBoard(items, activeView);
+  updateEmptyStates();
+}
+
+function setActiveView(view){
+  if(view !== 'radar' && view !== 'whitespace'){ return; }
+  if(activeView === view){
+    updateToggleButtons();
+    return;
+  }
+  activeView = view;
+  if(lastSearchTerms.length){
+    filteredByView[view] = filterList(baseByView[view], lastSearchTerms);
+  }
+  applyFilteredView();
 }
 
 function applyFilteredView(){
