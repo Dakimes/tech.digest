@@ -1442,6 +1442,45 @@ function setActiveView(view){
   applyFilteredView();
 }
 
+function applyFilteredView(){
+  updateToggleButtons();
+  const items = filteredByView[activeView] || [];
+  if(radarEl){
+    radarEl.hidden = activeView !== 'radar';
+    radarEl.setAttribute('aria-hidden', activeView !== 'radar' ? 'true' : 'false');
+  }
+  if(whiteSpaceEl){
+    whiteSpaceEl.hidden = activeView !== 'whitespace';
+    whiteSpaceEl.setAttribute('aria-hidden', activeView !== 'whitespace' ? 'true' : 'false');
+  }
+  if(whiteSpaceAboutEl){
+    whiteSpaceAboutEl.hidden = activeView !== 'whitespace';
+  }
+  if(dashboardLinkEl){
+    dashboardLinkEl.hidden = activeView !== 'radar';
+  }
+  if(activeView === 'radar'){
+    renderRadar(items);
+  } else {
+    renderWhiteSpace(items);
+  }
+  renderBoard(items, activeView);
+  updateEmptyStates();
+}
+
+function setActiveView(view){
+  if(view !== 'radar' && view !== 'whitespace'){ return; }
+  if(activeView === view){
+    updateToggleButtons();
+    return;
+  }
+  activeView = view;
+  if(lastSearchTerms.length){
+    filteredByView[view] = filterList(baseByView[view], lastSearchTerms);
+  }
+  applyFilteredView();
+}
+
 // === ДОСКА ===
 function chip(el, text){ const s=document.createElement('span'); s.className='chip'; s.textContent=text; el.appendChild(s); }
 
