@@ -47,7 +47,7 @@
 
 @page{
   size:A4;
-  margin:8mm 14mm 10mm;
+  margin:14mm 14mm 16mm;
 }
 
 .print-page-break{ display:none; }
@@ -73,7 +73,7 @@
   }
   body, .wrap{
     margin:0 !important;
-    padding:12mm 22px 14mm !important;
+    padding:16mm 24px 18mm !important;
     max-width:none !important;
     box-shadow:none !important;
     background:#fff !important;
@@ -121,9 +121,10 @@
   .wrap > section.itc{
     page-break-before:auto !important;
     break-before:auto !important;
-    page-break-after:always;
-    break-after:page;
-    margin-top:10px !important;
+    page-break-after:auto !important;
+    break-after:auto !important;
+    margin-top:12px !important;
+    padding:16px 0 18px !important;
   }
   .wrap > section.itc .itc-header{
     page-break-after:avoid;
@@ -186,10 +187,10 @@
   }
   a[href]::after{ content:"" !important; }
   .print-page-break{
-    display:block !important;
+    display:none !important;
     width:100%;
     height:0;
-    page-break-after:always;
-    break-after:page;
+    page-break-after:auto;
+    break-after:auto;
   }
 }
