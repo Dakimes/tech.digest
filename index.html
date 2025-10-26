@@ -110,7 +110,7 @@
     .radar-dashboard-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
     .radar{ position:relative; width:100%; max-width:100%; height: clamp(440px, 58vw, 620px); margin:auto; background:
       radial-gradient(circle at center, rgba(37,99,235,.05) 0 1px, transparent 1px) 0 0/22px 22px; border-radius:18px; overflow:hidden; }
-    .whitespace{ position:relative; width:100%; max-width:100%; height: clamp(460px, 60vw, 640px); margin:auto; border-radius:24px; overflow:hidden; border:1px солid var(--border); background:#fff; box-shadow:0 22px 46px rgba(15,23,42,.08); }
+    .whitespace{ position:relative; width:100%; max-width:100%; height: clamp(460px, 60vw, 640px); margin:auto; border-radius:24px; overflow:hidden; border:1px solid var(--border); background:#fff; box-shadow:0 22px 46px rgba(15,23,42,.06); }
     .whitespace svg{ position:absolute; inset:0; width:100%; height:100%; display:block; mix-blend-mode:normal; }
     .radar-empty{
       position:absolute;
@@ -128,22 +128,21 @@
       pointer-events:none;
     }
     .whitespace svg defs, .whitespace svg rect, .whitespace svg g{ mix-blend-mode:normal; }
-    .whitespace-about{ margin:28px 0 36px; border-radius:28px; border:1px solid var(--border); background:var(--card); box-shadow:0 24px 42px rgba(15,23,42,.08); }
-    .ws-panels{ display:grid; gap:16px; padding:28px; }
-    .ws-panel{ border:1px solid var(--border); border-radius:22px; background:#fff; box-shadow:0 16px 32px rgba(15,23,42,.06); overflow:hidden; }
-    .ws-panel summary{ list-style:none; cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:18px; padding:22px 26px; background:transparent; }
+    .whitespace-about{ margin:28px 0 36px; border-radius:28px; border:1px solid var(--border); background:var(--card); box-shadow:0 22px 38px rgba(15,23,42,.07); }
+    .ws-panels{ display:grid; gap:12px; padding:24px; }
+    .ws-panel{ border:1px solid var(--border); border-radius:22px; background:#fff; box-shadow:0 14px 28px rgba(15,23,42,.06); overflow:hidden; }
+    .ws-panel summary{ list-style:none; cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:20px 24px; background:transparent; }
     .ws-panel summary::-webkit-details-marker{ display:none; }
     .ws-panel__head{ display:grid; gap:8px; max-width:760px; }
     .ws-panel__label{ text-transform:uppercase; letter-spacing:1.2px; font-size:11px; font-weight:700; color:var(--muted); }
     .ws-panel__title{ margin:0; font-size:clamp(20px,2.4vw,26px); font-weight:700; color:var(--text); letter-spacing:.2px; }
     .ws-panel__lead{ margin:0; color:var(--muted); font-size:14px; line-height:1.6; }
-    .ws-panel__icon{ width:38px; height:38px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--border); background:var(--card-alt); color:var(--muted); transition:transform .2s ease, color .2s ease, background .2s ease, border-color .2s ease; flex-shrink:0; }
+    .ws-panel__icon{ width:34px; height:34px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--border); background:var(--card-alt); color:var(--muted); transition:transform .2s ease, color .2s ease, background .2s ease, border-color .2s ease; flex-shrink:0; }
     .ws-panel[open] .ws-panel__icon{ transform:rotate(180deg); color:var(--accent); background:#fff; border-color:rgba(37,99,235,.3); }
     .ws-panel__icon svg{ width:18px; height:18px; }
-    .ws-panel__body{ padding:0 26px 26px; display:grid; gap:18px; border-top:1px solid var(--border); }
+    .ws-panel__body{ padding:0 24px 22px; display:grid; gap:16px; border-top:1px solid var(--border); }
     .ws-panel__body p{ margin:0; color:var(--muted); font-size:14px; line-height:1.7; }
     .ws-panel__body h4{ margin:2px 0 4px; font-size:15px; font-weight:700; color:var(--text); letter-spacing:.2px; }
-    .ws-footnote{ font-size:12px; text-transform:uppercase; letter-spacing:1px; color:rgba(15,23,42,.55); }
     .whitespace-grid-line{ stroke:rgba(148,163,184,.28); stroke-width:1; }
     .whitespace-axis-line{ stroke:rgba(71,85,105,.32); stroke-width:1.3; }
     .whitespace-axis-tick{ fill:rgba(71,85,105,.7); font-size:11px; font-weight:500; }
@@ -298,7 +297,7 @@
 
     <div id="whiteSpaceAbout" class="whitespace-about" hidden>
       <div class="ws-panels">
-        <details class="ws-panel" open>
+        <details class="ws-panel">
           <summary>
             <div class="ws-panel__head">
               <span class="ws-panel__label">Аналитика White Space</span>
@@ -350,7 +349,6 @@
               <h4>Платформы корпоративных графов знаний</h4>
               <p>Платформы корпоративных графов знаний демонстрируют моментум ≈0,78 при новизне ≈0,24 и TechScore ≈0,28; по зрелости это наиболее продвинутый кандидат: доля компаний ≈21% и крупный круг по impact. Конвергенция графов с LLM/RAG делает этот слой удобным стандартом для семантического управления данными, каталога активов и контекстной аналитики; ожидается масштабирование в продуктивные контуры MDM, data governance и семантических API, что обеспечивает быстрый путь к окупаемости через рост качества поиска, сокращение времени на интеграцию и повышение повторного использования данных.</p>
             </div>
-            <span class="ws-footnote">Рисунок 3: «White Space» диаграмма технологических трендов data-домена (X — Momentum, Y — Novelty, размер круга — Impact, градиент — Talent/Diffusion).</span>
           </div>
         </details>
         <details class="ws-panel">
@@ -369,7 +367,6 @@
             <p>Европа традиционно сильна фундаментальными исследованиями: многие идеи семантических технологий и онтологий (semantic web) родом из европейских университетов. Так, стандарты интероперабельности в здравоохранении (HL7 FHIR) развиваются при участии международных консорциумов с активной ролью США, Европы и Австралии. Тем не менее, в плане коммерциализации США доминируют – американские фирмы легче привлекают капитал под новые data-продукты.</p>
             <p>Влияние лидеров на рынок. Концентрация лидерства в нескольких странах и компаниях приводит к тому, что именно они во многом формируют повестку дня. Например, когда такие корпорации как Microsoft или Oracle решают внедрять поддержку векторных поисков в свои СУБД, это фактически становится сигналом стандарту для всей отрасли. Лидеры могут продвигать свои открытые проекты и экосистемы: открытый код типа pgvector (разработанный в США) быстро распространяется глобально, подрезая крылья коммерческому хайпу вокруг векторных БД. С другой стороны, если технология активно продвигается только узкой группой компаний, она может остаться нишевой. Например, решения на стеке blockchain для данных активно пиарились некоторыми консорциумами, но без широкого фронта поддержки их влияние ограничилось пилотами.</p>
             <p>Лидирующие страны также привлекают к себе таланты, что усиливает разрыв. США и Китай концентрируют лучшие кадры в AI и data science, что помогает им удерживать технологическое превосходство. Для рынка это означает, что стандарты и платформы чаще всего исходят из этих центров, а остальным игрокам приходится к ним адаптироваться. Кроме того, лидерство больших компаний способно определять вектор слияний и поглощений: многие перспективные стартапы из Европы или других регионов выкупаются американскими корпорациями, что централизует контроль над ключевыми технологиями. В итоге, рынок следует за лидерами – их решения становятся де-факто индустриальными стандартами, а страны, где они базируются, получают экономические выгоды и влияние на установление правил (например, экспортные ограничения на передовые технологии или формирование патентного поля).</p>
-            <span class="ws-footnote">Рисунок 4: «Древовидная диаграмма» распределения публикаций по трендам и компаниям.</span>
           </div>
         </details>
       </div>
@@ -875,6 +872,8 @@ const boardEmptyEl = document.getElementById('boardEmpty');
 const whiteSpaceEl = document.getElementById('whiteSpace');
 const whiteSpaceEmptyEl = document.getElementById('whiteSpaceEmpty');
 const whiteSpaceAboutEl = document.getElementById('whiteSpaceAbout');
+const whiteSpacePanels = whiteSpaceAboutEl ? Array.from(whiteSpaceAboutEl.querySelectorAll('.ws-panel')) : [];
+whiteSpacePanels.forEach((panel)=> panel.removeAttribute('open'));
 const viewToggleButtons = Array.from(document.querySelectorAll('.view-toggle__btn'));
 const dashboardLinkEl = document.querySelector('.radar-dashboard-link');
 const rings = [
@@ -1094,38 +1093,30 @@ const colorFromMaturity = (value)=>{
     g: Math.round((ocean.g * 0.55) + (mint.g * 0.45)),
     b: Math.round((ocean.b * 0.55) + (mint.b * 0.45))
   };
-  return toRgbaString(blend, 0.18 + ratio * 0.16);
+  return toRgbaString(blend, 0.14 + ratio * 0.12);
 };
 
 const buildTooltipContent = (item, orderLabel)=>{
   const ws = item.whiteSpace || {};
-  const summarySource = [];
-  if(item.summary){ summarySource.push(item.summary); }
-  if(ws.story && !summarySource.includes(ws.story)){ summarySource.push(ws.story); }
-  if(ws.what && !summarySource.includes(ws.what)){ summarySource.push(ws.what); }
-  const summaryHtml = summarySource
-    .filter(Boolean)
-    .map((text)=> `<p class="tooltip-summary">${text}</p>`)
-    .join('');
+  const summaryText = [item.summary, ws.story, ws.what].find((text)=> !!text);
+  const summaryHtml = summaryText ? `<p class="tooltip-summary">${summaryText}</p>` : '';
 
-  const tagSet = new Set();
-  const tags = [];
-  [...(item.metrics || []), ...(ws.metrics || [])].forEach((tag)=>{
-    const key = (tag || '').toString().toLowerCase().trim();
-    if(key && !tagSet.has(key)){ tagSet.add(key); tags.push(tag); }
-  });
-  const tagsHtml = tags.slice(0, 6).map((m)=> `<span class="tooltip-tag">${m}</span>`).join('');
+  const metricSource = (Array.isArray(item.metrics) && item.metrics.length)
+    ? item.metrics
+    : (Array.isArray(ws.metrics) ? ws.metrics : []);
+  const tagsHtml = metricSource
+    .filter(Boolean)
+    .slice(0, 4)
+    .map((m)=> `<span class="tooltip-tag">${m}</span>`)
+    .join('');
   const tagsBlock = tagsHtml ? `<div class="tooltip-tags">${tagsHtml}</div>` : '';
 
-  const mergedKpis = Array.isArray(item.kpis) ? [...item.kpis] : [];
-  (Array.isArray(ws.kpis) ? ws.kpis : []).forEach((kpi)=>{
-    const key = `${kpi.value || ''}|${kpi.label || ''}`.toLowerCase();
-    const exists = mergedKpis.some((base)=> `${base.value || ''}|${base.label || ''}`.toLowerCase() === key);
-    if(!exists){ mergedKpis.push(kpi); }
-  });
-  const kpiHtml = mergedKpis
+  const kpiSource = (Array.isArray(item.kpis) && item.kpis.length)
+    ? item.kpis
+    : (Array.isArray(ws.kpis) ? ws.kpis : []);
+  const kpiHtml = kpiSource
     .filter((kpi)=> (kpi?.value || kpi?.label))
-    .slice(0, 6)
+    .slice(0, 4)
     .map((kpi)=>{
       const value = (kpi.value || '').toString();
       const labelText = (kpi.label || '').toString();
@@ -1170,32 +1161,32 @@ function renderWhiteSpace(data){
   const svg = document.createElementNS(svgNS, 'svg');
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
-  const defs = document.createElementNS(svgNS, 'defs');
-  const gradientId = `wsGrad-${Math.random().toString(36).slice(2,8)}`;
-  const gradient = document.createElementNS(svgNS, 'linearGradient');
-  gradient.setAttribute('id', gradientId);
-  gradient.setAttribute('x1','0%');
-  gradient.setAttribute('y1','0%');
-  gradient.setAttribute('x2','100%');
-  gradient.setAttribute('y2','100%');
-  const stopStart = document.createElementNS(svgNS,'stop');
-  stopStart.setAttribute('offset','0%');
-  stopStart.setAttribute('stop-color','rgba(148,163,184,0.18)');
-  gradient.appendChild(stopStart);
-  const stopEnd = document.createElementNS(svgNS,'stop');
-  stopEnd.setAttribute('offset','100%');
-  stopEnd.setAttribute('stop-color','rgba(15,23,42,0.04)');
-  gradient.appendChild(stopEnd);
-  defs.appendChild(gradient);
-  svg.appendChild(defs);
-
   const background = document.createElementNS(svgNS,'rect');
   background.setAttribute('x', 0);
   background.setAttribute('y', 0);
   background.setAttribute('width', width);
   background.setAttribute('height', height);
-  background.setAttribute('fill', `url(#${gradientId})`);
+  background.setAttribute('fill', '#fff');
   svg.appendChild(background);
+
+  const accentGroup = document.createElementNS(svgNS,'g');
+  accentGroup.setAttribute('aria-hidden','true');
+  accentGroup.setAttribute('pointer-events','none');
+  const accentSpot = document.createElementNS(svgNS,'ellipse');
+  accentSpot.setAttribute('cx', width - padding.right - innerWidth * 0.18);
+  accentSpot.setAttribute('cy', padding.top + innerHeight * 0.2);
+  accentSpot.setAttribute('rx', Math.max(120, innerWidth * 0.22));
+  accentSpot.setAttribute('ry', Math.max(90, innerHeight * 0.24));
+  accentSpot.setAttribute('fill','rgba(59,130,246,0.06)');
+  accentGroup.appendChild(accentSpot);
+  const accentHalo = document.createElementNS(svgNS,'ellipse');
+  accentHalo.setAttribute('cx', padding.left + innerWidth * 0.32);
+  accentHalo.setAttribute('cy', padding.top + innerHeight * 0.75);
+  accentHalo.setAttribute('rx', Math.max(100, innerWidth * 0.2));
+  accentHalo.setAttribute('ry', Math.max(80, innerHeight * 0.18));
+  accentHalo.setAttribute('fill','rgba(45,212,191,0.05)');
+  accentGroup.appendChild(accentHalo);
+  svg.appendChild(accentGroup);
 
   let benchmarkRect = null;
   let benchmarkX = null;
@@ -1208,8 +1199,8 @@ function renderWhiteSpace(data){
     highlight.setAttribute('y', padding.top);
     highlight.setAttribute('width', Math.max(0, (width - padding.right) - benchmarkX));
     highlight.setAttribute('height', Math.max(0, benchmarkY - padding.top));
-    highlight.setAttribute('fill','rgba(59,130,246,0.12)');
-    highlight.setAttribute('stroke','rgba(45,212,191,0.4)');
+    highlight.setAttribute('fill','rgba(59,130,246,0.08)');
+    highlight.setAttribute('stroke','rgba(37,99,235,0.22)');
     highlight.setAttribute('stroke-dasharray','6 6');
     highlight.setAttribute('rx', 14);
     svg.appendChild(highlight);
@@ -1296,9 +1287,9 @@ function renderWhiteSpace(data){
     calloutRect.setAttribute('width', bbox.width + padX * 2);
     calloutRect.setAttribute('height', bbox.height + padY * 2);
     calloutRect.setAttribute('rx', 8);
-    calloutRect.setAttribute('fill','rgba(148,163,184,0.24)');
-    calloutRect.setAttribute('stroke','rgba(59,130,246,0.28)');
-    calloutRect.setAttribute('stroke-width','1');
+    calloutRect.setAttribute('fill','rgba(59,130,246,0.08)');
+    calloutRect.setAttribute('stroke','rgba(15,23,42,0.08)');
+    calloutRect.setAttribute('stroke-width','1.2');
     calloutGroup.insertBefore(calloutRect, calloutText);
   }
 
@@ -1367,7 +1358,7 @@ function renderWhiteSpace(data){
     circle.setAttribute('stroke', strokeColor);
     circle.setAttribute('stroke-width', '1.4');
     circle.setAttribute('aria-hidden','true');
-    circle.style.filter = 'drop-shadow(0 20px 38px rgba(14,116,144,0.16))';
+    circle.style.filter = 'drop-shadow(0 18px 32px rgba(14,116,144,0.12))';
     group.appendChild(circle);
 
     const orderLabel = (item.order || idx + 1).toString().padStart(2,'0');
@@ -1497,65 +1488,6 @@ function updateEmptyStates(){
   if(whiteSpaceEmptyEl){
     whiteSpaceEmptyEl.hidden = activeView !== 'whitespace' || wsItems.length > 0;
   }
-  if(activeView === 'radar'){
-    renderRadar(items);
-  } else {
-    renderWhiteSpace(items);
-  }
-  renderBoard(items, activeView);
-  updateEmptyStates();
-}
-
-function setActiveView(view){
-  if(view !== 'radar' && view !== 'whitespace'){ return; }
-  if(activeView === view){
-    updateToggleButtons();
-    return;
-  }
-  activeView = view;
-  if(lastSearchTerms.length){
-    filteredByView[view] = filterList(baseByView[view], lastSearchTerms);
-  }
-  applyFilteredView();
-}
-
-function applyFilteredView(){
-  updateToggleButtons();
-  const items = filteredByView[activeView] || [];
-  if(radarEl){
-    radarEl.hidden = activeView !== 'radar';
-    radarEl.setAttribute('aria-hidden', activeView !== 'radar' ? 'true' : 'false');
-  }
-  if(whiteSpaceEl){
-    whiteSpaceEl.hidden = activeView !== 'whitespace';
-    whiteSpaceEl.setAttribute('aria-hidden', activeView !== 'whitespace' ? 'true' : 'false');
-  }
-  if(whiteSpaceAboutEl){
-    whiteSpaceAboutEl.hidden = activeView !== 'whitespace';
-  }
-  if(dashboardLinkEl){
-    dashboardLinkEl.hidden = activeView !== 'radar';
-  }
-  if(activeView === 'radar'){
-    renderRadar(items);
-  } else {
-    renderWhiteSpace(items);
-  }
-  renderBoard(items, activeView);
-  updateEmptyStates();
-}
-
-function setActiveView(view){
-  if(view !== 'radar' && view !== 'whitespace'){ return; }
-  if(activeView === view){
-    updateToggleButtons();
-    return;
-  }
-  activeView = view;
-  if(lastSearchTerms.length){
-    filteredByView[view] = filterList(baseByView[view], lastSearchTerms);
-  }
-  applyFilteredView();
 }
 
 function applyFilteredView(){
