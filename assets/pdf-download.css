@@ -47,14 +47,14 @@
 
 @page{
   size:A4;
-  margin:18mm 16mm 20mm;
+  margin:12mm 14mm 14mm;
 }
 
 .print-page-break{ display:none; }
 
 @page{
   size:A4;
-  margin:18mm 16mm 20mm;
+  margin:12mm 14mm 14mm;
 }
 
 .print-page-break{ display:none; }
@@ -80,7 +80,7 @@
   }
   body, .wrap{
     margin:0 !important;
-    padding:0 24px !important;
+    padding:6mm 24px 8mm !important;
     max-width:none !important;
     box-shadow:none !important;
     background:#fff !important;
@@ -114,16 +114,12 @@
     font-size:11px !important;
   }
   .wrap > h2{
-    page-break-before:always;
-    break-before:page;
-  }
-  .wrap > h2:first-of-type{
-    page-break-before:auto;
-    break-before:auto;
-  }
-  .wrap > header.hero + h2{
     page-break-before:auto !important;
     break-before:auto !important;
+    page-break-after:avoid;
+    break-after:avoid;
+    margin-top:24px !important;
+    margin-bottom:12px !important;
   }
   .wrap > h2 + section{
     page-break-before:avoid;
