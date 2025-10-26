@@ -47,14 +47,7 @@
 
 @page{
   size:A4;
-  margin:12mm 14mm 14mm;
-}
-
-.print-page-break{ display:none; }
-
-@page{
-  size:A4;
-  margin:12mm 14mm 14mm;
+  margin:14mm 14mm 16mm;
 }
 
 .print-page-break{ display:none; }
@@ -80,7 +73,7 @@
   }
   body, .wrap{
     margin:0 !important;
-    padding:6mm 24px 8mm !important;
+    padding:16mm 24px 18mm !important;
     max-width:none !important;
     box-shadow:none !important;
     background:#fff !important;
@@ -118,8 +111,8 @@
     break-before:auto !important;
     page-break-after:avoid;
     break-after:avoid;
-    margin-top:24px !important;
-    margin-bottom:12px !important;
+    margin-top:20px !important;
+    margin-bottom:10px !important;
   }
   .wrap > h2 + section{
     page-break-before:avoid;
@@ -128,9 +121,10 @@
   .wrap > section.itc{
     page-break-before:auto !important;
     break-before:auto !important;
-    page-break-after:always;
-    break-after:page;
+    page-break-after:auto !important;
+    break-after:auto !important;
     margin-top:12px !important;
+    padding:16px 0 18px !important;
   }
   .wrap > section.itc .itc-header{
     page-break-after:avoid;
@@ -143,7 +137,8 @@
   .wrap > section.itc .itc-group{
     page-break-inside:avoid;
     break-inside:avoid;
-    gap:12px !important;
+    padding:8px 0 10px !important;
+    gap:10px !important;
   }
   .wrap > section.itc .itc-group > *{
     page-break-before:avoid;
@@ -152,19 +147,20 @@
   .wrap > section.itc .itc-layout{
     page-break-inside:avoid;
     break-inside:avoid;
-    gap:12px !important;
+    padding:8px 0 10px !important;
+    gap:10px !important;
   }
   .wrap > section.itc .itc-panel{
-    padding:16px !important;
+    padding:14px !important;
   }
   .wrap > section.itc .itc-header h2{
     font-size:22px !important;
   }
   .wrap > section.itc .itc-spider{
-    padding:12px !important;
+    padding:10px !important;
   }
   .wrap > section.itc .itc-card{
-    padding:14px !important;
+    padding:12px !important;
   }
   .wrap > section.itc .itc-score{
     font-size:32px !important;
@@ -191,10 +187,10 @@
   }
   a[href]::after{ content:"" !important; }
   .print-page-break{
-    display:block !important;
+    display:none !important;
     width:100%;
     height:0;
-    page-break-after:always;
-    break-after:page;
+    page-break-after:auto;
+    break-after:auto;
   }
 }
