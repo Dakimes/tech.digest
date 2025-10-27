@@ -70,10 +70,16 @@
     .blueband{ margin-top:18px; background:var(--card); color:var(--text); border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--border); }
     .blueband .inner{ display:flex; flex-wrap:wrap; gap:14px 18px; padding:16px 20px; align-items:center; }
     .tagb{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background: var(--card-alt); border:1px solid transparent; font-size:13px; color:var(--muted); }
-    .legend{ display:flex; flex-wrap:wrap; gap:12px; margin-left:auto; }
-    .lg{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
-    .lg i{ width:10px; height:10px; display:inline-block; border-radius:50%; }
-    .m1{ background:#bae6fd; } .m2{ background:#7dd3fc; } .m3{ background:#38bdf8; } .m4{ background:#0ea5e9; }
+    .viz-legend{ display:flex; flex-wrap:wrap; gap:16px 24px; align-items:center; margin:16px 0 0; }
+    .viz-legend__item{ display:inline-flex; align-items:center; gap:12px; font-size:13px; color:var(--muted); }
+    .viz-legend__swatch{ width:32px; height:32px; border-radius:50%; position:relative; display:inline-flex; align-items:center; justify-content:center; }
+    .viz-legend__swatch[aria-hidden="true"]{ pointer-events:none; }
+    .viz-legend__swatch--color{ background:linear-gradient(135deg, rgba(153,246,228,.78), rgba(59,130,246,.85)); border:1px solid rgba(37,99,235,.32); box-shadow:0 10px 20px rgba(37,99,235,.18); }
+    .viz-legend__swatch--size{ background:transparent; border:1px solid rgba(148,163,184,.6); }
+    .viz-legend__swatch--size::before,
+    .viz-legend__swatch--size::after{ content:""; position:absolute; border-radius:50%; background:rgba(191,219,254,.65); border:1px solid rgba(59,130,246,.35); }
+    .viz-legend__swatch--size::before{ width:12px; height:12px; left:6px; bottom:6px; background:rgba(59,130,246,.55); border-color:rgba(37,99,235,.32); }
+    .viz-legend__swatch--size::after{ width:22px; height:22px; right:4px; top:4px; }
 
     /* Search */
     .search{ position:relative; display:flex; gap:12px; margin:26px 0 32px; }
@@ -288,6 +294,16 @@
           <button type="button" class="view-toggle__btn" data-view="whitespace" role="tab" aria-selected="false" aria-controls="whiteSpace" id="viewWhiteSpace">White Space</button>
         </div>
         <a class="radar-dashboard-link" href="https://datalens.yandex/unblwg4lldxmf" target="_blank" rel="noopener">Перейти в дашборд</a>
+      </div>
+      <div class="viz-legend" aria-label="Легенда визуализаций">
+        <div class="viz-legend__item">
+          <span class="viz-legend__swatch viz-legend__swatch--color" aria-hidden="true"></span>
+          <span>Цвет круга — зрелость (доля талантов)</span>
+        </div>
+        <div class="viz-legend__item">
+          <span class="viz-legend__swatch viz-legend__swatch--size" aria-hidden="true"></span>
+          <span>Размер круга — влияние (impact)</span>
+        </div>
       </div>
       <div id="radar" class="radar" role="tabpanel" aria-labelledby="viewRadar"></div>
       <div id="whiteSpace" class="whitespace" role="tabpanel" aria-labelledby="viewWhiteSpace" hidden></div>
@@ -1168,25 +1184,6 @@ function renderWhiteSpace(data){
   background.setAttribute('height', height);
   background.setAttribute('fill', '#fff');
   svg.appendChild(background);
-
-  const accentGroup = document.createElementNS(svgNS,'g');
-  accentGroup.setAttribute('aria-hidden','true');
-  accentGroup.setAttribute('pointer-events','none');
-  const accentSpot = document.createElementNS(svgNS,'ellipse');
-  accentSpot.setAttribute('cx', width - padding.right - innerWidth * 0.18);
-  accentSpot.setAttribute('cy', padding.top + innerHeight * 0.2);
-  accentSpot.setAttribute('rx', Math.max(120, innerWidth * 0.22));
-  accentSpot.setAttribute('ry', Math.max(90, innerHeight * 0.24));
-  accentSpot.setAttribute('fill','rgba(59,130,246,0.06)');
-  accentGroup.appendChild(accentSpot);
-  const accentHalo = document.createElementNS(svgNS,'ellipse');
-  accentHalo.setAttribute('cx', padding.left + innerWidth * 0.32);
-  accentHalo.setAttribute('cy', padding.top + innerHeight * 0.75);
-  accentHalo.setAttribute('rx', Math.max(100, innerWidth * 0.2));
-  accentHalo.setAttribute('ry', Math.max(80, innerHeight * 0.18));
-  accentHalo.setAttribute('fill','rgba(45,212,191,0.05)');
-  accentGroup.appendChild(accentHalo);
-  svg.appendChild(accentGroup);
 
   let benchmarkRect = null;
   let benchmarkX = null;
