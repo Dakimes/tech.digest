@@ -70,10 +70,16 @@
     .blueband{ margin-top:18px; background:var(--card); color:var(--text); border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--border); }
     .blueband .inner{ display:flex; flex-wrap:wrap; gap:14px 18px; padding:16px 20px; align-items:center; }
     .tagb{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background: var(--card-alt); border:1px solid transparent; font-size:13px; color:var(--muted); }
-    .legend{ display:flex; flex-wrap:wrap; gap:12px; margin-left:auto; }
-    .lg{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
-    .lg i{ width:10px; height:10px; display:inline-block; border-radius:50%; }
-    .m1{ background:#bae6fd; } .m2{ background:#7dd3fc; } .m3{ background:#38bdf8; } .m4{ background:#0ea5e9; }
+    .viz-legend{ display:flex; flex-wrap:wrap; gap:16px 24px; align-items:center; margin:16px 0 0; }
+    .viz-legend__item{ display:inline-flex; align-items:center; gap:12px; font-size:13px; color:var(--muted); }
+    .viz-legend__swatch{ width:32px; height:32px; border-radius:50%; position:relative; display:inline-flex; align-items:center; justify-content:center; }
+    .viz-legend__swatch[aria-hidden="true"]{ pointer-events:none; }
+    .viz-legend__swatch--color{ background:linear-gradient(135deg, rgba(153,246,228,.78), rgba(59,130,246,.85)); border:1px solid rgba(37,99,235,.32); box-shadow:0 10px 20px rgba(37,99,235,.18); }
+    .viz-legend__swatch--size{ background:transparent; border:1px solid rgba(148,163,184,.6); }
+    .viz-legend__swatch--size::before,
+    .viz-legend__swatch--size::after{ content:""; position:absolute; border-radius:50%; background:rgba(191,219,254,.65); border:1px solid rgba(59,130,246,.35); }
+    .viz-legend__swatch--size::before{ width:12px; height:12px; left:6px; bottom:6px; background:rgba(59,130,246,.55); border-color:rgba(37,99,235,.32); }
+    .viz-legend__swatch--size::after{ width:22px; height:22px; right:4px; top:4px; }
 
     /* Search */
     .search{ position:relative; display:flex; gap:12px; margin:26px 0 32px; }
@@ -99,12 +105,19 @@
 
     /* Radar */
     .radar-wrap{ position:relative; border:1px solid var(--border); border-radius:var(--radius); padding:22px 22px 30px; background: var(--card); box-shadow: var(--shadow); }
-    .radar-toolbar{ display:flex; justify-content:flex-end; margin-bottom:16px; }
+    .radar-toolbar{ display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; flex-wrap:wrap; }
+    .view-toggle{ display:inline-flex; align-items:center; gap:6px; padding:4px; border-radius:12px; background:var(--card-alt); border:1px solid var(--border); box-shadow:none; }
+    .view-toggle__btn{ border:0; background:transparent; padding:8px 16px; border-radius:10px; font-weight:600; font-size:14px; color:var(--muted); cursor:pointer; transition:background .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease; }
+    .view-toggle__btn:hover{ color:var(--text); }
+    .view-toggle__btn:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:2px; }
+    .view-toggle__btn.is-active{ background:var(--accent); color:#fff; box-shadow:0 12px 28px rgba(37,99,235,.18); transform:translateY(-1px); }
     .radar-dashboard-link{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:12px; background:var(--accent); color:#fff; font-weight:600; text-decoration:none; border:1px solid var(--accent); box-shadow:none; transition:background .2s ease, transform .2s ease; }
     .radar-dashboard-link:hover{ background:var(--accent-strong); transform:translateY(-1px); }
     .radar-dashboard-link:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:3px; }
     .radar{ position:relative; width:100%; max-width:100%; height: clamp(440px, 58vw, 620px); margin:auto; background:
       radial-gradient(circle at center, rgba(37,99,235,.05) 0 1px, transparent 1px) 0 0/22px 22px; border-radius:18px; overflow:hidden; }
+    .whitespace{ position:relative; width:100%; max-width:100%; height: clamp(460px, 60vw, 640px); margin:auto; border-radius:24px; overflow:hidden; border:1px solid var(--border); background:#fff; box-shadow:0 22px 46px rgba(15,23,42,.06); }
+    .whitespace svg{ position:absolute; inset:0; width:100%; height:100%; display:block; mix-blend-mode:normal; }
     .radar-empty{
       position:absolute;
       inset:16px;
@@ -120,13 +133,35 @@
       padding:18px;
       pointer-events:none;
     }
+    .whitespace svg defs, .whitespace svg rect, .whitespace svg g{ mix-blend-mode:normal; }
+    .whitespace-about{ margin:28px 0 36px; border-radius:28px; border:1px solid var(--border); background:var(--card); box-shadow:0 22px 38px rgba(15,23,42,.07); }
+    .ws-panels{ display:grid; gap:12px; padding:24px; }
+    .ws-panel{ border:1px solid var(--border); border-radius:22px; background:#fff; box-shadow:0 14px 28px rgba(15,23,42,.06); overflow:hidden; }
+    .ws-panel summary{ list-style:none; cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:20px 24px; background:transparent; }
+    .ws-panel summary::-webkit-details-marker{ display:none; }
+    .ws-panel__head{ display:grid; gap:8px; max-width:760px; }
+    .ws-panel__label{ text-transform:uppercase; letter-spacing:1.2px; font-size:11px; font-weight:700; color:var(--muted); }
+    .ws-panel__title{ margin:0; font-size:clamp(20px,2.4vw,26px); font-weight:700; color:var(--text); letter-spacing:.2px; }
+    .ws-panel__lead{ margin:0; color:var(--muted); font-size:14px; line-height:1.6; }
+    .ws-panel__icon{ width:34px; height:34px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--border); background:var(--card-alt); color:var(--muted); transition:transform .2s ease, color .2s ease, background .2s ease, border-color .2s ease; flex-shrink:0; }
+    .ws-panel[open] .ws-panel__icon{ transform:rotate(180deg); color:var(--accent); background:#fff; border-color:rgba(37,99,235,.3); }
+    .ws-panel__icon svg{ width:18px; height:18px; }
+    .ws-panel__body{ padding:0 24px 22px; display:grid; gap:16px; border-top:1px solid var(--border); }
+    .ws-panel__body p{ margin:0; color:var(--muted); font-size:14px; line-height:1.7; }
+    .ws-panel__body h4{ margin:2px 0 4px; font-size:15px; font-weight:700; color:var(--text); letter-spacing:.2px; }
+    .whitespace-grid-line{ stroke:rgba(148,163,184,.28); stroke-width:1; }
+    .whitespace-axis-line{ stroke:rgba(71,85,105,.32); stroke-width:1.3; }
+    .whitespace-axis-tick{ fill:rgba(71,85,105,.7); font-size:11px; font-weight:500; }
+    .whitespace-axis-label{ fill:rgba(15,23,42,.78); font-size:12px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; }
+    .whitespace-guideline{ stroke:rgba(45,212,191,.35); stroke-width:1.1; stroke-dasharray:6 6; }
+    .whitespace-callout{ fill:rgba(15,23,42,.82); font-size:13px; font-weight:600; }
     .radar svg{ position:absolute; inset:0; width:100%; height:100%; }
     .ring-label{ display:block; font-size:12px; fill:var(--muted); font-weight:600; }
     .axis-line{ stroke:rgba(37,99,235,.18); stroke-width:1; stroke-dasharray:4 4; }
     .ring-zone{ stroke:rgba(37,99,235,.2); stroke-width:1.1; }
 
     .dot{ cursor:pointer; transition: opacity .15s ease; outline:none; }
-    .dot circle{ filter: drop-shadow(0 8px 18px rgba(37, 99, 235, .18)); }
+    .dot circle{ filter: drop-shadow(0 16px 26px rgba(15, 23, 42, .12)); }
     .dot-label{ font-size:12px; font-weight:600; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; paint-order:stroke; stroke:rgba(15,23,42,.14); stroke-width:3; }
     .dot:focus-visible circle{ outline:3px solid rgba(37,99,235,.35); outline-offset:2px; }
     .radar-tooltip{
@@ -149,6 +184,8 @@
     .radar-tooltip.is-visible{ opacity:1; }
     .radar-tooltip strong{ display:block; font-size:14px; margin-bottom:6px; color:var(--accent); }
     .radar-tooltip p{ margin:0 0 8px; font-size:12px; color:var(--muted); }
+    .radar-tooltip .tooltip-summary + .tooltip-summary{ margin-top:6px; }
+    .radar-tooltip .tooltip-caption{ display:block; font-size:10px; font-weight:600; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
     .radar-tooltip .tooltip-tags{ display:flex; flex-wrap:wrap; gap:6px; margin:0; }
     .radar-tooltip .tooltip-tag{ display:inline-flex; align-items:center; padding:4px 8px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:11px; font-weight:600; letter-spacing:.2px; }
     .radar-tooltip .tooltip-kpis{ margin:10px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
@@ -181,19 +218,30 @@
       header.hero{ flex-direction:column; align-items:flex-start; }
       .nav{ width:100%; justify-content:flex-start; }
       .nav-link{ width:100%; justify-content:center; }
+      .ws-panels{ padding:24px; }
     }
     @media (max-width: 640px){
       .board{ grid-template-columns: 1fr; }
       .radar{ height: clamp(360px, 90vw, 520px); }
+      .whitespace{ height: clamp(360px, 90vw, 540px); }
       .radar-wrap{ padding:14px; }
       .radar-toolbar{ margin-bottom:12px; }
+      .view-toggle{ width:100%; justify-content:space-between; }
+      .view-toggle__btn{ flex:1; text-align:center; }
       .radar-dashboard-link{ width:100%; justify-content:center; }
+      .whitespace-about{ margin:22px 0 30px; border-radius:22px; }
+      .ws-panels{ padding:20px; }
+      .ws-panel summary{ flex-direction:column; align-items:flex-start; padding:20px; }
+      .ws-panel__icon{ width:34px; height:34px; }
+      .ws-panel__body{ padding:0 20px 20px; }
     }
     @media (max-width: 480px){
       header.hero{ padding:14px; }
       .search{ flex-direction:column; }
       .search input{ padding-left:38px; }
       .radar{ height: clamp(320px, 110vw, 440px); }
+      .whitespace{ height: clamp(320px, 110vw, 460px); }
+      .ws-panel__title{ font-size:20px; }
     }
 
     @media print{
@@ -210,6 +258,9 @@
     .tile .kpi-list{ margin:8px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
     .tile .kpi-item{ display:flex; gap:8px; align-items:flex-start; font-size:12px; color:var(--muted); }
     .tile .kpi-value{ color:var(--accent-strong); font-weight:700; }
+    .tile-story{ margin:10px 0 0; font-size:13px; color:var(--muted); line-height:1.45; }
+    .tile[data-disabled='true']{ cursor:default; }
+    .tile[data-disabled='true']:hover{ transform:none; box-shadow: 0 14px 26px rgba(15,23,42,.04); border-color:var(--border); }
 
     footer{ color:var(--muted); font-size:12px; margin-top: 36px; text-align:center; }
   </style>
@@ -236,14 +287,106 @@
       <button class="clear" id="clearBtn" type="button">Очистить</button>
     </div>
 
-    <section class="radar-wrap" aria-label="Цифровой радар технологий">
+    <section class="radar-wrap" aria-label="Цифровой радар технологий и карта возможностей">
       <div class="radar-toolbar">
+        <div class="view-toggle" role="tablist" aria-label="Переключатель визуализаций">
+          <button type="button" class="view-toggle__btn is-active" data-view="radar" role="tab" aria-selected="true" aria-controls="radar" id="viewRadar">Радар</button>
+          <button type="button" class="view-toggle__btn" data-view="whitespace" role="tab" aria-selected="false" aria-controls="whiteSpace" id="viewWhiteSpace">White Space</button>
+        </div>
         <a class="radar-dashboard-link" href="https://datalens.yandex/unblwg4lldxmf" target="_blank" rel="noopener">Перейти в дашборд</a>
       </div>
-      <div id="radar" class="radar"></div>
+      <div class="viz-legend" aria-label="Легенда визуализаций">
+        <div class="viz-legend__item">
+          <span class="viz-legend__swatch viz-legend__swatch--color" aria-hidden="true"></span>
+          <span>Цвет круга — зрелость (доля талантов)</span>
+        </div>
+        <div class="viz-legend__item">
+          <span class="viz-legend__swatch viz-legend__swatch--size" aria-hidden="true"></span>
+          <span>Размер круга — влияние (impact)</span>
+        </div>
+      </div>
+      <div id="radar" class="radar" role="tabpanel" aria-labelledby="viewRadar"></div>
+      <div id="whiteSpace" class="whitespace" role="tabpanel" aria-labelledby="viewWhiteSpace" hidden></div>
       <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
+      <div id="whiteSpaceEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения на карте White Space. Измените поисковый запрос.</div>
     </section>
 
+    <div id="whiteSpaceAbout" class="whitespace-about" hidden>
+      <div class="ws-panels">
+        <details class="ws-panel">
+          <summary>
+            <div class="ws-panel__head">
+              <span class="ws-panel__label">Аналитика White Space</span>
+              <h3 class="ws-panel__title">Драйверы отрасли на ближайшие годы</h3>
+              <p class="ws-panel__lead">Смена волны хайпа на фазу выборочной интеграции и оптимизации, где на первый план выходят платформы эффективности данных и ИИ.</p>
+            </div>
+            <span class="ws-panel__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="ws-panel__body">
+            <p>Драйверы отрасли на ближайшие годы. Совокупная публикационная активность взлетела к локальному пику в первом полугодии 2023 года и с тех пор постепенно замедляется, переходя от волны хайпа к фазе выборочной интеграции и оптимизации; к середине 2025 года наблюдается просадка до минимальных значений. При этом почти все кластеры сохраняют положительный моментум и умеренную новизну, а «зрелость (talent_share)» распределена неравномерно — от нишевых 6% до корпоративных 21%. Вывод для бизнеса: внимание смещается к платформам, повышающим эффективность работы с данными и ИИ, тогда как инфраструктурные новации в хранении и сжатии готовятся к рывку следующей волны внедрений.</p>
+            <div>
+              <h4>Векторные БД и индексация сходств</h4>
+              <p>Базы данных векторных эмбеддингов и системы индексации сходств остаются центром тяжести повестки: после взрывного роста публикаций в 2023 году интерес стабилизировался с краткосрочным подъемом летом 2024 года и дальнейшим охлаждением к середине 2025-го. Доля цитирований достигла ≈21% — самый высокий показатель выборки, подтверждающий устойчивый исследовательский интерес; при этом положительный моментум, ≈0.72, отражает сохраняющуюся динамику развития, а новизна ≈0.17 указывает на начавшуюся консолидацию решений. Зрелость (talent_share) на уровне ≈12% и TechScore ≈0.25 сигнализируют о переходе от экспериментов к более прагматичным внедрениям в поиске, RAG и семантическом поиске по корпоративным данным, где именно эффективность индексирования и латентные связи становятся ключом к ROI.</p>
+            </div>
+            <div>
+              <h4>ML-оптимизация SQL-запросов</h4>
+              <p>Системы оптимизации SQL-запросов с применением машинного обучения демонстрируют «двойную вершину»: мощные всплески публикаций в начале 2023 и 2024 годов с последующей просадкой в 2024–2025 годах. Высокая доля цитирований, ≈19%, при положительном моментуме, ≈0.78, и невысокой новизне, ≈0.08, показывает, что область дозревает: новые идеи реже, но они активно транслируются в промышленную практику. При зрелости (talent_share) ≈10% и TechScore ≈0.23 этот кластер важен как механизм дефляции вычислительных издержек и ускорения OLAP/HTAP-нагрузок: внедрение ML-оптимизаций на уровне планировщиков и кэшей дает линейные выигрыши производительности без радикальной перестройки стеков.</p>
+            </div>
+            <div>
+              <h4>Аналитическое сжатие данных</h4>
+              <p>Ориентированные на аналитику технологии сжатия данных для колоночных и крупномасштабных систем хранения выступают «темной лошадкой» цикла: публикации стартовали серией всплесков в 2023–начале 2025 годов с эпизодическими паузами, что типично для интенсивной экспериментальной фазы. При скромной доле цитирований, ≈3%, и низкой зрелости (talent_share) ≈6% кластер выделяется максимальным в выборке TechScore, ≈0.37, и резким положительным моментумом, ≈1.30, а новизна ≈0.33 подчеркивает приток свежих подходов. Это сигнал к R&D-ставке: на фоне роста объемов аналитических данных и стоимости хранения адаптивное, аналитически-осмысленное сжатие способно стать источником непропорциональной экономии и ускорения, открывая окно возможностей для ранних внедрений в корпоративных DWH и lakehouse-платформах.</p>
+            </div>
+          </div>
+        </details>
+        <details class="ws-panel">
+          <summary>
+            <div class="ws-panel__head">
+              <span class="ws-panel__label">Окна возможностей</span>
+              <h3 class="ws-panel__title">White-space технологических трендов</h3>
+              <p class="ws-panel__lead">Правый верхний сектор диаграммы фиксирует три траектории с повышенной новизной и положительным моментумом.</p>
+            </div>
+            <span class="ws-panel__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="ws-panel__body">
+            <p>Диаграмма White Space выделяет три «окна возможностей» в правом верхнем квадранте: ориентированные на аналитику технологии сжатия данных для колоночных и крупномасштабных систем хранения, корпоративные системы управления данными и обеспечения целостности на основе блокчейна и платформы корпоративных графов знаний. Все они демонстрируют положительный моментум и повышенную новизну относительно остального поля, при этом диффузия талантов варьирует от ≈6% до ≈21%, а вклад по impact — от небольшого до крупного круга, что указывает на разную степень зрелости и широту научно-технологической повестки.</p>
+            <div>
+              <h4>Аналитическое сжатие данных</h4>
+              <p>Положительный моментум (≈1,30) в сочетании с новизной ≈0,33 и TechScore ≈0,37 сигнализирует о быстром ускорении. Низкая зрелость отражается в доле компаний ≈6% и небольшом круге по impact, но именно здесь просматривается потенциал дисрапта за счёт компрессии, «понимающей» статистику запросов и колоночные паттерны доступа. Для бизнеса это окно на снижение TCO хранилищ и ускорение аналитики в lakehouse/warehouse-стэке через PoC интеграции компрессии в движки выполнения и форматы данных.</p>
+            </div>
+            <div>
+              <h4>Корпоративные DLT-платформы управления данными</h4>
+              <p>Рынок демонстрирует устойчивый рост с моментумом ≈0,84 и новизной ≈0,30 при TechScore ≈0,28. Зрелость умеренная: доля компаний ≈9%, а по impact — средний круг, что говорит о формирующейся, но подтверждаемой практикой нише. Применимость особенно высока в контурах сквозной трассируемости и неизменяемых журналов для взаимообмена между доменами данных, где экономический эффект проявляется через снижение регуляторных и операционных рисков и упрощение аудита.</p>
+            </div>
+            <div>
+              <h4>Платформы корпоративных графов знаний</h4>
+              <p>Платформы корпоративных графов знаний демонстрируют моментум ≈0,78 при новизне ≈0,24 и TechScore ≈0,28; по зрелости это наиболее продвинутый кандидат: доля компаний ≈21% и крупный круг по impact. Конвергенция графов с LLM/RAG делает этот слой удобным стандартом для семантического управления данными, каталога активов и контекстной аналитики; ожидается масштабирование в продуктивные контуры MDM, data governance и семантических API, что обеспечивает быстрый путь к окупаемости через рост качества поиска, сокращение времени на интеграцию и повышение повторного использования данных.</p>
+            </div>
+          </div>
+        </details>
+        <details class="ws-panel">
+          <summary>
+            <div class="ws-panel__head">
+              <span class="ws-panel__label">География</span>
+              <h3 class="ws-panel__title">Лидеры: какие страны и компании двигают ключевые технологии</h3>
+              <p class="ws-panel__lead">США и Китай задают темп, Европа укрепляет фундаментальные исследования, а нишевые регионы подключают блокчейн-инициативы.</p>
+            </div>
+            <span class="ws-panel__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="ws-panel__body">
+            <p>Современные тенденции data-домена во многом определяются несколькими технологически продвинутыми странами, прежде всего США и Китаем. Соединённые Штаты лидируют по числу научных публикаций и стартапов практически по всем ключевым кластерам, от потоковой аналитики до knowledge graphs. Американские технологические гиганты – Google, Microsoft, Amazon, Oracle, IBM – инвестируют огромные ресурсы в разработки: так, Google была пионером знанийных графов, LinkedIn (США) разработал Kafka для стриминга, а стартапы Кремниевой долины возглавили волну векторных баз данных. Китай, в свою очередь, быстро наращивает присутствие: китайские компании и исследовательские институты занимают лидирующие места в публикационной активности по темам AI и больших данных. Например, в сегменте векторных БД значимым игроком стал стартап Zilliz (создатель Milvus) из Китая, конкурирующий с американскими Pinecone и Weaviate (Нидерланды/США). В сфере blockchain-платформ для данных заметны разработки из Швейцарии и Сингапура (благодаря благоприятной регуляторике), однако масштаб применения пока ограничен.</p>
+            <p>Европа традиционно сильна фундаментальными исследованиями: многие идеи семантических технологий и онтологий (semantic web) родом из европейских университетов. Так, стандарты интероперабельности в здравоохранении (HL7 FHIR) развиваются при участии международных консорциумов с активной ролью США, Европы и Австралии. Тем не менее, в плане коммерциализации США доминируют – американские фирмы легче привлекают капитал под новые data-продукты.</p>
+            <p>Влияние лидеров на рынок. Концентрация лидерства в нескольких странах и компаниях приводит к тому, что именно они во многом формируют повестку дня. Например, когда такие корпорации как Microsoft или Oracle решают внедрять поддержку векторных поисков в свои СУБД, это фактически становится сигналом стандарту для всей отрасли. Лидеры могут продвигать свои открытые проекты и экосистемы: открытый код типа pgvector (разработанный в США) быстро распространяется глобально, подрезая крылья коммерческому хайпу вокруг векторных БД. С другой стороны, если технология активно продвигается только узкой группой компаний, она может остаться нишевой. Например, решения на стеке blockchain для данных активно пиарились некоторыми консорциумами, но без широкого фронта поддержки их влияние ограничилось пилотами.</p>
+            <p>Лидирующие страны также привлекают к себе таланты, что усиливает разрыв. США и Китай концентрируют лучшие кадры в AI и data science, что помогает им удерживать технологическое превосходство. Для рынка это означает, что стандарты и платформы чаще всего исходят из этих центров, а остальным игрокам приходится к ним адаптироваться. Кроме того, лидерство больших компаний способно определять вектор слияний и поглощений: многие перспективные стартапы из Европы или других регионов выкупаются американскими корпорациями, что централизует контроль над ключевыми технологиями. В итоге, рынок следует за лидерами – их решения становятся де-факто индустриальными стандартами, а страны, где они базируются, получают экономические выгоды и влияние на установление правил (например, экспортные ограничения на передовые технологии или формирование патентного поля).</p>
+          </div>
+        </details>
+      </div>
+    </div>
     <h2>Доска технологий</h2>
     <section id="board" class="board" aria-live="polite"></section>
     <p id="boardEmpty" class="board-empty" hidden role="status" aria-live="polite">По текущему запросу технологий не найдено. Попробуйте изменить критерии поиска.</p>
@@ -453,6 +596,268 @@ const technologies = (activeAccountConfig?.technologies || []).map((item, index)
   return { ...item, metrics, kpis, link, order: index + 1 };
 });
 
+const formatDecimal = (value, digits = 2)=>{
+  const num = Number(value);
+  if(Number.isFinite(num)){
+    const out = num.toFixed(digits);
+    if(out === '-0.00'){
+      return '0.00';
+    }
+    return out.replace('-', '−');
+  }
+  return (value ?? '').toString();
+};
+
+const whiteSpaceRaw = [
+  {
+    id:'ws-1',
+    slug:'ekg',
+    name:'Платформы корпоративных графов знаний',
+    summary:'широкая диффузия, низкая новизна; стандарты ISO GQL 2024, W3C SPARQL 1.2; рост 15–34% CAGR.',
+    story:'семантический слой для поиска/аналитики/GenAI.',
+    what:'RDF/OWL/SPARQL и property-graph/GQL для моделирования сущностей.',
+    techScore:'~0.21',
+    novelty:2.380952,
+    momentum:0.78,
+    impact:1.423047,
+    impactScore:66,
+    maturity:0.21,
+    metrics:['RDF/OWL/SPARQL','Property-graph / GQL','Семантическое моделирование']
+  },
+  {
+    id:'ws-2',
+    slug:'semantic-pipelines',
+    name:'Платформы корпоративных семантических графов знаний',
+    summary:'высокая новизна, умеренная диффузия; рынок растёт двузначными темпами.',
+    story:'интероперабельные запросы, reasoning, lineage, discovery для GenAI.',
+    what:'онтологии + RDF/OWL/SHACL/SPARQL, гибрид с GQL/SQL; GraphRAG/семантический слой для BI/MDM.',
+    techScore:'~0.50',
+    novelty:0.909091,
+    momentum:0.62,
+    impact:1.044084,
+    impactScore:49,
+    maturity:0.11,
+    metrics:['RDF/OWL/SHACL','Гибрид GQL + SQL','GraphRAG & Semantic BI']
+  },
+  {
+    id:'ws-3',
+    slug:null,
+    name:'Платформы интероперабельности данных здравоохранения на основе стандартов',
+    summary:'зрелые в США/UK; рост ~14% CAGR; общий моментум снижается.',
+    story:'ниже стоимость интеграций, быстрее аналитика, лучше качество ухода.',
+    what:'FHIR/OMOP-интероперабельность.',
+    techScore:'~0.35',
+    novelty:0.909091,
+    momentum:0.24,
+    impact:0.518175,
+    impactScore:24,
+    maturity:0.11,
+    metrics:['FHIR','OMOP','Healthcare interoperability']
+  },
+  {
+    id:'ws-4',
+    slug:'streaming-rt',
+    name:'Платформы распределённой потоковой передачи событий и обработки потоков в реальном времени',
+    summary:'зрелая и широко внедрённая, моментум нейтрал/слегка отрицательный; фокус на эффективности и AI-интеграции.',
+    story:'миллисекундные ETL, realtime-аналитика и приложения.',
+    what:'журналы событий и pub/sub (Kafka/Pulsar) + stateful-движки (Flink/Kafka Streams).',
+    techScore:'~0.50',
+    novelty:1.875,
+    momentum:0.18,
+    impact:0.518175,
+    impactScore:24,
+    maturity:0.16,
+    metrics:['Kafka / Pulsar','Flink / Kafka Streams','Realtime ETL']
+  },
+  {
+    id:'ws-5',
+    slug:'semantic-pipelines',
+    name:'Семантические конвейеры интеграции и обработки данных',
+    summary:'высокая новизна, ограниченная диффузия; идёт стандартизация и индустриализация.',
+    story:'находимость, совместимость и переиспользуемость данных.',
+    what:'онтологии+метаданные, entity linking, валидация (FAIR, DCAT/PROV), от ingestion до сервинга.',
+    techScore:'~0.46',
+    novelty:0.833333,
+    momentum:0.46,
+    impact:0.881671,
+    impactScore:41,
+    maturity:0.12,
+    metrics:['Онтологии + метаданные','Entity Linking','FAIR / DCAT / PROV']
+  },
+  {
+    id:'ws-6',
+    slug:'disaggregated-storage',
+    name:'Дезагрегированные распределённые архитектуры хранения для корпоративных платформ данных',
+    summary:'де-факто стандарт в облаках; on-prem активно догоняет; рост умеренный.',
+    story:'эластичность, ниже TCO, отказоустойчивость, изоляция нагрузок.',
+    what:'разделение compute/storage, объектные и KV-движки, EC, tiering, ZNS-SSD, DPU/SmartNIC, HTAP.',
+    techScore:'~0.47',
+    novelty:2.0,
+    momentum:0.35,
+    impact:0.788863,
+    impactScore:37,
+    maturity:0.15,
+    metrics:['Compute / Storage decoupling','Object & KV engines','ZNS-SSD · SmartNIC · HTAP']
+  },
+  {
+    id:'ws-7',
+    slug:'blockchain-governance',
+    name:'Корпоративные системы управления данными и обеспечения целостности на основе блокчейна',
+    summary:'пилоты и узкие прод-кейсы, моментум отрицательный; масштабирование 2–5 лет.',
+    story:'доверие и неизменяемость в межорганизационных потоках данных.',
+    what:'DLT для lineage/доступа/consent/аудита со смарт-контрактами.',
+    techScore:'~0.49',
+    novelty:3.0,
+    momentum:0.84,
+    impact:0.510441,
+    impactScore:24,
+    maturity:0.09,
+    metrics:['DLT lineage','Access & consent','Смарт-контракты']
+  },
+  {
+    id:'ws-8',
+    slug:null,
+    name:'Базы данных векторных эмбеддингов и системы индексации сходств',
+    summary:'самый высокий импакт, моментум остыл; массовая интеграция в СУБД, пилоты 0–12 мес.',
+    story:'семантический поиск, рекомендации, RAG.',
+    what:'ANN-индексы (HNSW/IVF/PQ/DiskANN), гибрид запросов, GPU (FAISS/cuVS).',
+    techScore:'~0.35',
+    novelty:1.666667,
+    momentum:0.72,
+    impact:2.142305,
+    impactScore:100,
+    maturity:0.12,
+    metrics:['ANN: HNSW / IVF / PQ','Hybrid Search','GPU: FAISS / cuVS']
+  },
+  {
+    id:'ws-9',
+    slug:null,
+    name:'Системы оптимизации SQL-запросов с применением машинного обучения',
+    summary:'высокий импакт, моментум остыл, диффузия низкая; горизонт 1–3 года.',
+    story:'−30–70% время запросов, меньше регрессий и ручного тюнинга.',
+    what:'ML для кардинальностей/стоимости/ранжирования планов, авто-тюнинг; Azure SQL/Oracle и исследовательские Bao/LEON и др.',
+    techScore:'~0.50',
+    novelty:0.833333,
+    momentum:0.78,
+    impact:1.910286,
+    impactScore:89,
+    maturity:0.1,
+    metrics:['ML query planning','Auto-tuning','Azure SQL · Oracle · Bao']
+  },
+  {
+    id:'ws-10',
+    slug:null,
+    name:'Ориентированные на аналитику технологии сжатия данных для колоночных и крупномасштабных систем хранения',
+    summary:'высокая новизна и положительный моментум, низкая диффузия — лучшее «white space» на 12–24 мес.',
+    story:'резкое снижение объёма и I/O, ускорение ETL/SQL на CPU/GPU.',
+    what:'лёгкие/адаптивные/нейро-, мультиколоночные схемы сжатия, встроенные в Parquet/ORC/движки.',
+    techScore:'~0.57',
+    novelty:3.333333,
+    momentum:1.3,
+    impact:0.262954,
+    impactScore:12,
+    maturity:0.06,
+    metrics:['Адаптивное сжатие','Нейро-кодеки','Parquet / ORC acceleration']
+  }
+];
+
+const whiteSpaceItems = whiteSpaceRaw.map((item, index)=>{
+  const metrics = Array.isArray(item.metrics) ? item.metrics.filter(Boolean) : [];
+  const link = item.slug ? makeLink(item.slug) : '#';
+  const kpis = [
+    { value: (item.techScore || '').toString(), label: 'TechScore' },
+    { value: formatDecimal(item.novelty), label: 'Новизна' },
+    { value: formatDecimal(item.momentum), label: 'Моментум' },
+    { value: `${item.impactScore}%`, label: 'Impact (норм.)' }
+  ];
+  return { ...item, metrics, kpis, link, order: index + 1 };
+});
+
+const whiteSpaceBySlug = new Map();
+const whiteSpaceById = new Map();
+const whiteSpaceByName = new Map();
+const registerWhiteSpace = (key, map, value)=>{
+  if(!key){ return; }
+  const normalized = key.toString().toLowerCase();
+  if(!map.has(normalized)){ map.set(normalized, value); }
+};
+
+whiteSpaceItems.forEach((item)=>{
+  registerWhiteSpace(cleanSlug(item.slug || ''), whiteSpaceBySlug, item);
+  registerWhiteSpace(item.id, whiteSpaceById, item);
+  registerWhiteSpace((item.name || '').toString().toLowerCase().replace(/\s+/g,' ').trim(), whiteSpaceByName, item);
+});
+
+const resolveWhiteSpaceForTech = (tech)=>{
+  const slugKey = cleanSlug(tech.slug || '');
+  if(slugKey){
+    const slugKeyLc = slugKey.toLowerCase();
+    const direct = whiteSpaceBySlug.get(slugKeyLc);
+    if(direct){ return direct; }
+    for(const [key, value] of whiteSpaceBySlug.entries()){
+      if(key.includes(slugKeyLc) || slugKeyLc.includes(key)){
+        return value;
+      }
+    }
+  }
+  const byId = whiteSpaceById.get((tech.id || '').toString().toLowerCase());
+  if(byId){ return byId; }
+  const nameKey = (tech.name || '').toString().toLowerCase().replace(/\s+/g,' ').trim();
+  if(nameKey){
+    const directName = whiteSpaceByName.get(nameKey);
+    if(directName){ return directName; }
+    for(const [key, value] of whiteSpaceByName.entries()){
+      if(key.includes(nameKey) || nameKey.includes(key)){
+        return value;
+      }
+    }
+  }
+  return null;
+};
+
+technologies.forEach((tech)=>{
+  const match = resolveWhiteSpaceForTech(tech);
+  if(!match){ return; }
+  const wsMetrics = Array.isArray(match.metrics) ? match.metrics.filter(Boolean) : [];
+  const rawMomentum = Number(match.momentum);
+  const normalizedMomentum = Number.isFinite(rawMomentum) ? Math.abs(rawMomentum) : rawMomentum;
+  const wsKpis = [
+    { value: (match.techScore || '').toString(), label: 'TechScore' },
+    { value: formatDecimal(match.novelty), label: 'Новизна' },
+    { value: formatDecimal(normalizedMomentum), label: 'Моментум' },
+    { value: `${match.impactScore}%`, label: 'Impact (норм.)' }
+  ];
+  tech.whiteSpace = {
+    momentum: normalizedMomentum,
+    novelty: Number(match.novelty),
+    impact: Number(match.impact),
+    impactScore: Number(match.impactScore),
+    maturity: Number(match.maturity),
+    story: match.story || '',
+    what: match.what || '',
+    techScore: match.techScore || '',
+    metrics: wsMetrics,
+    kpis: wsKpis
+  };
+});
+
+const whiteSpaceBase = technologies.filter((item)=>{
+  const ws = item.whiteSpace || {};
+  return Number.isFinite(ws.momentum) && Number.isFinite(ws.novelty);
+});
+
+const whiteSpaceMaxImpact = Math.max(1, ...whiteSpaceBase.map((item)=> Number(item.whiteSpace?.impact) || 0));
+const whiteSpaceMaturityRange = whiteSpaceBase.reduce((acc, item)=>{
+  const value = Number(item.whiteSpace?.maturity);
+  if(Number.isFinite(value)){
+    if(value < acc.min){ acc.min = value; }
+    if(value > acc.max){ acc.max = value; }
+  }
+  return acc;
+}, { min: Infinity, max: -Infinity });
+if(!Number.isFinite(whiteSpaceMaturityRange.min)){ whiteSpaceMaturityRange.min = 0; whiteSpaceMaturityRange.max = 1; }
+const whiteSpaceBenchmark = { momentum: 0.72, novelty: 1.7708333333333335 };
+
 const brandEl = document.getElementById('projectBrand');
 const baseBrand = 'Технологический радар';
 if(brandEl){
@@ -480,6 +885,13 @@ const radarEmptyEl = document.getElementById('radarEmpty');
 const radarWrapEl = radarEl ? radarEl.parentElement : null;
 const boardEl = document.getElementById('board');
 const boardEmptyEl = document.getElementById('boardEmpty');
+const whiteSpaceEl = document.getElementById('whiteSpace');
+const whiteSpaceEmptyEl = document.getElementById('whiteSpaceEmpty');
+const whiteSpaceAboutEl = document.getElementById('whiteSpaceAbout');
+const whiteSpacePanels = whiteSpaceAboutEl ? Array.from(whiteSpaceAboutEl.querySelectorAll('.ws-panel')) : [];
+whiteSpacePanels.forEach((panel)=> panel.removeAttribute('open'));
+const viewToggleButtons = Array.from(document.querySelectorAll('.view-toggle__btn'));
+const dashboardLinkEl = document.querySelector('.radar-dashboard-link');
 const rings = [
   {id:'observe',   label:'Наблюдение', r:140, color:'#bae6fd'},
   {id:'pilot',     label:'Пилоты',     r:220, color:'#7dd3fc'},
@@ -488,8 +900,13 @@ const rings = [
 ];
 const ringLabelsById = rings.reduce((acc, ring)=>{ acc[ring.id] = ring.label; return acc; }, {});
 let lastRadarData = technologies;
+let lastWhiteSpaceData = whiteSpaceBase;
 let radarTooltipEl = null;
 let radarTooltipTimer = null;
+const baseByView = { radar: technologies, whitespace: whiteSpaceBase };
+const filteredByView = { radar: technologies, whitespace: whiteSpaceBase };
+let activeView = 'radar';
+let lastSearchTerms = [];
 
 if(radarWrapEl){
   radarTooltipEl = radarWrapEl.querySelector('.radar-tooltip');
@@ -500,6 +917,16 @@ if(radarWrapEl){
     radarTooltipEl.hidden = true;
     radarWrapEl.appendChild(radarTooltipEl);
   }
+}
+
+function hideTooltip(){
+  if(!radarTooltipEl){ return; }
+  if(radarTooltipTimer !== null){
+    cancelAnimationFrame(radarTooltipTimer);
+    radarTooltipTimer = null;
+  }
+  radarTooltipEl.classList.remove('is-visible');
+  radarTooltipEl.hidden = true;
 }
 
 function polarToXY(cx, cy, r, angleDeg){
@@ -513,11 +940,7 @@ function renderRadar(data){
   lastRadarData = items;
   const w = radarEl.clientWidth || radarEl.offsetWidth || 800;
   const h = radarEl.clientHeight || radarEl.offsetHeight || 520;
-  if(radarTooltipEl){
-    if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
-    radarTooltipEl.classList.remove('is-visible');
-    radarTooltipEl.hidden = true;
-  }
+  hideTooltip();
   const cx = w/2, cy = h/2;
   const maxR = Math.min(w,h)/2 - 36;
   const scale = maxR / rings[rings.length-1].r;
@@ -560,12 +983,7 @@ function renderRadar(data){
   if(!items.length){
     radarEl.innerHTML = '';
     radarEl.appendChild(svg);
-    if(radarEmptyEl){ radarEmptyEl.hidden = false; }
-    if(radarTooltipEl){
-      if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
-      radarTooltipEl.classList.remove('is-visible');
-      radarTooltipEl.hidden = true;
-    }
+    hideTooltip();
     return;
   }
 
@@ -610,22 +1028,7 @@ function renderRadar(data){
 
     const showTooltip = ()=>{
       if(!radarTooltipEl || !radarWrapEl){ return; }
-      const summaryHtml = item.summary ? `<p class="tooltip-summary">${item.summary}</p>` : '';
-      const tagsHtml = (item.metrics || [])
-        .slice(0,6)
-        .map((m)=>`<span class="tooltip-tag">${m}</span>`)
-        .join('');
-      const tagsBlock = tagsHtml ? `<div class="tooltip-tags">${tagsHtml}</div>` : '';
-      const kpiHtml = (item.kpis || [])
-        .slice(0,4)
-        .map((kpi)=>{
-          const value = kpi.value || '';
-          const label = kpi.label || '';
-          return `<li class="tooltip-kpi"><span class="kpi-value">${value}</span><span>${label}</span></li>`;
-        })
-        .join('');
-      const kpiBlock = kpiHtml ? `<ul class="tooltip-kpis">${kpiHtml}</ul>` : '';
-      radarTooltipEl.innerHTML = `<strong>${orderLabel}. ${item.name}</strong>${summaryHtml}${tagsBlock}${kpiBlock}`;
+      radarTooltipEl.innerHTML = buildTooltipContent(item, orderLabel);
       const wrapRect = radarWrapEl.getBoundingClientRect();
       const svgRect = svg.getBoundingClientRect();
       const scaleX = svgRect.width / w;
@@ -641,12 +1044,6 @@ function renderRadar(data){
         radarTooltipTimer = null;
       });
     };
-    const hideTooltip = ()=>{
-      if(!radarTooltipEl){ return; }
-      if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
-      radarTooltipEl.classList.remove('is-visible');
-      radarTooltipEl.hidden = true;
-    };
     g.addEventListener('mouseenter', showTooltip);
     g.addEventListener('focus', showTooltip);
     g.addEventListener('mouseleave', hideTooltip);
@@ -660,21 +1057,481 @@ function renderRadar(data){
 
   radarEl.innerHTML = '';
   radarEl.appendChild(svg);
-  if(radarEmptyEl){ radarEmptyEl.hidden = true; }
-  if(radarTooltipEl){
-    if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); radarTooltipTimer = null; }
-    radarTooltipEl.classList.remove('is-visible');
-    radarTooltipEl.hidden = true;
+  hideTooltip();
+}
+
+const svgNS = 'http://www.w3.org/2000/svg';
+
+const hexToRgb = (hex)=>{
+  const cleaned = (hex || '').toString().replace('#','').trim();
+  if(!cleaned){ return { r:37, g:99, b:235 }; }
+  const normalized = cleaned.length === 3
+    ? cleaned.split('').map((ch)=> ch + ch).join('')
+    : cleaned.padEnd(6,'0').slice(0,6);
+  const num = Number.parseInt(normalized, 16);
+  if(Number.isNaN(num)){ return { r:37, g:99, b:235 }; }
+  return { r:(num >> 16) & 255, g:(num >> 8) & 255, b:num & 255 };
+};
+
+const mixColors = (from, to, t)=>{
+  const start = hexToRgb(from);
+  const end = hexToRgb(to);
+  const ratio = Math.min(Math.max(t, 0), 1);
+  const r = Math.round(start.r + (end.r - start.r) * ratio);
+  const g = Math.round(start.g + (end.g - start.g) * ratio);
+  const b = Math.round(start.b + (end.b - start.b) * ratio);
+  return { r, g, b };
+};
+
+const toRgbString = ({ r, g, b })=> `rgb(${r}, ${g}, ${b})`;
+const toRgbaString = ({ r, g, b }, alpha = 1)=> `rgba(${r}, ${g}, ${b}, ${alpha})`;
+
+const ratioFromRange = (value, range)=>{
+  if(!range){ return 0; }
+  const min = Number.isFinite(range.min) ? range.min : 0;
+  const max = Number.isFinite(range.max) ? range.max : 1;
+  if(!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min){ return 0; }
+  return Math.min(Math.max((value - min) / (max - min), 0), 1);
+};
+
+const colorFromMaturity = (value)=>{
+  const min = whiteSpaceMaturityRange.min;
+  const max = whiteSpaceMaturityRange.max;
+  if(!Number.isFinite(value)){ value = min; }
+  if(!Number.isFinite(min) || !Number.isFinite(max) || max <= min){
+    return toRgbaString(hexToRgb('#38bdf8'), 0.32);
   }
+  const ratio = ratioFromRange(value, { min, max });
+  const ocean = mixColors('#bfdbfe', '#6366f1', 0.1 + ratio * 0.5);
+  const mint = mixColors('#99f6e4', '#38bdf8', ratio * 0.4);
+  const blend = {
+    r: Math.round((ocean.r * 0.55) + (mint.r * 0.45)),
+    g: Math.round((ocean.g * 0.55) + (mint.g * 0.45)),
+    b: Math.round((ocean.b * 0.55) + (mint.b * 0.45))
+  };
+  return toRgbaString(blend, 0.14 + ratio * 0.12);
+};
+
+const buildTooltipContent = (item, orderLabel)=>{
+  const ws = item.whiteSpace || {};
+  const summaryText = [item.summary, ws.story, ws.what].find((text)=> !!text);
+  const summaryHtml = summaryText ? `<p class="tooltip-summary">${summaryText}</p>` : '';
+
+  const metricSource = (Array.isArray(item.metrics) && item.metrics.length)
+    ? item.metrics
+    : (Array.isArray(ws.metrics) ? ws.metrics : []);
+  const tagsHtml = metricSource
+    .filter(Boolean)
+    .slice(0, 4)
+    .map((m)=> `<span class="tooltip-tag">${m}</span>`)
+    .join('');
+  const tagsBlock = tagsHtml ? `<div class="tooltip-tags">${tagsHtml}</div>` : '';
+
+  const kpiSource = (Array.isArray(item.kpis) && item.kpis.length)
+    ? item.kpis
+    : (Array.isArray(ws.kpis) ? ws.kpis : []);
+  const kpiHtml = kpiSource
+    .filter((kpi)=> (kpi?.value || kpi?.label))
+    .slice(0, 4)
+    .map((kpi)=>{
+      const value = (kpi.value || '').toString();
+      const labelText = (kpi.label || '').toString();
+      return `<li class="tooltip-kpi"><span class="kpi-value">${value}</span><span>${labelText}</span></li>`;
+    })
+    .join('');
+  const kpiBlock = kpiHtml ? `<ul class="tooltip-kpis">${kpiHtml}</ul>` : '';
+
+  return `<strong>${orderLabel}. ${item.name}</strong>${summaryHtml}${tagsBlock}${kpiBlock}`;
+};
+
+function renderWhiteSpace(data){
+  if(!whiteSpaceEl){ return; }
+  const items = Array.isArray(data) ? data : [];
+  lastWhiteSpaceData = items;
+  const width = whiteSpaceEl.clientWidth || whiteSpaceEl.offsetWidth || 800;
+  const height = whiteSpaceEl.clientHeight || whiteSpaceEl.offsetHeight || 560;
+  whiteSpaceEl.innerHTML = '';
+  hideTooltip();
+
+  const padding = { top: 42, right: 44, bottom: 74, left: 86 };
+  const innerWidth = Math.max(0, width - padding.left - padding.right);
+  const innerHeight = Math.max(0, height - padding.top - padding.bottom);
+
+  const xValues = items.map((item)=> Number(item.whiteSpace?.momentum)).filter(Number.isFinite);
+  const yValues = items.map((item)=> Number(item.whiteSpace?.novelty)).filter(Number.isFinite);
+  let xMin = xValues.length ? Math.min(...xValues) : -4;
+  let xMax = xValues.length ? Math.max(...xValues) : 3;
+  let yMin = yValues.length ? Math.min(...yValues) : 0;
+  let yMax = yValues.length ? Math.max(...yValues) : 3;
+  const xMargin = xValues.length ? Math.max(0.6, (xMax - xMin) * 0.12) : 1;
+  const yMargin = yValues.length ? Math.max(0.4, (yMax - yMin) * 0.12) : 0.6;
+  xMin -= xMargin;
+  xMax += xMargin;
+  yMin = Math.max(0, yMin - yMargin);
+  yMax += yMargin;
+  const xRange = xMax - xMin || 1;
+  const yRange = yMax - yMin || 1;
+  const scaleX = (value)=> padding.left + ((value - xMin) / xRange) * innerWidth;
+  const scaleY = (value)=> padding.top + innerHeight - ((value - yMin) / yRange) * innerHeight;
+
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+  const background = document.createElementNS(svgNS,'rect');
+  background.setAttribute('x', 0);
+  background.setAttribute('y', 0);
+  background.setAttribute('width', width);
+  background.setAttribute('height', height);
+  background.setAttribute('fill', '#fff');
+  svg.appendChild(background);
+
+  let benchmarkRect = null;
+  let benchmarkX = null;
+  let benchmarkY = null;
+  if(Number.isFinite(whiteSpaceBenchmark.momentum) && Number.isFinite(whiteSpaceBenchmark.novelty)){
+    benchmarkX = Math.min(width - padding.right, Math.max(padding.left, scaleX(whiteSpaceBenchmark.momentum)));
+    benchmarkY = Math.max(padding.top, Math.min(height - padding.bottom, scaleY(whiteSpaceBenchmark.novelty)));
+    const highlight = document.createElementNS(svgNS,'rect');
+    highlight.setAttribute('x', benchmarkX);
+    highlight.setAttribute('y', padding.top);
+    highlight.setAttribute('width', Math.max(0, (width - padding.right) - benchmarkX));
+    highlight.setAttribute('height', Math.max(0, benchmarkY - padding.top));
+    highlight.setAttribute('fill','rgba(59,130,246,0.08)');
+    highlight.setAttribute('stroke','rgba(37,99,235,0.22)');
+    highlight.setAttribute('stroke-dasharray','6 6');
+    highlight.setAttribute('rx', 14);
+    svg.appendChild(highlight);
+    benchmarkRect = highlight;
+  }
+
+  const gridGroup = document.createElementNS(svgNS,'g');
+  gridGroup.setAttribute('fill','none');
+  const xTickStart = Math.ceil(xMin);
+  const xTickEnd = Math.floor(xMax);
+  for(let tick = xTickStart; tick <= xTickEnd; tick++){
+    const xPos = scaleX(tick);
+    const line = document.createElementNS(svgNS,'line');
+    line.setAttribute('x1', xPos);
+    line.setAttribute('y1', padding.top);
+    line.setAttribute('x2', xPos);
+    line.setAttribute('y2', height - padding.bottom);
+    line.setAttribute('class','whitespace-grid-line');
+    gridGroup.appendChild(line);
+    const label = document.createElementNS(svgNS,'text');
+    label.setAttribute('class','whitespace-axis-tick');
+    label.setAttribute('x', xPos);
+    label.setAttribute('y', height - padding.bottom + 28);
+    label.setAttribute('text-anchor','middle');
+    label.textContent = tick.toString().replace('-', '−');
+    gridGroup.appendChild(label);
+  }
+  const yTickStart = Math.ceil(yMin);
+  const yTickEnd = Math.floor(yMax);
+  for(let tick = yTickStart; tick <= yTickEnd; tick++){
+    const yPos = scaleY(tick);
+    const line = document.createElementNS(svgNS,'line');
+    line.setAttribute('x1', padding.left);
+    line.setAttribute('y1', yPos);
+    line.setAttribute('x2', width - padding.right);
+    line.setAttribute('y2', yPos);
+    line.setAttribute('class','whitespace-grid-line');
+    gridGroup.appendChild(line);
+    const label = document.createElementNS(svgNS,'text');
+    label.setAttribute('class','whitespace-axis-tick');
+    label.setAttribute('x', padding.left - 18);
+    label.setAttribute('y', yPos + 4);
+    label.setAttribute('text-anchor','end');
+    label.textContent = tick.toString().replace('-', '−');
+    gridGroup.appendChild(label);
+  }
+  svg.appendChild(gridGroup);
+
+  if(benchmarkRect){
+    const vGuide = document.createElementNS(svgNS,'line');
+    vGuide.setAttribute('x1', benchmarkX);
+    vGuide.setAttribute('y1', padding.top);
+    vGuide.setAttribute('x2', benchmarkX);
+    vGuide.setAttribute('y2', height - padding.bottom);
+    vGuide.setAttribute('class','whitespace-guideline');
+    svg.appendChild(vGuide);
+    const hGuide = document.createElementNS(svgNS,'line');
+    hGuide.setAttribute('x1', padding.left);
+    hGuide.setAttribute('y1', benchmarkY);
+    hGuide.setAttribute('x2', width - padding.right);
+    hGuide.setAttribute('y2', benchmarkY);
+    hGuide.setAttribute('class','whitespace-guideline');
+    svg.appendChild(hGuide);
+
+    const calloutGroup = document.createElementNS(svgNS,'g');
+    let calloutX = Math.min(width - padding.right - 20, benchmarkX + 20);
+    let calloutY = benchmarkY - 24;
+    if(calloutY < padding.top + 24){
+      calloutY = Math.min(height - padding.bottom - 24, benchmarkY + 32);
+    }
+    const calloutText = document.createElementNS(svgNS,'text');
+    calloutText.setAttribute('class','whitespace-callout');
+    calloutText.setAttribute('x', calloutX);
+    calloutText.setAttribute('y', calloutY);
+    calloutText.textContent = 'Зона White Space';
+    calloutGroup.appendChild(calloutText);
+    svg.appendChild(calloutGroup);
+    const bbox = calloutText.getBBox();
+    const padX = 10;
+    const padY = 6;
+    const calloutRect = document.createElementNS(svgNS,'rect');
+    calloutRect.setAttribute('x', bbox.x - padX);
+    calloutRect.setAttribute('y', bbox.y - padY);
+    calloutRect.setAttribute('width', bbox.width + padX * 2);
+    calloutRect.setAttribute('height', bbox.height + padY * 2);
+    calloutRect.setAttribute('rx', 8);
+    calloutRect.setAttribute('fill','rgba(59,130,246,0.08)');
+    calloutRect.setAttribute('stroke','rgba(15,23,42,0.08)');
+    calloutRect.setAttribute('stroke-width','1.2');
+    calloutGroup.insertBefore(calloutRect, calloutText);
+  }
+
+  const axisGroup = document.createElementNS(svgNS,'g');
+  const xAxisLine = document.createElementNS(svgNS,'line');
+  xAxisLine.setAttribute('x1', padding.left);
+  xAxisLine.setAttribute('y1', height - padding.bottom);
+  xAxisLine.setAttribute('x2', width - padding.right);
+  xAxisLine.setAttribute('y2', height - padding.bottom);
+  xAxisLine.setAttribute('class','whitespace-axis-line');
+  axisGroup.appendChild(xAxisLine);
+  const yAxisLine = document.createElementNS(svgNS,'line');
+  yAxisLine.setAttribute('x1', padding.left);
+  yAxisLine.setAttribute('y1', padding.top);
+  yAxisLine.setAttribute('x2', padding.left);
+  yAxisLine.setAttribute('y2', height - padding.bottom);
+  yAxisLine.setAttribute('class','whitespace-axis-line');
+  axisGroup.appendChild(yAxisLine);
+  svg.appendChild(axisGroup);
+
+  const xLabel = document.createElementNS(svgNS,'text');
+  xLabel.setAttribute('class','whitespace-axis-label');
+  xLabel.setAttribute('x', padding.left + innerWidth / 2);
+  xLabel.setAttribute('y', height - padding.bottom + 52);
+  xLabel.setAttribute('text-anchor','middle');
+  xLabel.textContent = 'Моментум';
+  svg.appendChild(xLabel);
+
+  const yLabel = document.createElementNS(svgNS,'text');
+  yLabel.setAttribute('class','whitespace-axis-label');
+  yLabel.setAttribute('transform', `rotate(-90 ${padding.left - 58} ${padding.top + innerHeight / 2})`);
+  yLabel.setAttribute('x', padding.left - 58);
+  yLabel.setAttribute('y', padding.top + innerHeight / 2);
+  yLabel.setAttribute('text-anchor','middle');
+  yLabel.textContent = 'Новизна';
+  svg.appendChild(yLabel);
+
+  const bubbleGroup = document.createElementNS(svgNS,'g');
+  svg.appendChild(bubbleGroup);
+
+  items.forEach((item, idx)=>{
+    const ws = item.whiteSpace || {};
+    const momentum = Number(ws.momentum);
+    const novelty = Number(ws.novelty);
+    if(!Number.isFinite(momentum) || !Number.isFinite(novelty)){ return; }
+    const x = scaleX(momentum);
+    const y = scaleY(novelty);
+    const impact = Number(ws.impact);
+    const impactRatio = whiteSpaceMaxImpact ? Math.max(0, (impact || 0) / whiteSpaceMaxImpact) : 0;
+    const radius = 18 + Math.sqrt(impactRatio) * 26;
+    const maturity = Number(ws.maturity);
+    const maturityRatio = ratioFromRange(maturity, whiteSpaceMaturityRange);
+    const fillColor = colorFromMaturity(maturity);
+    const strokeBlend = mixColors('#38bdf8', '#4338ca', maturityRatio || 0.5);
+    const strokeColor = toRgbaString(strokeBlend, 0.24 + (maturityRatio || 0) * 0.18);
+
+    const group = document.createElementNS(svgNS,'g');
+    group.setAttribute('class','dot');
+    group.setAttribute('data-id', item.id || ws.id || `ws-${idx + 1}`);
+
+    const circle = document.createElementNS(svgNS,'circle');
+    circle.setAttribute('cx', x);
+    circle.setAttribute('cy', y);
+    circle.setAttribute('r', radius);
+    circle.setAttribute('fill', fillColor);
+    circle.setAttribute('stroke', strokeColor);
+    circle.setAttribute('stroke-width', '1.4');
+    circle.setAttribute('aria-hidden','true');
+    circle.style.filter = 'drop-shadow(0 18px 32px rgba(14,116,144,0.12))';
+    group.appendChild(circle);
+
+    const orderLabel = (item.order || idx + 1).toString().padStart(2,'0');
+    const label = document.createElementNS(svgNS,'text');
+    label.setAttribute('class','dot-label');
+    label.setAttribute('x', x);
+    label.setAttribute('y', y + 1);
+    label.textContent = orderLabel;
+    group.appendChild(label);
+
+    const go = ()=>{
+      if(item.link && item.link !== '#'){
+        window.location.href = item.link;
+      }
+    };
+
+    group.setAttribute('role','link');
+    group.setAttribute('tabindex','0');
+    group.addEventListener('click', (event)=>{
+      if(item.link && item.link !== '#'){
+        event.preventDefault();
+        go();
+      }
+    });
+    group.addEventListener('keydown', (event)=>{
+      if((event.key === 'Enter' || event.key === ' ') && item.link && item.link !== '#'){
+        event.preventDefault();
+        go();
+      }
+    });
+
+    const showTooltip = ()=>{
+      if(!radarTooltipEl || !radarWrapEl){ return; }
+      radarTooltipEl.innerHTML = buildTooltipContent(item, orderLabel);
+      const wrapRect = radarWrapEl.getBoundingClientRect();
+      const svgRect = svg.getBoundingClientRect();
+      const scaleXFactor = svgRect.width / width;
+      const scaleYFactor = svgRect.height / height;
+      const left = svgRect.left - wrapRect.left + x * scaleXFactor;
+      const top = svgRect.top - wrapRect.top + y * scaleYFactor;
+      radarTooltipEl.style.left = `${left}px`;
+      radarTooltipEl.style.top = `${top}px`;
+      radarTooltipEl.hidden = false;
+      if(radarTooltipTimer !== null){ cancelAnimationFrame(radarTooltipTimer); }
+      radarTooltipTimer = requestAnimationFrame(()=>{
+        radarTooltipEl.classList.add('is-visible');
+        radarTooltipTimer = null;
+      });
+    };
+
+    group.addEventListener('mouseenter', showTooltip);
+    group.addEventListener('focus', showTooltip);
+    group.addEventListener('mouseleave', hideTooltip);
+    group.addEventListener('blur', hideTooltip);
+    group.addEventListener('touchstart', showTooltip, { passive: true });
+    group.addEventListener('touchend', hideTooltip);
+    group.addEventListener('touchcancel', hideTooltip);
+
+    bubbleGroup.appendChild(group);
+  });
+
+  whiteSpaceEl.appendChild(svg);
+}
+
+const normalizeText = (value)=> (value ?? '').toString().toLowerCase();
+
+function filterList(list, terms){
+  const items = Array.isArray(list) ? list : [];
+  if(!terms.length){ return items; }
+  const normalizedTerms = terms.map(normalizeText);
+  const makeBag = (t)=>{
+    const ws = t.whiteSpace || {};
+    const baseKpis = Array.isArray(t.kpis) ? t.kpis : [];
+    const wsKpis = Array.isArray(ws.kpis) ? ws.kpis : [];
+    const wsMetrics = Array.isArray(ws.metrics) ? ws.metrics : [];
+    const parts = [
+      t.name,
+      t.slug,
+      t.ring,
+      ringLabelsById[t.ring],
+      t.summary,
+      ws.story,
+      ws.what,
+      ws.techScore,
+      Number.isFinite(Number(ws.novelty)) ? formatDecimal(ws.novelty) : ws.novelty,
+      Number.isFinite(Number(ws.momentum)) ? formatDecimal(ws.momentum) : ws.momentum,
+      ws.impactScore,
+      ...(t.metrics || t.keys || []),
+      ...wsMetrics,
+      ...baseKpis.flatMap((k)=> [k.value, k.label]),
+      ...wsKpis.flatMap((k)=> [k.value, k.label])
+    ]
+      .filter(Boolean)
+      .map(normalizeText)
+      .join(' ');
+    return parts;
+  };
+  let result = items.filter((t)=>{
+    const bag = makeBag(t);
+    return normalizedTerms.every((term)=> bag.includes(term));
+  });
+  if(!result.length){
+    result = items.filter((t)=>{
+      const bag = makeBag(t);
+      return normalizedTerms.some((term)=> bag.includes(term));
+    });
+  }
+  return result;
+}
+
+function updateToggleButtons(){
+  viewToggleButtons.forEach((btn)=>{
+    const btnView = btn.getAttribute('data-view');
+    const isActive = btnView === activeView;
+    btn.classList.toggle('is-active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    btn.setAttribute('tabindex', isActive ? '0' : '-1');
+  });
+}
+
+function updateEmptyStates(){
+  const radarItems = filteredByView.radar || [];
+  const wsItems = filteredByView.whitespace || [];
+  if(radarEmptyEl){
+    radarEmptyEl.hidden = activeView !== 'radar' || radarItems.length > 0;
+  }
+  if(whiteSpaceEmptyEl){
+    whiteSpaceEmptyEl.hidden = activeView !== 'whitespace' || wsItems.length > 0;
+  }
+}
+
+function applyFilteredView(){
+  updateToggleButtons();
+  const items = filteredByView[activeView] || [];
+  const hasWhiteSpaceItems = (filteredByView.whitespace || []).length > 0;
+  if(radarEl){
+    radarEl.hidden = activeView !== 'radar';
+    radarEl.setAttribute('aria-hidden', activeView !== 'radar' ? 'true' : 'false');
+  }
+  if(whiteSpaceEl){
+    whiteSpaceEl.hidden = activeView !== 'whitespace';
+    whiteSpaceEl.setAttribute('aria-hidden', activeView !== 'whitespace' ? 'true' : 'false');
+  }
+  if(whiteSpaceAboutEl){
+    whiteSpaceAboutEl.hidden = activeView !== 'whitespace' || !hasWhiteSpaceItems;
+  }
+  if(activeView === 'radar'){
+    renderRadar(items);
+  } else {
+    renderWhiteSpace(items);
+  }
+  renderBoard(items, activeView);
+  updateEmptyStates();
+}
+
+function setActiveView(view){
+  if(view !== 'radar' && view !== 'whitespace'){ return; }
+  if(activeView === view){
+    updateToggleButtons();
+    return;
+  }
+  activeView = view;
+  if(lastSearchTerms.length){
+    filteredByView[view] = filterList(baseByView[view], lastSearchTerms);
+  }
+  applyFilteredView();
 }
 
 // === ДОСКА ===
 function chip(el, text){ const s=document.createElement('span'); s.className='chip'; s.textContent=text; el.appendChild(s); }
 
-function renderBoard(list){
+function renderBoard(list, view = activeView){
   if(!boardEl) return;
   const items = Array.isArray(list) ? list : [];
   boardEl.innerHTML = '';
+  boardEl.dataset.view = view;
   const hasItems = items.length > 0;
   if(boardEmptyEl){
     boardEmptyEl.hidden = hasItems;
@@ -684,7 +1541,15 @@ function renderBoard(list){
   }
   items.forEach((item, idx)=>{
     const a = document.createElement('a');
-    a.href = item.link; a.className='tile'; a.setAttribute('data-id', item.id);
+    const link = (item.link || '').toString().trim();
+    const disabled = !link || link === '#';
+    a.href = disabled ? '#' : link;
+    a.className = 'tile';
+    a.setAttribute('data-id', item.id);
+    if(disabled){
+      a.setAttribute('data-disabled','true');
+      a.addEventListener('click', (event)=> event.preventDefault());
+    }
 
     const title = document.createElement('div'); title.className='title';
     const head = document.createElement('div');
@@ -724,6 +1589,13 @@ function renderBoard(list){
       a.appendChild(chips);
     }
 
+    if(item.story){
+      const story = document.createElement('p');
+      story.className = 'tile-story';
+      story.textContent = item.story;
+      a.appendChild(story);
+    }
+
     const kpiItems = (item.kpis || []).slice(0,3);
     if(kpiItems.length){
       const kpiList = document.createElement('ul');
@@ -752,66 +1624,65 @@ function setupSearch(){
   const input = document.getElementById('q');
   const clearBtn = document.getElementById('clearBtn');
   if(!input) return;
-  const base = [...technologies];
-  const norm = (s)=> (s||'').toString().toLowerCase();
   const updateClearState = ()=>{
     if(clearBtn){
       clearBtn.disabled = !input.value.trim();
     }
   };
-  function filter(){
-    const terms = norm(input.value).split(/\s+/).filter(Boolean);
-    if(!terms.length){
-      renderBoard(base);
-      renderRadar(base);
-      updateClearState();
-      return;
-    }
-    const makeBag = (t)=> [
-      t.name,
-      t.slug,
-      t.ring,
-      t.summary,
-      ringLabelsById[t.ring],
-      ...(t.metrics || t.keys || []),
-      ...((t.kpis || []).flatMap((k)=> [k.value, k.label]))
-    ]
-      .filter(Boolean)
-      .map(norm)
-      .join(' ');
-    let res = base.filter(t=> {
-      const bag = makeBag(t);
-      return terms.every(term => bag.includes(term));
-    });
-    if(!res.length){
-      res = base.filter(t=> {
-        const bag = makeBag(t);
-        return terms.some(term => bag.includes(term));
-      });
-    }
-    renderBoard(res);
-    renderRadar(res);
+  const runFilter = ()=>{
+    const terms = normalizeText(input.value).split(/\s+/).filter(Boolean);
+    lastSearchTerms = terms;
+    filteredByView.radar = filterList(baseByView.radar, terms);
+    filteredByView.whitespace = filterList(baseByView.whitespace, terms);
+    applyFilteredView();
     updateClearState();
-  }
-  input.addEventListener('input', filter);
+  };
+  input.addEventListener('input', runFilter);
   if(clearBtn){
     clearBtn.addEventListener('click', ()=>{
       input.value = '';
-      filter();
+      lastSearchTerms = [];
+      filteredByView.radar = baseByView.radar;
+      filteredByView.whitespace = baseByView.whitespace;
+      applyFilteredView();
       input.focus();
+      updateClearState();
     });
   }
   updateClearState();
 }
 
 // init
-  renderRadar(technologies);
-  renderBoard(technologies);
   setupSearch();
-  let radarResizeTimer;
+  viewToggleButtons.forEach((btn, index)=>{
+    const view = btn.getAttribute('data-view');
+    if(!view){ return; }
+    btn.addEventListener('click', ()=> setActiveView(view));
+    btn.addEventListener('keydown', (event)=>{
+      if(event.key === 'ArrowRight' || event.key === 'ArrowLeft'){
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const nextIndex = (index + direction + viewToggleButtons.length) % viewToggleButtons.length;
+        const nextBtn = viewToggleButtons[nextIndex];
+        nextBtn?.focus();
+        const nextView = nextBtn?.getAttribute('data-view');
+        if(nextView){ setActiveView(nextView); }
+      }
+    });
+  });
+  filteredByView.radar = baseByView.radar;
+  filteredByView.whitespace = baseByView.whitespace;
+  applyFilteredView();
+  let resizeTimer;
   window.addEventListener('resize', ()=>{
-    clearTimeout(radarResizeTimer);
-    radarResizeTimer = setTimeout(()=> renderRadar(lastRadarData), 160);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(()=>{
+      if(activeView === 'radar'){
+        renderRadar(lastRadarData);
+      } else {
+        renderWhiteSpace(lastWhiteSpaceData);
+      }
+    }, 160);
   });
 
 const loginLink = document.querySelector('.login-link');
