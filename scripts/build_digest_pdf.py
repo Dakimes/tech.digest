@@ -479,6 +479,8 @@ class LayoutEngine:
         for idx, (indent, line) in enumerate(lines):
             if self.cursor_y < MARGIN_BOTTOM + paragraph.size:
                 self._new_page()
+                if idx == 0:
+                    self.cursor_y -= paragraph.space_before
             x = MARGIN_LEFT + indent
             y = self.cursor_y
             color = paragraph.color
