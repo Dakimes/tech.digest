@@ -70,7 +70,7 @@
     .blueband{ margin-top:18px; background:var(--card); color:var(--text); border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--border); }
     .blueband .inner{ display:flex; flex-wrap:wrap; gap:14px 18px; padding:16px 20px; align-items:center; }
     .tagb{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background: var(--card-alt); border:1px solid transparent; font-size:13px; color:var(--muted); }
-    .viz-legend{ display:flex; flex-wrap:wrap; gap:16px 24px; align-items:center; margin:16px 0 0; }
+    .viz-legend{ display:flex; flex-wrap:wrap; gap:16px 24px; align-items:center; margin:22px 0 0; justify-content:flex-start; }
     .viz-legend__item{ display:inline-flex; align-items:center; gap:12px; font-size:13px; color:var(--muted); }
     .viz-legend__swatch{ width:32px; height:32px; border-radius:50%; position:relative; display:inline-flex; align-items:center; justify-content:center; }
     .viz-legend__swatch[aria-hidden="true"]{ pointer-events:none; }
@@ -80,6 +80,12 @@
     .viz-legend__swatch--size::after{ content:""; position:absolute; border-radius:50%; background:rgba(191,219,254,.65); border:1px solid rgba(59,130,246,.35); }
     .viz-legend__swatch--size::before{ width:12px; height:12px; left:6px; bottom:6px; background:rgba(59,130,246,.55); border-color:rgba(37,99,235,.32); }
     .viz-legend__swatch--size::after{ width:22px; height:22px; right:4px; top:4px; }
+    .viz-info{ position:relative; margin:16px 0 0; padding:18px 52px 18px 18px; border-radius:16px; border:1px solid rgba(148,163,184,.24); background:rgba(226,232,240,.7); box-shadow:0 12px 24px rgba(15,23,42,.05); font-size:13px; color:var(--muted); line-height:1.45; }
+    .viz-info__icon{ position:absolute; top:14px; right:16px; width:24px; height:24px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:rgba(148,163,184,.45); color:rgba(71,85,105,.85); font-weight:700; font-size:12px; letter-spacing:.2px; border:1px solid rgba(148,163,184,.55); box-shadow:none; }
+    .viz-info__content{ display:grid; gap:8px; }
+    .viz-info__title{ display:block; font-weight:600; color:var(--accent-strong); margin-bottom:6px; font-size:13px; }
+    .viz-info__list{ margin:0; padding-left:16px; display:grid; gap:4px; color:var(--muted); }
+    .viz-info__metric{ font-weight:600; color:var(--accent-strong); }
 
     /* Search */
     .search{ position:relative; display:flex; gap:12px; margin:26px 0 32px; }
@@ -229,6 +235,8 @@
       .view-toggle{ width:100%; justify-content:space-between; }
       .view-toggle__btn{ flex:1; text-align:center; }
       .radar-dashboard-link{ width:100%; justify-content:center; }
+      .viz-info{ padding:16px 48px 20px 16px; }
+      .viz-info__icon{ top:12px; right:14px; width:22px; height:22px; font-size:12px; }
       .whitespace-about{ margin:22px 0 30px; border-radius:22px; }
       .ws-panels{ padding:20px; }
       .ws-panel summary{ flex-direction:column; align-items:flex-start; padding:20px; }
@@ -241,6 +249,7 @@
       .search input{ padding-left:38px; }
       .radar{ height: clamp(320px, 110vw, 440px); }
       .whitespace{ height: clamp(320px, 110vw, 460px); }
+      .viz-info{ padding:14px 46px 18px 14px; }
       .ws-panel__title{ font-size:20px; }
     }
 
@@ -295,6 +304,22 @@
         </div>
         <a class="radar-dashboard-link" href="https://datalens.yandex/unblwg4lldxmf" target="_blank" rel="noopener">Перейти в дашборд</a>
       </div>
+      <div class="viz-info" id="whiteSpaceInfo" hidden aria-hidden="true">
+        <span class="viz-info__icon" aria-hidden="true">i</span>
+        <div class="viz-info__content">
+          <span class="viz-info__title">Показатели на карте White Space:</span>
+          <ul class="viz-info__list">
+            <li><span class="viz-info__metric">Моментум</span> — скорость изменения интереса к технологии.</li>
+            <li><span class="viz-info__metric">Новизна</span> — степень появления новых подходов.</li>
+            <li><span class="viz-info__metric">Влияние</span> — масштаб потенциального эффекта.</li>
+            <li><span class="viz-info__metric">Зрелость</span> — доля специалистов, готовых работать с технологией.</li>
+          </ul>
+        </div>
+      </div>
+      <div id="radar" class="radar" role="tabpanel" aria-labelledby="viewRadar"></div>
+      <div id="whiteSpace" class="whitespace" role="tabpanel" aria-labelledby="viewWhiteSpace" hidden></div>
+      <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
+      <div id="whiteSpaceEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения на карте White Space. Измените поисковый запрос.</div>
       <div class="viz-legend" aria-label="Легенда визуализаций">
         <div class="viz-legend__item">
           <span class="viz-legend__swatch viz-legend__swatch--color" aria-hidden="true"></span>
@@ -305,10 +330,6 @@
           <span>Размер круга — влияние (impact)</span>
         </div>
       </div>
-      <div id="radar" class="radar" role="tabpanel" aria-labelledby="viewRadar"></div>
-      <div id="whiteSpace" class="whitespace" role="tabpanel" aria-labelledby="viewWhiteSpace" hidden></div>
-      <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
-      <div id="whiteSpaceEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения на карте White Space. Измените поисковый запрос.</div>
     </section>
 
     <div id="whiteSpaceAbout" class="whitespace-about" hidden>
@@ -883,6 +904,8 @@ if(activeAccountConfig?.pageTitle){
 const radarEl = document.getElementById('radar');
 const radarEmptyEl = document.getElementById('radarEmpty');
 const radarWrapEl = radarEl ? radarEl.parentElement : null;
+const legendEl = radarWrapEl ? radarWrapEl.querySelector('.viz-legend') : null;
+const whiteSpaceInfoEl = document.getElementById('whiteSpaceInfo');
 const boardEl = document.getElementById('board');
 const boardEmptyEl = document.getElementById('boardEmpty');
 const whiteSpaceEl = document.getElementById('whiteSpace');
@@ -1102,14 +1125,14 @@ const colorFromMaturity = (value)=>{
     return toRgbaString(hexToRgb('#38bdf8'), 0.32);
   }
   const ratio = ratioFromRange(value, { min, max });
-  const ocean = mixColors('#bfdbfe', '#6366f1', 0.1 + ratio * 0.5);
-  const mint = mixColors('#99f6e4', '#38bdf8', ratio * 0.4);
+  const ocean = mixColors('#bfdbfe', '#4f46e5', 0.25 + ratio * 0.45);
+  const mint = mixColors('#99f6e4', '#0ea5e9', 0.2 + ratio * 0.5);
   const blend = {
-    r: Math.round((ocean.r * 0.55) + (mint.r * 0.45)),
-    g: Math.round((ocean.g * 0.55) + (mint.g * 0.45)),
-    b: Math.round((ocean.b * 0.55) + (mint.b * 0.45))
+    r: Math.round((ocean.r * 0.5) + (mint.r * 0.5)),
+    g: Math.round((ocean.g * 0.5) + (mint.g * 0.5)),
+    b: Math.round((ocean.b * 0.5) + (mint.b * 0.5))
   };
-  return toRgbaString(blend, 0.14 + ratio * 0.12);
+  return toRgbaString(blend, 0.28 + ratio * 0.16);
 };
 
 const buildTooltipContent = (item, orderLabel)=>{
@@ -1498,6 +1521,18 @@ function applyFilteredView(){
   if(whiteSpaceEl){
     whiteSpaceEl.hidden = activeView !== 'whitespace';
     whiteSpaceEl.setAttribute('aria-hidden', activeView !== 'whitespace' ? 'true' : 'false');
+  }
+  if(radarWrapEl){
+    radarWrapEl.setAttribute('data-view', activeView);
+  }
+  const showWhiteSpaceContext = activeView === 'whitespace';
+  if(legendEl){
+    legendEl.hidden = !showWhiteSpaceContext;
+    legendEl.setAttribute('aria-hidden', showWhiteSpaceContext ? 'false' : 'true');
+  }
+  if(whiteSpaceInfoEl){
+    whiteSpaceInfoEl.hidden = !showWhiteSpaceContext;
+    whiteSpaceInfoEl.setAttribute('aria-hidden', showWhiteSpaceContext ? 'false' : 'true');
   }
   if(whiteSpaceAboutEl){
     whiteSpaceAboutEl.hidden = activeView !== 'whitespace' || !hasWhiteSpaceItems;
