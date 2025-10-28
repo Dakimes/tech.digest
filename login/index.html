@@ -49,7 +49,9 @@
     header img{ height:44px; }
     header .brand{ font-weight:700; font-size: clamp(20px,2.6vw,26px); color:var(--text); letter-spacing:.2px; }
     main{ flex:1; display:flex; align-items:center; justify-content:center; padding:24px; }
-    form{ background:var(--card); border-radius:var(--radius); padding:32px; box-shadow:0 20px 36px rgba(15,23,42,.08); border:1px solid var(--border); width:min(380px, 100%); display:flex; flex-direction:column; gap:20px; }
+    .cards{ display:flex; flex-direction:column; gap:28px; width:min(480px, 100%); }
+    .card{ background:var(--card); border-radius:var(--radius); padding:32px; box-shadow:0 20px 36px rgba(15,23,42,.08); border:1px solid var(--border); display:flex; flex-direction:column; gap:20px; }
+    .card h2{ margin:0; font-size: clamp(20px, 2.8vw, 26px); color:var(--text); font-weight:700; text-align:center; }
     h1{ margin:0; font-size: clamp(22px, 3vw, 28px); color:var(--text); text-align:center; font-weight:700; }
     label{ display:flex; flex-direction:column; gap:6px; font-weight:600; color:var(--muted); }
     input{ padding:12px 14px; border-radius:12px; border:1px solid var(--border); font-size:15px; transition:border-color .2s ease, box-shadow .2s ease; background:var(--card-alt); }
@@ -57,9 +59,13 @@
     button{ background:var(--accent); color:#fff; border:none; border-radius:12px; padding:12px 18px; font-size:16px; font-weight:600; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease; }
     button:hover{ opacity:.88; transform:translateY(-1px); box-shadow:0 14px 28px rgba(37,99,235,.16); }
     button:focus-visible{ outline:3px solid rgba(37,99,235,.3); outline-offset:3px; }
+    .button-link{ display:inline-flex; justify-content:center; align-items:center; text-decoration:none; background:rgba(37,99,235,.12); color:var(--accent); border-radius:12px; padding:12px 18px; font-size:16px; font-weight:600; transition:background .2s ease, transform .2s ease, box-shadow .2s ease; }
+    .button-link:hover{ background:rgba(37,99,235,.16); transform:translateY(-1px); box-shadow:0 10px 20px rgba(37,99,235,.1); }
+    .button-link:focus-visible{ outline:3px solid rgba(37,99,235,.3); outline-offset:3px; }
     .message{ text-align:center; font-weight:600; }
     .error{ color:#d62839; }
     .success{ color:#0a7a2f; }
+    .demo-cta{ display:flex; justify-content:center; }
   </style>
 </head>
 <body>
@@ -71,20 +77,28 @@
       </a>
     </header>
     <main>
-      <form id="loginForm" aria-describedby="loginMessage">
-        <h1>Вход</h1>
-        <label>
-          Логин
-          <input type="text" id="username" name="username" autocomplete="username" required />
-        </label>
-        <label>
-          Пароль
-          <input type="password" id="password" name="password" autocomplete="current-password" required />
-        </label>
-        <button type="submit">Войти</button>
-        <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
-        
-      </form>
+      <div class="cards">
+        <form id="loginForm" class="card login-card" aria-describedby="loginMessage">
+          <h1>Вход</h1>
+          <label>
+            Логин
+            <input type="text" id="username" name="username" autocomplete="username" required />
+          </label>
+          <label>
+            Пароль
+            <input type="password" id="password" name="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit">Войти</button>
+          <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
+        </form>
+
+        <section class="card" aria-labelledby="demoTitle">
+          <h2 id="demoTitle">Хотите увидеть радар в деле?</h2>
+          <div class="demo-cta">
+            <a class="button-link" href="https://cal.com/dmitry-bratskikh-y5tm7u/30min" target="_blank" rel="noopener">Записаться на демо</a>
+          </div>
+        </section>
+      </div>
     </main>
     <footer style="padding:24px 0; text-align:center; font-size:12px; color:var(--muted);">© 2025 SciArticle</footer>
   </div>
