@@ -49,7 +49,7 @@
     header img{ height:44px; }
     header .brand{ font-weight:700; font-size: clamp(20px,2.6vw,26px); color:var(--text); letter-spacing:.2px; }
     main{ flex:1; display:flex; align-items:center; justify-content:center; padding:24px; }
-    .cards{ display:flex; flex-direction:column; gap:28px; width:min(720px, 100%); }
+    .cards{ display:flex; flex-direction:column; gap:28px; width:min(480px, 100%); }
     .card{ background:var(--card); border-radius:var(--radius); padding:32px; box-shadow:0 20px 36px rgba(15,23,42,.08); border:1px solid var(--border); display:flex; flex-direction:column; gap:20px; }
     .card h2{ margin:0; font-size: clamp(20px, 2.8vw, 26px); color:var(--text); font-weight:700; text-align:center; }
     h1{ margin:0; font-size: clamp(22px, 3vw, 28px); color:var(--text); text-align:center; font-weight:700; }
@@ -65,17 +65,7 @@
     .message{ text-align:center; font-weight:600; }
     .error{ color:#d62839; }
     .success{ color:#0a7a2f; }
-    .story-card p{ margin:0; text-align:center; color:var(--muted); font-size:15px; }
-    .register-action{ display:flex; justify-content:center; }
-    .register-panel{ display:flex; flex-direction:column; gap:16px; background:var(--card-alt); border-radius:16px; padding:20px; border:1px dashed var(--border); }
-    .register-panel[hidden]{ display:none; }
-    .register-panel form{ display:flex; flex-direction:column; gap:14px; }
-    .register-panel label{ text-align:left; font-weight:600; color:var(--muted); }
-    .register-panel input{ background:#fff; }
-    .register-links{ display:flex; flex-direction:column; gap:8px; font-size:15px; }
-    .register-links a{ color:var(--accent); font-weight:600; text-decoration:none; }
-    .register-links a:hover{ text-decoration:underline; }
-    .register-message{ min-height:20px; text-align:center; font-size:14px; font-weight:600; }
+    .demo-cta{ display:flex; justify-content:center; }
   </style>
 </head>
 <body>
@@ -102,29 +92,10 @@
           <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
         </form>
 
-        <section class="card story-card" aria-labelledby="storyTitle">
-          <h2 id="storyTitle">Технологический радар для вашей команды</h2>
-          <p>Мы помогли десяткам компаний развернуть радар технологий, чтобы находить перспективные идеи и быстро запускать эксперименты. Подайте заявку — расскажем, как это работает именно у нас.</p>
-          <div class="register-action">
-            <button type="button" id="registerToggle" aria-expanded="false" aria-controls="registerPanel">Зарегистрировать</button>
-          </div>
-          <div id="registerPanel" class="register-panel" hidden>
-            <form id="registerForm" aria-describedby="registerMessage">
-              <label>
-                Почта
-                <input type="email" id="registerEmail" name="email" placeholder="name@example.com" autocomplete="email" required />
-              </label>
-              <label>
-                Номер телефона
-                <input type="tel" id="registerPhone" name="phone" placeholder="+7 999 000-00-00" autocomplete="tel" inputmode="tel" required />
-              </label>
-              <button type="submit">Отправить контакты</button>
-            </form>
-            <div class="register-links">
-              <a href="https://cal.com/dmitry-bratskikh-y5tm7u/30min" target="_blank" rel="noopener">Записаться на демо</a>
-              <span>Свяжемся по указанным контактам в течение одного рабочего дня.</span>
-            </div>
-            <div id="registerMessage" class="register-message" role="status" aria-live="polite"></div>
+        <section class="card" aria-labelledby="demoTitle">
+          <h2 id="demoTitle">Хотите увидеть радар в деле?</h2>
+          <div class="demo-cta">
+            <a class="button-link" href="https://cal.com/dmitry-bratskikh-y5tm7u/30min" target="_blank" rel="noopener">Записаться на демо</a>
           </div>
         </section>
       </div>
