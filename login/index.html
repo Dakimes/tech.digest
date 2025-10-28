@@ -106,6 +106,10 @@
   <script>
     const form = document.getElementById('loginForm');
     const messageEl = document.getElementById('loginMessage');
+    const registerToggle = document.getElementById('registerToggle');
+    const registerPanel = document.getElementById('registerPanel');
+    const registerForm = document.getElementById('registerForm');
+    const registerMessageEl = document.getElementById('registerMessage');
     const accounts = {
       'Admin': { password: 'Admin', label: 'Data' },
       'Admin1': { password: 'Admin1', label: 'МИТ' }
@@ -142,6 +146,67 @@
     }
 
     form.addEventListener('submit', handleLogin);
+
+    function toggleRegisterPanel(){
+      if(!registerToggle || !registerPanel){ return; }
+      const isOpen = registerPanel.hasAttribute('hidden') ? false : true;
+      if(isOpen){
+        registerPanel.setAttribute('hidden', '');
+        registerToggle.setAttribute('aria-expanded', 'false');
+      } else {
+        registerPanel.removeAttribute('hidden');
+        registerToggle.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    function saveRegistrationLocally(registration){
+      try{
+        const raw = localStorage.getItem('tech-radar-registrations');
+        const registrations = raw ? JSON.parse(raw) : [];
+        registrations.push(registration);
+        localStorage.setItem('tech-radar-registrations', JSON.stringify(registrations));
+      } catch(err){
+        /* ignore storage issues */
+      }
+    }
+
+    function handleRegisterSubmit(event){
+      event.preventDefault();
+      if(!registerMessageEl){ return; }
+
+      registerMessageEl.textContent = '';
+      registerMessageEl.className = 'register-message';
+
+      const emailField = document.getElementById('registerEmail');
+      const phoneField = document.getElementById('registerPhone');
+      const email = emailField ? emailField.value.trim() : '';
+      const phone = phoneField ? phoneField.value.trim() : '';
+
+      if(!email || !phone){
+        registerMessageEl.textContent = 'Укажите корректные контакты, чтобы мы могли связаться с вами.';
+        registerMessageEl.classList.add('error');
+        return;
+      }
+
+      const registration = {
+        email,
+        phone,
+        createdAt: new Date().toISOString()
+      };
+
+      saveRegistrationLocally(registration);
+      registerMessageEl.textContent = 'Заявка сохранена. Мы свяжемся с вами в ближайшее время.';
+      registerMessageEl.classList.add('success');
+      event.target.reset();
+    }
+
+    if(registerToggle){
+      registerToggle.addEventListener('click', toggleRegisterPanel);
+    }
+
+    if(registerForm){
+      registerForm.addEventListener('submit', handleRegisterSubmit);
+    }
   </script>
 </body>
 </html>
