@@ -53,17 +53,18 @@
     .back-link:hover{ background:var(--accent-soft); color:var(--accent); transform:translateY(-1px); }
     .back-link:focus-visible{ outline:3px solid rgba(37,99,235,.3); outline-offset:3px; }
     .back-link svg{ width:18px; height:18px; stroke:currentColor; }
-    main{ flex:1; display:flex; justify-content:center; padding:40px clamp(16px, 4vw, 48px) 64px; }
-    .iframe-shell{ width:min(1280px, 100%); display:grid; gap:24px; }
-    .iframe-title{ margin:0; font-size:clamp(22px, 3vw, 30px); font-weight:700; letter-spacing:.2px; }
-    .iframe-wrap{ position:relative; border-radius:20px; overflow:hidden; border:1px solid rgba(148,163,184,.35); box-shadow:0 22px 46px rgba(37,99,235,.12); background:linear-gradient(120deg, rgba(219,234,254,.6), rgba(191,219,254,.35)); }
+    main{ flex:1; padding:40px 0 64px; }
+    .iframe-shell{ width:100%; display:grid; gap:24px; }
+    .iframe-title{ margin:0; padding:0 clamp(16px, 4vw, 48px); font-size:clamp(22px, 3vw, 30px); font-weight:700; letter-spacing:.2px; }
+    .iframe-wrap{ position:relative; border-radius:24px; overflow:hidden; border:1px solid rgba(148,163,184,.35); box-shadow:0 22px 46px rgba(37,99,235,.12); background:linear-gradient(120deg, rgba(219,234,254,.6), rgba(191,219,254,.35)); min-height:560px; }
     .iframe-wrap::before{ content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(120deg, rgba(148,163,184,.18), transparent 60%); mix-blend-mode:soft-light; }
-    iframe{ position:relative; width:100%; height:min(78vh, 880px); min-height:560px; border:0; background:#fff; border-radius:inherit; }
+    iframe{ position:relative; width:100%; height:min(82vh, 920px); min-height:560px; border:0; background:#fff; border-radius:inherit; }
     @media (max-width: 768px){
       .page-header__inner{ justify-content:center; }
       .page-actions{ margin-left:0; }
-      main{ padding:28px 16px 44px; }
-      .iframe-wrap{ border-radius:16px; }
+      main{ padding:28px 0 44px; }
+      .iframe-title{ padding:0 16px; }
+      .iframe-wrap{ border-radius:18px; }
       iframe{ min-height:420px; height:65vh; }
     }
   </style>
