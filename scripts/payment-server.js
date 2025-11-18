@@ -12,7 +12,7 @@ const SHOP_ID = process.env.YOOKASSA_SHOP_ID;
 const SECRET_KEY = process.env.YOOKASSA_SECRET_KEY;
 const RETURN_URL = process.env.YOOKASSA_RETURN_URL || 'https://example.com/thank-you';
 const AMOUNT_VALUE = process.env.TECH_RADAR_PRICE || '1000.00';
-const DESCRIPTION = process.env.TECH_RADAR_DESCRIPTION || 'Заказ технологического радара';
+const DESCRIPTION = process.env.TECH_RADAR_DESCRIPTION || 'Заказ технологического ландшафта';
 const VAT_CODE = Number(process.env.TECH_RADAR_VAT_CODE || 1);
 
 const ordersFile = path.join(__dirname, '..', 'data', 'orders.json');
