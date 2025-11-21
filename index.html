@@ -539,6 +539,22 @@ const accountConfigs = {
         angle: 320
       },
       {
+        id:'health-interoperability',
+        slug:'health-interoperability',
+        link:'#',
+        functionGroup:'governance',
+        name:'Интероперабельность данных здравоохранения',
+        summary:'FHIR/OMOP-интероперабельность для сквозной аналитики и обмена клиническими данными.',
+        metrics:['FHIR/OMOP','Bulk Data $export','Consent & audit trails'],
+        kpis:[
+          { value:'~0.35', label:'TechScore (research)' },
+          { value:'14% CAGR', label:'Рынок интероперабельности' },
+          { value:'0–2 года', label:'Горизонт зрелости для пилотов' }
+        ],
+        ring:'observe',
+        angle: 350
+      },
+      {
         id:'disaggregated-storage',
         slug:'disaggregated-storage',
         functionGroup:'infrastructure',
@@ -553,6 +569,54 @@ const accountConfigs = {
         ],
         ring:'observe',
         angle: 10
+      },
+      {
+        id:'vector-databases',
+        slug:'vector-databases',
+        link:'#',
+        functionGroup:'data-semantics',
+        name:'Векторные БД и индексация сходств',
+        summary:'Базы векторных эмбеддингов, ANN-индексы и гибридный поиск для RAG и рекомендаций.',
+        metrics:['HNSW/IVF/PQ/DiskANN','Hybrid Vector-SQL','GPU FAISS/cuVS'],
+        kpis:[
+          { value:'~0.35', label:'TechScore (research)' },
+          { value:'0.72', label:'Моментум (abs)' },
+          { value:'21%', label:'Impact (норм.)' }
+        ],
+        ring:'production',
+        angle: 80
+      },
+      {
+        id:'ml-sql-optimization',
+        slug:'ml-sql-optimization',
+        link:'#',
+        functionGroup:'infrastructure',
+        name:'ML-оптимизация SQL-запросов',
+        summary:'Использование ML для планирования, кардинальностей и авто-тюнинга запросов.',
+        metrics:['Cardinality ML','Plan ranking','Auto-tuning pipelines'],
+        kpis:[
+          { value:'~0.50', label:'TechScore (research)' },
+          { value:'0.78', label:'Моментум (abs)' },
+          { value:'19%', label:'Impact (норм.)' }
+        ],
+        ring:'pilot',
+        angle: 60
+      },
+      {
+        id:'analytic-compression',
+        slug:'analytic-compression',
+        link:'#',
+        functionGroup:'infrastructure',
+        name:'Аналитическое сжатие данных',
+        summary:'Адаптивные и нейро-кодеки для колоночных форматов, ускоряющие аналитические нагрузки.',
+        metrics:['Adaptive codecs','Neuro-compression','Parquet/ORC acceleration'],
+        kpis:[
+          { value:'~0.57', label:'TechScore (research)' },
+          { value:'1.30', label:'Моментум (abs)' },
+          { value:'33%', label:'Новизна' }
+        ],
+        ring:'observe',
+        angle: 140
       }
     ]
   },
@@ -713,7 +777,7 @@ const whiteSpaceRaw = [
   },
   {
     id:'ws-3',
-    slug:null,
+    slug:'health-interoperability',
     name:'Платформы интероперабельности данных здравоохранения на основе стандартов',
     summary:'зрелые в США/UK; рост ~14% CAGR; общий моментум снижается.',
     story:'ниже стоимость интеграций, быстрее аналитика, лучше качество ухода.',
@@ -788,7 +852,7 @@ const whiteSpaceRaw = [
   },
   {
     id:'ws-8',
-    slug:null,
+    slug:'vector-databases',
     name:'Базы данных векторных эмбеддингов и системы индексации сходств',
     summary:'самый высокий импакт, моментум остыл; массовая интеграция в СУБД, пилоты 0–12 мес.',
     story:'семантический поиск, рекомендации, RAG.',
@@ -803,7 +867,7 @@ const whiteSpaceRaw = [
   },
   {
     id:'ws-9',
-    slug:null,
+    slug:'ml-sql-optimization',
     name:'Системы оптимизации SQL-запросов с применением машинного обучения',
     summary:'высокий импакт, моментум остыл, диффузия низкая; горизонт 1–3 года.',
     story:'−30–70% время запросов, меньше регрессий и ручного тюнинга.',
@@ -818,7 +882,7 @@ const whiteSpaceRaw = [
   },
   {
     id:'ws-10',
-    slug:null,
+    slug:'analytic-compression',
     name:'Ориентированные на аналитику технологии сжатия данных для колоночных и крупномасштабных систем хранения',
     summary:'высокая новизна и положительный моментум, низкая диффузия — лучшее «white space» на 12–24 мес.',
     story:'резкое снижение объёма и I/O, ускорение ETL/SQL на CPU/GPU.',
