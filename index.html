@@ -188,7 +188,9 @@
 
     .dot{ cursor:pointer; transition: opacity .15s ease; outline:none; }
     .dot circle{ filter: drop-shadow(0 12px 18px rgba(15, 23, 42, .12)); }
-    .dot-label{ font-size:11px; font-weight:600; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; paint-order:stroke; stroke:rgba(15,23,42,.14); stroke-width:3; }
+    .dot-label{ font-size:11px; font-weight:600; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; paint-order:stroke; stroke:rgba(15,23,42,.14); stroke-width:3; opacity:0; transition:opacity .15s ease; }
+    .dot:hover .dot-label,
+    .dot:focus-visible .dot-label{ opacity:1; }
     .dot:focus-visible circle{ outline:3px solid rgba(37,99,235,.35); outline-offset:2px; }
     .radar-tooltip{
       position:absolute;
@@ -1192,7 +1194,8 @@ function renderRadar(data){
 
   itemsWithAngles.forEach((item, idx)=>{
     const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
-    const pos = polarToXY(cx, cy, item.__angle || item.angle || (40 + idx*30));
+    const angle = item.__angle ?? item.angle ?? (40 + idx * 30);
+    const pos = polarToXY(cx, cy, R, angle);
     const orderLabel = (item.order || idx + 1).toString().padStart(2,'0');
 
     const g = document.createElementNS(svg.namespaceURI,'g');
@@ -1213,6 +1216,7 @@ function renderRadar(data){
     label.setAttribute('x', pos.x);
     label.setAttribute('y', pos.y + 1);
     label.setAttribute('pointer-events','none');
+    label.setAttribute('aria-hidden','true');
     label.textContent = orderLabel;
     g.appendChild(label);
 
@@ -1569,6 +1573,7 @@ function renderWhiteSpace(data){
     label.setAttribute('class','dot-label');
     label.setAttribute('x', x);
     label.setAttribute('y', y + 1);
+    label.setAttribute('aria-hidden','true');
     label.textContent = orderLabel;
     group.appendChild(label);
 
