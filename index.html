@@ -105,6 +105,7 @@
     .viz-info__title{ display:block; font-weight:600; color:var(--accent-strong); margin-bottom:6px; font-size:13px; }
     .viz-info__list{ margin:0; padding-left:16px; display:grid; gap:4px; color:var(--muted); }
     .viz-info__metric{ font-weight:600; color:var(--accent-strong); }
+    .axis-label{ font-size:12px; font-weight:700; fill:var(--text); text-anchor:middle; dominant-baseline:middle; paint-order:stroke fill; stroke:#fff; stroke-width:6; letter-spacing:.1px; }
 
     /* Search */
     .search{ position:relative; display:flex; gap:12px; margin:26px 0 32px; }
@@ -131,11 +132,6 @@
     /* Radar */
     .radar-wrap{ position:relative; border:1px solid var(--border); border-radius:var(--radius); padding:22px 22px 30px; background: var(--card); box-shadow: var(--shadow); }
     .radar-toolbar{ display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; flex-wrap:wrap; }
-    .function-filters{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
-    .function-filter__btn{ border:1px solid var(--border); background:var(--card-alt); color:var(--muted); border-radius:999px; padding:6px 14px; font-size:13px; font-weight:600; cursor:pointer; transition:background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease; }
-    .function-filter__btn:hover{ background:#fff; color:var(--text); }
-    .function-filter__btn:focus-visible{ outline:3px solid rgba(37,99,235,.35); outline-offset:2px; }
-    .function-filter__btn.is-active{ background:var(--accent); color:#fff; border-color:var(--accent); box-shadow:0 10px 22px rgba(37,99,235,.18); }
     .view-toggle{ display:inline-flex; align-items:center; gap:6px; padding:4px; border-radius:12px; background:var(--card-alt); border:1px solid var(--border); box-shadow:none; }
     .view-toggle__btn{ border:0; background:transparent; padding:8px 16px; border-radius:10px; font-weight:600; font-size:14px; color:var(--muted); cursor:pointer; transition:background .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease; }
     .view-toggle__btn:hover{ color:var(--text); }
@@ -296,6 +292,7 @@
     .tile-story{ margin:10px 0 0; font-size:13px; color:var(--muted); line-height:1.45; }
     .tile[data-disabled='true']{ cursor:default; }
     .tile[data-disabled='true']:hover{ transform:none; box-shadow: 0 14px 26px rgba(15,23,42,.04); border-color:var(--border); }
+    .tile-function{ display:block; margin-top:4px; font-size:12px; color:var(--muted); font-weight:600; letter-spacing:.2px; }
 
     footer{ color:var(--muted); font-size:12px; margin-top: 36px; text-align:center; }
   </style>
@@ -330,7 +327,6 @@
         </div>
         <a class="radar-dashboard-link" href="/dashboard.html">Перейти на дашборд</a>
       </div>
-      <div class="function-filters" id="functionFilters" role="group" aria-label="Функциональные направления" hidden></div>
       <div id="radar" class="radar" role="tabpanel" aria-labelledby="viewRadar"></div>
       <div id="whiteSpace" class="whitespace" role="tabpanel" aria-labelledby="viewWhiteSpace" hidden></div>
       <div id="radarEmpty" class="radar-empty" hidden role="status" aria-live="polite">Нет технологий для отображения. Измените поисковый запрос.</div>
@@ -970,7 +966,6 @@ const whiteSpaceEmptyEl = document.getElementById('whiteSpaceEmpty');
 const whiteSpaceAboutEl = document.getElementById('whiteSpaceAbout');
 const whiteSpacePanels = whiteSpaceAboutEl ? Array.from(whiteSpaceAboutEl.querySelectorAll('.ws-panel')) : [];
 whiteSpacePanels.forEach((panel)=> panel.removeAttribute('open'));
-const functionFiltersEl = document.getElementById('functionFilters');
 const viewToggleButtons = Array.from(document.querySelectorAll('.view-toggle__btn'));
 const dashboardLinkEl = document.querySelector('.radar-dashboard-link');
 const rings = [
@@ -979,6 +974,7 @@ const rings = [
   {id:'production',label:'Продукция',  r:300, color:'#38bdf8'},
   {id:'scale',     label:'Масштаб',    r:380, color:'#0ea5e9'}
 ];
+const axisSections = Object.entries(functionGroups).map(([key, value])=>({ key, label: value.label || key }));
 const bubbleRadius = 11;
 const ringLabelsById = rings.reduce((acc, ring)=>{ acc[ring.id] = ring.label; return acc; }, {});
 let lastRadarData = technologies;
@@ -990,8 +986,6 @@ const filteredByView = { radar: technologies, whitespace: whiteSpaceBase };
 let activeView = 'radar';
 let lastSearchTerms = [];
 let isWhiteSpaceInfoOpen = false;
-let functionFilterButtons = [];
-let activeFunctionKey = 'all';
 
 if(radarWrapEl){
   radarTooltipEl = radarWrapEl.querySelector('.radar-tooltip');
@@ -1065,15 +1059,26 @@ function renderRadar(data){
   svg.appendChild(ringGroup);
 
   const axes = document.createElementNS(svg.namespaceURI,'g');
-  const axisCount = 8;
+  const axisCount = axisSections.length || 8;
+  const sliceAngle = 360 / axisCount;
   for(let i=0;i<axisCount;i++){
-    const angle = (360/axisCount)*i;
+    const angle = sliceAngle * i;
     const end = polarToXY(cx, cy, rings[rings.length-1].r * scale, angle);
     const line = document.createElementNS(svg.namespaceURI,'line');
     line.setAttribute('x1', cx); line.setAttribute('y1', cy);
     line.setAttribute('x2', end.x); line.setAttribute('y2', end.y);
     line.setAttribute('class','axis-line');
     axes.appendChild(line);
+
+    const labelAngle = angle + sliceAngle / 2;
+    const labelPos = polarToXY(cx, cy, rings[rings.length-1].r * scale + 28, labelAngle);
+    const axisLabel = document.createElementNS(svg.namespaceURI,'text');
+    axisLabel.setAttribute('class','axis-label');
+    axisLabel.setAttribute('x', labelPos.x);
+    axisLabel.setAttribute('y', labelPos.y);
+    axisLabel.setAttribute('aria-hidden','true');
+    axisLabel.textContent = axisSections[i]?.label || `Сектор ${i + 1}`;
+    axes.appendChild(axisLabel);
   }
   svg.appendChild(axes);
 
@@ -1084,9 +1089,46 @@ function renderRadar(data){
     return;
   }
 
-  items.forEach((item, idx)=>{
+  const groupedByFunction = axisSections.reduce((acc, section)=>{
+    acc[section.key] = [];
+    return acc;
+  }, {});
+  const fallbackItems = [];
+
+  items.forEach((item)=>{
+    const key = item.functionGroup;
+    if(key && Object.prototype.hasOwnProperty.call(groupedByFunction, key)){
+      groupedByFunction[key].push(item);
+    } else {
+      fallbackItems.push(item);
+    }
+  });
+
+  const itemsWithAngles = [];
+  axisSections.forEach((section, idx)=>{
+    const groupItems = groupedByFunction[section.key] || [];
+    const count = groupItems.length;
+    if(!count){ return; }
+    const base = sliceAngle * idx + sliceAngle / 2;
+    const spread = Math.min(sliceAngle * 0.6, Math.max(18, sliceAngle / Math.max(count, 1)) * Math.max(count - 1, 1));
+    const start = base - (count === 1 ? 0 : spread / 2);
+    const step = count === 1 ? 0 : spread / Math.max(count - 1, 1);
+    groupItems.forEach((item, itemIdx)=>{
+      const angle = start + step * itemIdx;
+      itemsWithAngles.push({ ...item, __angle: angle });
+    });
+  });
+
+  let fallbackAngle = 20;
+  const fallbackStep = 28;
+  fallbackItems.forEach((item)=>{
+    itemsWithAngles.push({ ...item, __angle: item.angle || fallbackAngle });
+    fallbackAngle += fallbackStep;
+  });
+
+  itemsWithAngles.forEach((item, idx)=>{
     const R = (rings.find(r=>r.id===item.ring)?.r || rings[0].r) * scale;
-    const pos = polarToXY(cx, cy, R, item.angle || (40 + idx*30));
+    const pos = polarToXY(cx, cy, item.__angle || item.angle || (40 + idx*30));
     const orderLabel = (item.order || idx + 1).toString().padStart(2,'0');
 
     const g = document.createElementNS(svg.namespaceURI,'g');
@@ -1566,77 +1608,8 @@ function filterList(list, terms){
   return result;
 }
 
-const getFunctionLabel = (key)=>{
-  const safeKey = (key || '').toString();
-  return functionGroups[safeKey]?.label || safeKey;
-};
-
-function updateFunctionFilterButtons(){
-  if(!functionFilterButtons.length){ return; }
-  functionFilterButtons.forEach((btn)=>{
-    const key = (btn.getAttribute('data-function') || 'all').toString();
-    const isActive = key === (activeFunctionKey || 'all');
-    btn.classList.toggle('is-active', isActive);
-    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-  });
-}
-
-function setActiveFunctionFilter(key){
-  const normalized = key && key !== 'all' ? key : 'all';
-  if(normalized === activeFunctionKey){ return; }
-  activeFunctionKey = normalized;
-  updateFunctionFilterButtons();
-  applyFilteredView();
-}
-
-function buildFunctionFilters(items){
-  if(!functionFiltersEl){ return; }
-  const list = Array.isArray(items) ? items : [];
-  const uniqueKeys = Array.from(new Set(list.map((item)=> item.functionGroup).filter(Boolean)));
-  if(!uniqueKeys.length){
-    functionFiltersEl.hidden = true;
-    functionFiltersEl.setAttribute('aria-hidden','true');
-    functionFiltersEl.innerHTML = '';
-    functionFilterButtons = [];
-    activeFunctionKey = 'all';
-    return;
-  }
-  const sortedKeys = uniqueKeys.sort((a, b)=> getFunctionLabel(a).localeCompare(getFunctionLabel(b), 'ru'));
-  if(activeFunctionKey !== 'all' && !sortedKeys.includes(activeFunctionKey)){
-    activeFunctionKey = 'all';
-  }
-  functionFiltersEl.hidden = false;
-  functionFiltersEl.setAttribute('aria-hidden','false');
-  functionFiltersEl.innerHTML = '';
-  const makeButton = (key, label)=>{
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'function-filter__btn';
-    btn.textContent = label;
-    btn.setAttribute('data-function', key);
-    btn.setAttribute('aria-pressed','false');
-    btn.addEventListener('click', ()=> setActiveFunctionFilter(key));
-    return btn;
-  };
-  functionFiltersEl.appendChild(makeButton('all', 'Все направления'));
-  sortedKeys.forEach((key)=>{
-    functionFiltersEl.appendChild(makeButton(key, getFunctionLabel(key)));
-  });
-  functionFilterButtons = Array.from(functionFiltersEl.querySelectorAll('.function-filter__btn'));
-  updateFunctionFilterButtons();
-}
-
-function getFunctionFiltered(items){
-  const list = Array.isArray(items) ? items : [];
-  if(activeFunctionKey === 'all'){ return list; }
-  return list.filter((item)=> item.functionGroup === activeFunctionKey);
-}
-
 function getViewItems(view){
   const list = Array.isArray(filteredByView[view]) ? filteredByView[view] : [];
-  if(view === 'radar'){
-    return getFunctionFiltered(list);
-  }
   return list;
 }
 
@@ -1685,11 +1658,6 @@ function applyFilteredView(){
   }
   if(legendEl){
     legendEl.setAttribute('aria-hidden', showWhiteSpaceContext ? 'false' : 'true');
-  }
-  if(functionFiltersEl){
-    const shouldShowFilters = activeView === 'radar' && functionFilterButtons.length > 0;
-    functionFiltersEl.hidden = !shouldShowFilters;
-    functionFiltersEl.setAttribute('aria-hidden', shouldShowFilters ? 'false' : 'true');
   }
   if(!showWhiteSpaceContext){
     setWhiteSpaceInfo(false);
@@ -1757,13 +1725,27 @@ function renderBoard(list, view = activeView){
     number.className = 'num';
     number.textContent = (item.order || idx + 1).toString().padStart(2,'0');
 
+    const headText = document.createElement('div');
+    headText.style.display = 'flex';
+    headText.style.flexDirection = 'column';
+    headText.style.gap = '2px';
+    headText.style.flex = '1';
+
     const h = document.createElement('span');
     h.style.fontWeight='600';
-    h.style.flex='1';
     h.textContent=item.name;
+    headText.appendChild(h);
+
+    if(item.functionLabel){
+      const func = document.createElement('span');
+      func.className = 'tile-function';
+      func.textContent = item.functionLabel;
+      func.setAttribute('aria-label', `Функция: ${item.functionLabel}`);
+      headText.appendChild(func);
+    }
 
     head.appendChild(number);
-    head.appendChild(h);
+    head.appendChild(headText);
     title.appendChild(head);
 
     const ringLabel = ringLabelsById[item.ring];
@@ -1773,14 +1755,6 @@ function renderBoard(list, view = activeView){
       pill.textContent = ringLabel;
       pill.setAttribute('aria-label', `Зрелость: ${ringLabel}`);
       title.appendChild(pill);
-    }
-
-    if(item.functionLabel){
-      const func = document.createElement('span');
-      func.className = 'pill pill--ghost';
-      func.textContent = item.functionLabel;
-      func.setAttribute('aria-label', `Функция: ${item.functionLabel}`);
-      title.appendChild(func);
     }
 
     a.appendChild(title);
@@ -1898,7 +1872,6 @@ document.addEventListener('keydown', (event)=>{
   });
   filteredByView.radar = baseByView.radar;
   filteredByView.whitespace = baseByView.whitespace;
-  buildFunctionFilters(technologies);
   applyFilteredView();
   let resizeTimer;
   window.addEventListener('resize', ()=>{
